@@ -8,7 +8,7 @@ cat > functional-test-1.src << EOF
 42
 EOF
 echo "compile functional-test-1 sources"
-./ecc functional-test-1.src -o functional-test-1
+./ecc functional-test-1.src functional-test-1
 echo "execute and compare"
 ./functional-test-1
 if [ $? != 42 ]
