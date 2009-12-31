@@ -7,4 +7,3 @@ int is_number(char c);
 /* int is_alpha(char c); */
 
 #endif /* _MISC_H_ */
-

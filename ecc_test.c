@@ -3,6 +3,7 @@
 #include "ecc_lib.h"
 #include "elf_header.h"
 #include "lex.h"
+#include "x86_asm.h"
 
 unsigned char addl_ops[] = {
 	0x5a, /* popl %edx */
@@ -128,7 +129,7 @@ void test_statements_complete() {
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
 
-	statements_complete(buffer, 128, &bytes_written);
+	output_statements_complete(buffer, 128, &bytes_written);
 	compare_byte_arrays("statements_complete", pop_ebx, sizeof(pop_ebx),
 			buffer, bytes_written);
 }
