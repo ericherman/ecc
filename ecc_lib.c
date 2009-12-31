@@ -49,7 +49,7 @@ void expression(const char * input,
 
 	term(input, input_size, buffer, buf_size, chars_read, bytes_written);
 
-	if (lex_look_ahead(input, input_size, chars_read) == '+') {
+	while (lex_look_ahead(input, input_size, chars_read) == '+') {
 		*chars_read += 1;
 		term(input, input_size, buffer, buf_size,
 				chars_read, bytes_written);
