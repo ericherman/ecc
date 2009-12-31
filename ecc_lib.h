@@ -23,6 +23,13 @@ void term(const char * input,
 		unsigned int * chars_read,
 		unsigned int * bytes_written);
 
+void expression(const char * input,
+		unsigned int input_size,
+		unsigned char * buffer,
+		unsigned int buf_size,
+		unsigned int * chars_read,
+		unsigned int * bytes_written);
+
 void statements_complete(unsigned char * buffer,
 		unsigned int buf_size,
 		unsigned int * bytes_written);
