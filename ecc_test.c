@@ -144,6 +144,23 @@ void test_compile_inner() {
 			byte_buffer, bytes_written);
 }
 
+void test_output_add() {
+	unsigned char add_ops[] = {
+		0x5a, /* popl %edx */
+		0x58, /* popl %eax */
+		0x01, 0xd0, /* addl %edx, %eax */
+		0x50, /* pushl %eax */
+	};
+
+	unsigned char buffer[128];
+	unsigned int bytes_written = 0;
+
+	output_add(buffer, 128, &bytes_written);
+
+	compare_byte_arrays("output_add", add_ops, sizeof(add_ops),
+			buffer, bytes_written);
+}
+
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		printf("%s takes no arguments\n", argv[0]);
@@ -154,5 +171,6 @@ int main(int argc, char *argv[]) {
 	test_term_simple();
 	test_statements_complete();
 	test_compile_inner();
+	test_output_add();
 	return 0;
 }

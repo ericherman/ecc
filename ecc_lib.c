@@ -85,6 +85,20 @@ void statements_complete(unsigned char * buf,
 	buf[0] = 0x5b; /* popl %ebx */
 }
 
+void output_add(unsigned char * buf, unsigned int buf_size,
+		unsigned int * bytes_written) {
+
+	if (buf_size < 5) {
+		err_msg("buf_size too small");
+		return;
+	}
+	*bytes_written += 5;
+        buf[0] = 0x5a; /* popl %edx */
+        buf[1] = 0x58; /* popl %eax */
+        buf[2] = 0x01; buf[3] = 0xd0; /* addl %edx, %eax */
+        buf[4] = 0x50; /* pushl %eax */
+}
+
 #define LINE_MAX 1024
 #define BUFF_MAX 0xFFFF
 
