@@ -4,10 +4,17 @@
 #include "elf_header.h"
 #include "lex.h"
 
-unsigned char add_ops[] = {
+unsigned char addl_ops[] = {
 	0x5a, /* popl %edx */
 	0x58, /* popl %eax */
 	0x01, 0xd0, /* addl %edx, %eax */
+	0x50, /* pushl %eax */
+};
+
+unsigned char subl_ops[] = {
+	0x5a, /* popl %edx */
+	0x58, /* popl %eax */
+	0x29, 0xd0, /* subl %edx, %eax */
 	0x50, /* pushl %eax */
 };
 
@@ -128,9 +135,12 @@ void test_statements_complete() {
 
 void test_compile_inner() {
 	unsigned char full_monty[] = {
-		/* ELF HEADER ************************************ MAGIC: */
-		0x7f, 0x45, 0x4c, 0x46, 0x01, 0x01, 0x01, 0x00, /* 127,E,L,F,1,1,1,0 */
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /*   0,0,0,0,0,0,0,0 */
+		/* ELF HEADER */
+		/* MAGIC: */
+		/* 127,E,L,F,1,1,1,0 */
+		/*   0,0,0,0,0,0,0,0 */
+		0x7f, 0x45, 0x4c, 0x46, 0x01, 0x01, 0x01, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 		/* ? */
 		0x02, 0x00, 0x03, 0x00, 0x01, 0x00, 0x00, 0x00,
 		0x54, 0x80, 0x04, 0x08, 0x34, 0x00, 0x00, 0x00,
@@ -139,8 +149,14 @@ void test_compile_inner() {
 		0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x04, 0x08,
 		0x00, 0x80, 0x04, 0x08,
-		0xff, 0xff, 0x00, 0x00, /* the 0xFF, 0xFF here is program size? */
-		0xff, 0xff, 0x00, 0x00, /* the 0xFF, 0xFF here is memory size? */
+
+
+		/* the 0xFF, 0xFF here is program size? */
+		0xff, 0xff, 0x00, 0x00,
+		/* the 0xFF, 0xFF here is memory size? */
+		0xff, 0xff, 0x00, 0x00,
+
+		/* ? */
 		0x05, 0x00, 0x00, 0x00,
 		0x00, 0x10, 0x00, 0x00,
 
@@ -174,7 +190,18 @@ void test_output_add() {
 
 	output_add(buffer, 128, &bytes_written);
 
-	compare_byte_arrays("output_add", add_ops, sizeof(add_ops),
+	compare_byte_arrays("output_add", addl_ops, sizeof(addl_ops),
+			buffer, bytes_written);
+}
+
+void test_output_subtract() {
+
+	unsigned char buffer[128];
+	unsigned int bytes_written = 0;
+
+	output_subtract(buffer, 128, &bytes_written);
+
+	compare_byte_arrays("output_subtract", subl_ops, sizeof(subl_ops),
 			buffer, bytes_written);
 }
 
@@ -190,7 +217,7 @@ void test_expression_add() {
 	expected_read = 5;
 	check_unsigned_int(read, expected_read);
 
-	expected_bytes = sizeof(push_17) + sizeof(push_23) + sizeof(add_ops);
+	expected_bytes = sizeof(push_17) + sizeof(push_23) + sizeof(addl_ops);
 	check_unsigned_int(bytes_out, expected_bytes);
 
 	compare_byte_arrays("term1", push_17, sizeof(push_17),
@@ -201,8 +228,8 @@ void test_expression_add() {
 			&buf[i], sizeof(push_23));
 
 	i = sizeof(push_17) + sizeof(push_23);
-	compare_byte_arrays("add", add_ops, sizeof(add_ops),
-			&buf[i], sizeof(add_ops));
+	compare_byte_arrays("add", addl_ops, sizeof(addl_ops),
+			&buf[i], sizeof(addl_ops));
 }
 
 /* lex tests */
@@ -245,6 +272,7 @@ int main(int argc, char *argv[]) {
 	test_compile_inner();
 	test_output_add();
 	test_expression_add();
+	test_output_subtract();
 
 	test_lex_look_ahead();
 	return 0;
