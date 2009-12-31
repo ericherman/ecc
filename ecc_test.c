@@ -74,18 +74,16 @@ fail:
 	exit(0);
 }
 
-void test_compile_one_term_statement() {
+void test_term_simple() {
 	unsigned char push_17[] = {
 		0x68, /* push immediate value */
 		0x11, 0x00, 0x00, 0x00, /* 17 */
 	};
-	unsigned char pop_ebx[] = { 0x5b };
 
 	char * input = "17";
 	unsigned char buffer[128];
 	unsigned int chars_read = 0;
 	unsigned int bytes_written = 0;
-	unsigned int bytes_written2 = 0;
 
 	term(input, sizeof(input),
 			buffer, 128,
@@ -93,10 +91,16 @@ void test_compile_one_term_statement() {
 
 	compare_byte_arrays("term", push_17, sizeof(push_17),
 			buffer, bytes_written);
+}
 
-	statements_complete(&buffer[bytes_written], 128-bytes_written, &bytes_written2);
+void test_statements_complete() {
+	unsigned char pop_ebx[] = { 0x5b };
+	unsigned char buffer[128];
+	unsigned int bytes_written = 0;
+
+	statements_complete(buffer, 128, &bytes_written);
 	compare_byte_arrays("statements_complete", pop_ebx, sizeof(pop_ebx),
-			&buffer[bytes_written], bytes_written2);
+			buffer, bytes_written);
 }
 
 void test_compile_inner() {
@@ -147,7 +151,8 @@ int main(int argc, char *argv[]) {
 	}
 	test_output_header();
 	test_output_footer();
-	test_compile_one_term_statement();
+	test_term_simple();
+	test_statements_complete();
 	test_compile_inner();
 	return 0;
 }
