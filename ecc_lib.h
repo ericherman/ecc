@@ -16,7 +16,7 @@ void output_os_return(unsigned char * buffer,
 		unsigned int buf_size,
 		unsigned int * bytes_written);
 
-void statements(const char * input,
+void term(const char * input,
 		unsigned int input_size,
 		unsigned char * buffer,
 		unsigned int buf_size,

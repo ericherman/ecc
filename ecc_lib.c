@@ -39,7 +39,7 @@ void output_os_return(unsigned char * buf,
 	}
 }
 
-void statements(const char * input,
+void term(const char * input,
 		unsigned int input_size,
 		unsigned char * buf,
 		unsigned int buf_size,
@@ -102,7 +102,7 @@ void compile_inner(const char * line_buf, unsigned int line_buf_size,
 	output_header(byte_buffer, byte_buffer_max, &bytes_written);
 	*total_bytes_written += bytes_written;
 
-	statements(line_buf, line_buf_size,
+	term(line_buf, line_buf_size,
 			&byte_buffer[*total_bytes_written],
 			byte_buffer_max - *total_bytes_written,
 			&chars_read, &bytes_written);

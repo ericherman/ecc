@@ -74,7 +74,7 @@ fail:
 	exit(0);
 }
 
-void test_compile_simple_statement() {
+void test_compile_one_term_statement() {
 	unsigned char push_17[] = {
 		0x68, /* push immediate value */
 		0x11, 0x00, 0x00, 0x00, /* 17 */
@@ -85,11 +85,11 @@ void test_compile_simple_statement() {
 	unsigned char buffer[128];
 	unsigned int chars_read, bytes_written, bytes_written2;
 
-	statements(input, sizeof(input),
+	term(input, sizeof(input),
 			buffer, 128,
 			&chars_read, &bytes_written);
 
-	compare_byte_arrays("statements", push_17, sizeof(push_17),
+	compare_byte_arrays("term", push_17, sizeof(push_17),
 			buffer, bytes_written);
 
 	statements_complete(&buffer[bytes_written], 128-bytes_written, &bytes_written2);
@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
 	}
 	test_output_header();
 	test_output_footer();
-	test_compile_simple_statement();
+	test_compile_one_term_statement();
 	test_compile_inner();
 	return 0;
 }
