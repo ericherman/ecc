@@ -18,13 +18,5 @@ void expression(const char * input, unsigned int input_size,
 		unsigned int * chars_read,
 		unsigned int * bytes_written);
 
-void output_add(unsigned char * buf, unsigned int buf_size,
-		unsigned int * bytes_written);
-void output_subtract(unsigned char * buf, unsigned int buf_size,
-		unsigned int * bytes_written);
-
-void statements_complete(unsigned char * buf, unsigned int buf_size,
-		unsigned int * bytes_written);
-
 #endif /* _ECC_LIB_H_ */
 
