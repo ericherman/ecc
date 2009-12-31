@@ -1,4 +1,4 @@
-#include "ecc_lib.h"
+#include "compiler.h"
 #include "c_lib.h"
 #include "elf_header.h"
 #include "lex.h"

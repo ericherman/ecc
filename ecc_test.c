@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "ecc_lib.h"
+#include "compiler.h"
 #include "elf_header.h"
 #include "lex.h"
 #include "x86_asm.h"

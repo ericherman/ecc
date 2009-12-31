@@ -1,5 +1,5 @@
 #include "c_lib.h"
-#include "ecc_lib.h"
+#include "compiler.h"
 
 int main(int argc, char *argv[]) {
 

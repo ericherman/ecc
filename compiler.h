@@ -1,6 +1,6 @@
-/* ecc_lib.h */
-#ifndef _ECC_LIB_H_
-#define _ECC_LIB_H_
+/* compiler.h */
+#ifndef _COMPILER_H_
+#define _COMPILER_H_
 
 void compile(const char * input_file, const char * executable);
 
@@ -18,5 +18,5 @@ void expression(const char * input, unsigned int input_size,
 		unsigned int * chars_read,
 		unsigned int * bytes_written);
 
-#endif /* _ECC_LIB_H_ */
+#endif /* _COMPILER_H_ */
 
