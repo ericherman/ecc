@@ -33,7 +33,7 @@ void test_output_footer() {
 	unsigned char * expected;
 	unsigned expected_len;
 	unsigned char actual[128];
-	unsigned actual_len;
+	unsigned actual_len = 0;
 
 	expected = raw_linux_return();
 	expected_len = raw_linux_return_size();
@@ -83,7 +83,9 @@ void test_compile_one_term_statement() {
 
 	char * input = "17";
 	unsigned char buffer[128];
-	unsigned int chars_read, bytes_written, bytes_written2;
+	unsigned int chars_read = 0;
+	unsigned int bytes_written = 0;
+	unsigned int bytes_written2 = 0;
 
 	term(input, sizeof(input),
 			buffer, 128,

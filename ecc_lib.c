@@ -28,7 +28,7 @@ void output_os_return(unsigned char * buf,
 	unsigned char * bytes;
 	unsigned int i;
 
-	*length = raw_linux_return_size();
+	*length += raw_linux_return_size();
 	if (buf_size < *length) {
 		err_msg("buf_size too small");
 		return;
@@ -70,7 +70,7 @@ void term(const char * input,
 	buf[2] = 0xFF & (number >> 8);
 	buf[3] = 0xFF & (number >> 16);
 	buf[4] = 0xFF & (number >> 24);
-	*bytes_written = 5;
+	*bytes_written += 5;
 }
 
 void statements_complete(unsigned char * buf,
@@ -81,7 +81,7 @@ void statements_complete(unsigned char * buf,
 		err_msg("buf_size too small");
 		return;
 	}
-	*bytes_written = 1;
+	*bytes_written += 1;
 	buf[0] = 0x5b; /* popl %ebx */
 }
 
@@ -102,29 +102,24 @@ void compile(const char * source_file, const char * executable) {
 
 void compile_inner(const char * line_buf, unsigned int line_buf_size,
 		unsigned char * byte_buffer, unsigned int byte_buffer_max,
-		unsigned int * total_bytes_written) {
+		unsigned int * bytes_written) {
 
-	unsigned int bytes_written;
 	unsigned int chars_read;
 
-	*total_bytes_written = 0;
+	*bytes_written = 0;
 
-	output_header(byte_buffer, byte_buffer_max, &bytes_written);
-	*total_bytes_written += bytes_written;
+	output_header(byte_buffer, byte_buffer_max, bytes_written);
 
 	expression(line_buf, line_buf_size,
-			&byte_buffer[*total_bytes_written],
-			byte_buffer_max - *total_bytes_written,
-			&chars_read, &bytes_written);
-	*total_bytes_written += bytes_written;
+			&byte_buffer[*bytes_written],
+			byte_buffer_max - *bytes_written,
+			&chars_read, bytes_written);
 
-	statements_complete(&byte_buffer[*total_bytes_written],
-			byte_buffer_max - *total_bytes_written,
-			&bytes_written);
-	*total_bytes_written += bytes_written;
+	statements_complete(&byte_buffer[*bytes_written],
+			byte_buffer_max - *bytes_written,
+			bytes_written);
 
-	output_os_return(&byte_buffer[*total_bytes_written],
-			byte_buffer_max - *total_bytes_written,
-			&bytes_written);
-	*total_bytes_written += bytes_written;
+	output_os_return(&byte_buffer[*bytes_written],
+			byte_buffer_max - *bytes_written,
+			bytes_written);
 }
