@@ -19,6 +19,13 @@ unsigned char subl_ops[] = {
 	0x50, /* pushl %eax */
 };
 
+unsigned char imull_ops[] = {
+	0x5a, /* popl %edx */
+	0x58, /* popl %eax */
+	0x0f, 0xaf, 0xc2, /* imull %edx, %eax */
+	0x50, /* pushl %eax */
+};
+
 unsigned char push_17[] = {
 	0x68, /* push immediate value */
 	0x11, 0x00, 0x00, 0x00, /* 17 */
@@ -206,6 +213,17 @@ void test_output_subtract() {
 			buffer, bytes_written);
 }
 
+void test_output_multiply() {
+
+	unsigned char buffer[128];
+	unsigned int bytes_written = 0;
+
+	output_multiply(buffer, 128, &bytes_written);
+
+	compare_byte_arrays("output_subtract", imull_ops, sizeof(imull_ops),
+			buffer, bytes_written);
+}
+
 void test_expression_add() {
 	const char * input = "17+23";
 	unsigned char buf[128];
@@ -274,6 +292,7 @@ int main(int argc, char *argv[]) {
 	test_output_add();
 	test_expression_add();
 	test_output_subtract();
+	test_output_multiply();
 
 	test_lex_look_ahead();
 	return 0;

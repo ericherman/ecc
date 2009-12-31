@@ -69,3 +69,20 @@ void output_subtract(unsigned char * buf, unsigned int buf_size,
 	buf[(*bytes_written)++] = 0x50; /* pushl %eax */
 }
 
+void output_multiply(unsigned char * buf, unsigned int buf_size,
+		unsigned int * bytes_written) {
+
+	if (buf_size < 6 + *bytes_written) {
+		err_msg("buf_size too small for output_subtract\n");
+		return;
+	}
+	buf[(*bytes_written)++] = 0x5a; /* popl %edx */
+	buf[(*bytes_written)++] = 0x58; /* popl %eax */
+
+	buf[(*bytes_written)++] = 0x0f; /* imull %edx, %eax */
+	buf[(*bytes_written)++] = 0xaf; /*   continued     */
+	buf[(*bytes_written)++] = 0xc2; /*   continued     */
+
+	buf[(*bytes_written)++] = 0x50; /* pushl %eax */
+}
+
