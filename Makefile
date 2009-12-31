@@ -32,4 +32,4 @@ test:
 	./functional-test.sh
 
 clean:
-	rm -rf *o $(EXECUTABLE) $(TEST_EXECUTABLE) functional-test-1.src
+	rm -rf *o $(EXECUTABLE) $(TEST_EXECUTABLE) functional-test-*
