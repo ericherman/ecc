@@ -8,12 +8,6 @@ void compile_inner(const char * line_buf, unsigned int line_buf_size,
 		unsigned char * byte_buffer, unsigned int byte_buffer_max,
 		unsigned int * total_bytes_written);
 
-void output_header(unsigned char * buf, unsigned int buf_size,
-		unsigned int * bytes_written);
-
-void output_os_return(unsigned char * buf, unsigned int buf_size,
-		unsigned int * bytes_written);
-
 void term(const char * input, unsigned int input_size,
 		unsigned char * buf, unsigned int buf_size,
 		unsigned int * chars_read,

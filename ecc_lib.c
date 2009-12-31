@@ -3,44 +3,6 @@
 #include "elf_header.h"
 #include "lex.h"
 
-int is_add_op(const char c);
-
-void output_header(unsigned char * buf,
-		unsigned int buf_size,
-		unsigned int * length) {
-
-	unsigned char * bytes;
-	unsigned int i;
-
-	*length = raw_elf_header_size();
-	if (buf_size < *length) {
-		err_msg("buf_size too small for output_header\n");
-		return;
-	}
-	bytes = raw_elf_header();
-	for (i = 0; i < *length; i++) {
-		buf[i] = bytes[i];
-	}
-}
-
-void output_os_return(unsigned char * buf,
-		unsigned int buf_size,
-		unsigned int * bytes_written) {
-
-	unsigned char * bytes;
-	unsigned int i, length;
-
-	length = raw_linux_return_size();
-	if (buf_size < *bytes_written + length) {
-		err_msg("buf_size too small for output_os_return\n");
-		return;
-	}
-	bytes = raw_linux_return();
-	for (i = 0; i < length; i++) {
-		buf[(*bytes_written)++] = bytes[i];
-	}
-}
-
 int is_add_op(const char c) {
 	return c == '+' || c == '-';
 }
