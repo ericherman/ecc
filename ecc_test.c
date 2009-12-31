@@ -4,6 +4,23 @@
 #include "elf_header.h"
 #include "lex.h"
 
+unsigned char add_ops[] = {
+	0x5a, /* popl %edx */
+	0x58, /* popl %eax */
+	0x01, 0xd0, /* addl %edx, %eax */
+	0x50, /* pushl %eax */
+};
+
+unsigned char push_17[] = {
+	0x68, /* push immediate value */
+	0x11, 0x00, 0x00, 0x00, /* 17 */
+};
+
+unsigned char push_23[] = {
+	0x68, /* push immediate value */
+	0x17, 0x00, 0x00, 0x00, /* 23 */
+};
+
 void check_char(char actual, char expected) {
 	if (expected != actual) {
 		fprintf(stderr, "expected '%c' but was '%c'\n",
@@ -26,7 +43,7 @@ void compare_byte_arrays(const char * name,
 	unsigned int i;
 
 	if ( actual_len != expected_len ) {
-		fprintf(stderr, "length mis-match %d != %d\n",
+		fprintf(stderr, "actual/expected length mis-match %d != %d\n",
 			actual_len, expected_len);
 		goto fail;
 	}
@@ -71,9 +88,9 @@ void test_output_header() {
 
 void test_output_footer() {
 	unsigned char * expected;
-	unsigned expected_len;
+	unsigned int expected_len;
 	unsigned char actual[128];
-	unsigned actual_len = 0;
+	unsigned int actual_len = 0;
 
 	expected = raw_linux_return();
 	expected_len = raw_linux_return_size();
@@ -85,10 +102,6 @@ void test_output_footer() {
 }
 
 void test_term_simple() {
-	unsigned char push_17[] = {
-		0x68, /* push immediate value */
-		0x11, 0x00, 0x00, 0x00, /* 17 */
-	};
 
 	char * input = "17";
 	unsigned char buffer[128];
@@ -155,12 +168,6 @@ void test_compile_inner() {
 }
 
 void test_output_add() {
-	unsigned char add_ops[] = {
-		0x5a, /* popl %edx */
-		0x58, /* popl %eax */
-		0x01, 0xd0, /* addl %edx, %eax */
-		0x50, /* pushl %eax */
-	};
 
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
@@ -169,6 +176,33 @@ void test_output_add() {
 
 	compare_byte_arrays("output_add", add_ops, sizeof(add_ops),
 			buffer, bytes_written);
+}
+
+void test_expression_add() {
+	const char * input = "17+23";
+	unsigned char buf[128];
+	unsigned int read = 0;
+	unsigned int bytes_out = 0;
+	unsigned int i, expected_read, expected_bytes;
+
+	expression(input, sizeof(input)+1, buf, sizeof(buf), &read, &bytes_out);
+
+	expected_read = 5;
+	check_unsigned_int(read, expected_read);
+
+	expected_bytes = sizeof(push_17) + sizeof(push_23) + sizeof(add_ops);
+	check_unsigned_int(bytes_out, expected_bytes);
+
+	compare_byte_arrays("term1", push_17, sizeof(push_17),
+			buf, sizeof(push_17));
+
+	i = sizeof(push_17);
+	compare_byte_arrays("term2", push_23, sizeof(push_23),
+			&buf[i], sizeof(push_23));
+
+	i = sizeof(push_17) + sizeof(push_23);
+	compare_byte_arrays("add", add_ops, sizeof(add_ops),
+			&buf[i], sizeof(add_ops));
 }
 
 /* lex tests */
@@ -210,6 +244,7 @@ int main(int argc, char *argv[]) {
 	test_statements_complete();
 	test_compile_inner();
 	test_output_add();
+	test_expression_add();
 
 	test_lex_look_ahead();
 	return 0;

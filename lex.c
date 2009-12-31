@@ -23,7 +23,7 @@ int lex_get_number(const char * str, unsigned int max_len, unsigned int *len) {
 		}
 
 	}
-	(*len) = i;
+	(*len) += i;
 
 	if ( !found ) {
 		err_msg("unable to parse '");

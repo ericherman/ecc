@@ -12,7 +12,7 @@ void output_header(unsigned char * buf,
 
 	*length = raw_elf_header_size();
 	if (buf_size < *length) {
-		err_msg("buf_size too small");
+		err_msg("buf_size too small for output_header\n");
 		return;
 	}
 	bytes = raw_elf_header();
@@ -23,19 +23,19 @@ void output_header(unsigned char * buf,
 
 void output_os_return(unsigned char * buf,
 		unsigned int buf_size,
-		unsigned int * length) {
+		unsigned int * bytes_written) {
 
 	unsigned char * bytes;
-	unsigned int i;
+	unsigned int i, length;
 
-	*length += raw_linux_return_size();
-	if (buf_size < *length) {
-		err_msg("buf_size too small");
+	length = raw_linux_return_size();
+	if (buf_size < *bytes_written + length) {
+		err_msg("buf_size too small for output_os_return\n");
 		return;
 	}
 	bytes = raw_linux_return();
-	for (i = 0; i < *length; i++) {
-		buf[i] = bytes[i];
+	for (i = 0; i < length; i++) {
+		buf[(*bytes_written)++] = bytes[i];
 	}
 }
 
@@ -46,7 +46,16 @@ void expression(const char * input,
 		unsigned int * chars_read,
 		unsigned int * bytes_written) {
 
+
 	term(input, input_size, buffer, buf_size, chars_read, bytes_written);
+
+	if (lex_look_ahead(input, input_size, chars_read) == '+') {
+		*chars_read += 1;
+		term(input, input_size, buffer, buf_size,
+				chars_read, bytes_written);
+
+		output_add(buffer, buf_size, bytes_written);
+	}
 }
 
 void term(const char * input,
@@ -57,46 +66,57 @@ void term(const char * input,
 		unsigned int * bytes_written) {
 
 	int number;
+	const char * sub_str;
+	unsigned int sub_str_size;
+	unsigned char b0, b1, b2, b3;
 
-	if (buf_size < 6) {
-		err_msg("buf_size too small");
+	if (buf_size < (*bytes_written) + 6) {
+		err_msg("buf_size too small for term\n");
 		return;
 	}
 
-	number = lex_get_number(input, input_size, chars_read);
+	sub_str = &input[*chars_read];
+	sub_str_size = input_size - *chars_read;
+
+	number = lex_get_number(sub_str, sub_str_size, chars_read);
+	b0 = 0xFF & number;
+	b1 = 0xFF & (number >> 8);
+	b2 = 0xFF & (number >> 16);
+	b3 = 0xFF & (number >> 24);
+
 	/* pushl $number */
-	buf[0] = 0x68; /* pushl $immediate_value */
-	buf[1] = 0xFF & number;
-	buf[2] = 0xFF & (number >> 8);
-	buf[3] = 0xFF & (number >> 16);
-	buf[4] = 0xFF & (number >> 24);
-	*bytes_written += 5;
+	buf[(*bytes_written)++] = 0x68; /* pushl $immediate_value */
+	buf[(*bytes_written)++] = b0;
+	buf[(*bytes_written)++] = b1;
+	buf[(*bytes_written)++] = b2;
+	buf[(*bytes_written)++] = b3;
 }
 
 void statements_complete(unsigned char * buf,
 		unsigned int buf_size,
 		unsigned int * bytes_written) {
 
-	if (buf_size < 1) {
-		err_msg("buf_size too small");
+	if (buf_size < *bytes_written + 1) {
+		err_msg("buf_size too small for statements_complete\n");
 		return;
 	}
-	*bytes_written += 1;
-	buf[0] = 0x5b; /* popl %ebx */
+	buf[(*bytes_written)++] = 0x5b; /* popl %ebx */
 }
 
 void output_add(unsigned char * buf, unsigned int buf_size,
 		unsigned int * bytes_written) {
 
-	if (buf_size < 5) {
-		err_msg("buf_size too small");
+	if (buf_size < 5 + *bytes_written) {
+		err_msg("buf_size too small for output_add\n");
 		return;
 	}
-	*bytes_written += 5;
-        buf[0] = 0x5a; /* popl %edx */
-        buf[1] = 0x58; /* popl %eax */
-        buf[2] = 0x01; buf[3] = 0xd0; /* addl %edx, %eax */
-        buf[4] = 0x50; /* pushl %eax */
+        buf[(*bytes_written)++] = 0x5a; /* popl %edx */
+        buf[(*bytes_written)++] = 0x58; /* popl %eax */
+
+	buf[(*bytes_written)++] = 0x01; /* addl %edx, %eax */
+	buf[(*bytes_written)++] = 0xd0; /*   continued     */
+
+	buf[(*bytes_written)++] = 0x50; /* pushl %eax */
 }
 
 #define LINE_MAX 1024
@@ -105,11 +125,11 @@ void output_add(unsigned char * buf, unsigned int buf_size,
 void compile(const char * source_file, const char * executable) {
 	char line_buf[LINE_MAX];
 	unsigned char byte_buffer[BUFF_MAX];
-	unsigned int bytes_written;
-	unsigned int chars_read;
+	unsigned int bytes_written = 0;
+	unsigned int chars_read = 0;
 
 	read_line(source_file, line_buf, sizeof(line_buf), &chars_read);
-	compile_inner(line_buf, chars_read,
+	compile_inner(line_buf, chars_read+1,
 			byte_buffer, sizeof(byte_buffer), &bytes_written);
 	write_file(executable, byte_buffer, bytes_written);
 }
@@ -118,22 +138,17 @@ void compile_inner(const char * line_buf, unsigned int line_buf_size,
 		unsigned char * byte_buffer, unsigned int byte_buffer_max,
 		unsigned int * bytes_written) {
 
-	unsigned int chars_read;
+	unsigned int chars_read = 0;
 
 	*bytes_written = 0;
 
 	output_header(byte_buffer, byte_buffer_max, bytes_written);
 
 	expression(line_buf, line_buf_size,
-			&byte_buffer[*bytes_written],
-			byte_buffer_max - *bytes_written,
+			byte_buffer, byte_buffer_max,
 			&chars_read, bytes_written);
 
-	statements_complete(&byte_buffer[*bytes_written],
-			byte_buffer_max - *bytes_written,
-			bytes_written);
+	statements_complete(byte_buffer, byte_buffer_max, bytes_written);
 
-	output_os_return(&byte_buffer[*bytes_written],
-			byte_buffer_max - *bytes_written,
-			bytes_written);
+	output_os_return(byte_buffer, byte_buffer_max, bytes_written);
 }
