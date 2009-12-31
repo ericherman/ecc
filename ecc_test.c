@@ -2,13 +2,53 @@
 #include <stdlib.h>
 #include "ecc_lib.h"
 #include "elf_header.h"
+#include "lex.h"
 
-/* Prototypes */
+void check_char(char actual, char expected) {
+	if (expected != actual) {
+		fprintf(stderr, "expected '%c' but was '%c'\n",
+				expected, actual);
+		exit(1);
+	}
+}
+
+void check_unsigned_int(unsigned int actual, unsigned int expected) {
+	if (expected != actual) {
+		fprintf(stderr, "expected %d but was %d\n", expected, actual);
+		exit(1);
+	}
+}
+
 void compare_byte_arrays(const char * name,
 		unsigned char * expected, unsigned int expected_len,
-		unsigned char * actual, unsigned int actual_len);
+		unsigned char * actual, unsigned int actual_len) {
 
-/* Functions */
+	unsigned int i;
+
+	if ( actual_len != expected_len ) {
+		fprintf(stderr, "length mis-match %d != %d\n",
+			actual_len, expected_len);
+		goto fail;
+	}
+	for (i = 0; i < actual_len; i++) {
+		if (actual[i] != expected[i]) {
+			fprintf(stderr, "buffers differ at %d\n", i);
+			goto fail;
+		}
+	}
+	return;
+
+fail:
+	fprintf(stderr, "FAIL: %s\n", name);
+	for (i = 0; i < actual_len; i++) {
+		fprintf(stderr, "actual[%d]=%02x\n", i, actual[i]);
+	}
+	for (i = 0; i < expected_len; i++) {
+		fprintf(stderr, "expected[%d]=%02x\n", i, expected[i]);
+	}
+	exit(1);
+}
+
 void test_output_header() {
 	unsigned char * expected;
 	unsigned expected_len;
@@ -42,36 +82,6 @@ void test_output_footer() {
 
 	compare_byte_arrays("SYS_EXIT",
 			expected, expected_len, actual, actual_len);
-}
-
-void compare_byte_arrays(const char * name,
-		unsigned char * expected, unsigned int expected_len,
-		unsigned char * actual, unsigned int actual_len) {
-
-	unsigned int i;
-
-	if ( actual_len != expected_len ) {
-		fprintf(stderr, "length mis-match %d != %d\n",
-			actual_len, expected_len);
-		goto fail;
-	}
-	for (i = 0; i < actual_len; i++) {
-		if (actual[i] != expected[i]) {
-			fprintf(stderr, "buffers differ at %d\n", i);
-			goto fail;
-		}
-	}
-	return;
-
-fail:
-	fprintf(stderr, "FAIL: %s\n", name);
-	for (i = 0; i < actual_len; i++) {
-		fprintf(stderr, "actual[%d]=%02x\n", i, actual[i]);
-	}
-	for (i = 0; i < expected_len; i++) {
-		fprintf(stderr, "expected[%d]=%02x\n", i, expected[i]);
-	}
-	exit(0);
 }
 
 void test_term_simple() {
@@ -161,6 +171,34 @@ void test_output_add() {
 			buffer, bytes_written);
 }
 
+/* lex tests */
+void test_lex_look_ahead() {
+	const char * input = "1+ 2";
+	unsigned int pos, expected_pos;
+	char result, expected_result;
+
+	pos = 0;
+	result = lex_look_ahead(input, sizeof(input), &pos);
+	expected_pos = 0;
+	expected_result = '1';
+	check_unsigned_int(pos, expected_pos);
+	check_char(result, expected_result);
+
+	pos = 1;
+	result = lex_look_ahead(input, sizeof(input), &pos);
+	expected_pos = 1;
+	expected_result = '+';
+	check_unsigned_int(pos, expected_pos);
+	check_char(result, expected_result);
+
+	pos = 2;
+	result = lex_look_ahead(input, sizeof(input), &pos);
+	expected_result = '2';
+	expected_pos = 3;
+	check_unsigned_int(pos, expected_pos);
+	check_char(result, expected_result);
+}
+
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		printf("%s takes no arguments\n", argv[0]);
@@ -172,5 +210,7 @@ int main(int argc, char *argv[]) {
 	test_statements_complete();
 	test_compile_inner();
 	test_output_add();
+
+	test_lex_look_ahead();
 	return 0;
 }

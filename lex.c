@@ -37,3 +37,14 @@ int lex_get_number(const char * str, unsigned int max_len, unsigned int *len) {
 	return result;
 }
 
+char lex_look_ahead(const char * input, unsigned int input_len,
+		unsigned int * pos) {
+
+        while(is_whitespace(input[*pos])) {
+                *pos += 1;
+                if (*pos >= input_len-1) {
+                        break;
+                }
+        }
+        return input[*pos];
+}
