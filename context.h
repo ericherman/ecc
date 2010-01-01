@@ -21,7 +21,7 @@ typedef struct context_t_ {
 	void (*output_header)(void * data);
 	void (*output_os_return)(void * data);
 
-	void (*print)(void * data);
+	void (*to_string)(void * data, char * buf, unsigned int buf_size);
 
 } context_t;
 

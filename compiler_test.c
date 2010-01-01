@@ -10,15 +10,20 @@ typedef struct call_list_t {
 	const char *call[100];
 } call_list;
 
-void call_list_print(void * data) {
+void call_list_to_string(void * data, char * buf, unsigned int buf_size) {
 	call_list * this = (call_list *) data;
-	unsigned int i;
+	unsigned int i, len;
 
-	fprintf(stderr, "call_list {\n");
+	sprintf(buf, "call_list {\n");
 	for (i = 0; i< this->calls; i++) {
-		fprintf(stderr, "%d:\t%s\n", i, this->call[i]);
+		len = strlen(buf);
+		sprintf(&buf[len], "%d:\t%s\n", i, this->call[i]);
 	}
-	fprintf(stderr, "}\n");
+	len = strlen(buf);
+	sprintf(&buf[len], "}\n");
+	if (len > buf_size) {
+		fprintf(stderr, "len > buf_size: %u > %u\n", len, buf_size);
+	}
 }
 
 unsigned int times_called(call_list * list, const char * func_name) {
@@ -111,7 +116,7 @@ context_t * init_fake_context(context_t * ctx, call_list * list) {
 	ctx->output_header = fake_output_header;
 	ctx->output_os_return = fake_output_os_return;
 
-	ctx->print = call_list_print;
+	ctx->to_string = call_list_to_string;
 
 	return ctx;
 }
@@ -131,14 +136,17 @@ void test_term_simple() {
 	context_t local;
 	call_list call_list;
 	context_t * ctx = init_fake_context(&local, &call_list);
+	char buf[1000];
 
 	ctx->lex_look_ahead = fake_lex_look_ahead_1;
 	term(ctx);
 
-	/* check_unsigned_int(call_list.calls, 3); */
-	check_str(call_list.call[0],"lex_get_number");
-	check_str(call_list.call[1], "output_term");
-	/* check_str(call_list.call[2], "lex_look_ahead"); */
+	ctx->to_string(ctx->data, buf, sizeof(buf));
+
+	/* check_unsigned_ints(call_list.calls, 3, buf); */
+	check_strs(call_list.call[0],"lex_get_number", buf);
+	check_strs(call_list.call[1], "output_term", buf);
+	/* check_strs(call_list.call[2], "lex_look_ahead", buf); */
 }
 
 char fake_lex_look_ahead_2(void * data) {
@@ -156,23 +164,24 @@ void test_expression_add() {
 	context_t local;
 	call_list call_list;
 	context_t * ctx = init_fake_context(&local, &call_list);
+	char buf[10000];
 
 	ctx->lex_look_ahead = fake_lex_look_ahead_2;
 
 	expression(ctx);
 
-	/*
-	 * ctx->print(ctx->data);
-	 */
-	check_unsigned_int(call_list.calls, 8);
-	check_str(call_list.call[0],"lex_get_number");
-	check_str(call_list.call[1], "output_term");
-	check_str(call_list.call[2], "lex_look_ahead");
-	check_str(call_list.call[3], "lex_advance");
-	check_str(call_list.call[4], "lex_get_number");
-	check_str(call_list.call[5], "output_term");
-	check_str(call_list.call[6], "output_add");
-	check_str(call_list.call[7], "lex_look_ahead");
+
+	ctx->to_string(ctx->data, buf, sizeof(buf));
+
+	check_unsigned_ints(call_list.calls, 8, buf);
+	check_strs(call_list.call[0],"lex_get_number", buf);
+	check_strs(call_list.call[1], "output_term", buf);
+	check_strs(call_list.call[2], "lex_look_ahead", buf);
+	check_strs(call_list.call[3], "lex_advance", buf);
+	check_strs(call_list.call[4], "lex_get_number", buf);
+	check_strs(call_list.call[5], "output_term", buf);
+	check_strs(call_list.call[6], "output_add", buf);
+	check_strs(call_list.call[7], "lex_look_ahead", buf);
 }
 
 int main(int argc, char *argv[]) {

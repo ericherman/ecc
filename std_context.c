@@ -5,13 +5,18 @@
 #include "x86_asm.h"
 #include "elf_header.h"
 
-void std_print(void * data) {
+void std_to_string(void * data, char * buf, unsigned int buf_size) {
 	std_context_t * this = (std_context_t *) data;
-	err_msg("std_print\n");
-	err_msg(" std_context_t_ {\n");
-	err_msg("    source_file: "); err_msg(this->source_file); err_msg("\n");
-	err_msg("    buf: "); err_msg(this->buf); err_msg("\n");
-	err_msg(" }\n");
+	unsigned int buf_pos = 0;
+	str_cpy("std_context_t {\n", buf, buf_size, &buf_pos);
+	str_cpy("    source_file: ", buf, buf_size, &buf_pos);
+	str_cpy(this->source_file, buf, buf_size, &buf_pos);
+	str_cpy("\n", buf, buf_size, &buf_pos);
+	str_cpy("    buf: ", buf, buf_size, &buf_pos);
+	str_cpy(this->buf, buf, buf_size, &buf_pos);
+	str_cpy("\n", buf, buf_size, &buf_pos);
+	str_cpy("\n", buf, buf_size, &buf_pos);
+	str_cpy("}\n", buf, buf_size, &buf_pos);
 }
 
 char std_lex_look_ahead(void * data) {
@@ -108,7 +113,7 @@ context_t * alloc_std_context(const char * source_file,
 	ctx->output_header = std_output_header;
 	ctx->output_os_return = std_output_os_return;
 
-	ctx->print = std_print;
+	ctx->to_string = std_to_string;
 
 	size = sizeof(struct std_context_t_);
 	ctx->data = heap_malloc(size);
