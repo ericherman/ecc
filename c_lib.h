@@ -11,6 +11,9 @@
  * This serves as a place to centralize thinking about these.
  */
 
+void * heap_malloc(unsigned int size);
+void   heap_free(void *ptr);
+
 void err_msg(const char * msg);
 
 void read_line(const char * source_file,

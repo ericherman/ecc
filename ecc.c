@@ -1,7 +1,9 @@
 #include "c_lib.h"
+#include "std_context.h"
 #include "compiler.h"
 
 int main(int argc, char *argv[]) {
+	context_t * ctx;
 
 	if (argc < 3) {
 		err_msg("usage: ");
@@ -10,7 +12,12 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	compile(argv[1], argv[2]);
+	ctx = alloc_std_context(argv[1], argv[2]);
+	/* ctx->print(ctx->data); */
+
+	compile(ctx);
+
+	free_std_context(ctx);
 
 	return 0;
 }

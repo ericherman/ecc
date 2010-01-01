@@ -4,6 +4,14 @@
 #include <string.h>
 #include <sys/stat.h>
 
+void * heap_malloc(unsigned int size) {
+	return malloc(size);
+}
+
+void heap_free(void *ptr) {
+	free(ptr);
+}
+
 void err_msg(const char * msg) {
 	fprintf(stderr, msg);
 }

@@ -4,6 +4,9 @@
 #include "elf_header.h"
 #include "lex.h"
 #include "x86_asm.h"
+#include "context.h"
+#include "std_context.h"
+#include "std_context_t.h"
 
 unsigned char addl_ops[] = {
 	0x5a, /* popl %edx */
@@ -118,17 +121,19 @@ void test_output_footer() {
 
 void test_term_simple() {
 
-	char * input = "17";
-	unsigned char buffer[128];
-	unsigned int chars_read = 0;
-	unsigned int bytes_written = 0;
+	context_t * ctx = alloc_std_context("foo", "bar");
+	std_context_t * data = (std_context_t *) ctx->data;
+	data->buf[0] = '1';
+	data->buf[1] = '7';
+	data->buf[2] = '\0';
+	data->buf_size = 3;
 
-	term(input, sizeof(input),
-			buffer, 128,
-			&chars_read, &bytes_written);
+	term(ctx);
 
 	compare_byte_arrays("term", push_17, sizeof(push_17),
-			buffer, bytes_written);
+			data->byte_buf, data->bytes_written);
+
+	free_std_context(ctx);
 }
 
 void test_statements_complete() {
@@ -181,14 +186,19 @@ void test_compile_inner() {
 		0xcd, /* int */
 		0x80  /* Linux Kernel */
 	};
+	context_t * ctx = alloc_std_context("foo", "bar");
+	std_context_t * data = (std_context_t *) ctx->data;
+	data->buf[0] = '2';
+	data->buf[1] = '3';
+	data->buf[2] = '\0';
+	data->buf_size = 3;
 
-	unsigned char byte_buffer[1024];
-	unsigned int bytes_written;
-
-	compile_inner("23", 3, byte_buffer, sizeof(byte_buffer), &bytes_written);
+	compile_inner(ctx);
 
 	compare_byte_arrays("full monty", full_monty, sizeof(full_monty),
-			byte_buffer, bytes_written);
+			data->byte_buf, data->bytes_written);
+
+	free_std_context(ctx);
 }
 
 void test_output_add() {
@@ -225,30 +235,38 @@ void test_output_multiply() {
 }
 
 void test_expression_add() {
-	const char * input = "17+23";
-	unsigned char buf[128];
-	unsigned int read = 0;
-	unsigned int bytes_out = 0;
 	unsigned int i, expected_read, expected_bytes;
+	context_t * ctx = alloc_std_context("foo", "bar");
+	std_context_t * data = (std_context_t *) ctx->data;
 
-	expression(input, sizeof(input)+1, buf, sizeof(buf), &read, &bytes_out);
+	data->buf[0] = '1';
+	data->buf[1] = '7';
+	data->buf[2] = '+';
+	data->buf[3] = '2';
+	data->buf[4] = '3';
+	data->buf[5] = '\0';
+	data->buf_size = 6;
+
+	expression(ctx);
 
 	expected_read = 5;
-	check_unsigned_int(read, expected_read);
+	check_unsigned_int(data->buf_pos, expected_read);
 
 	expected_bytes = sizeof(push_17) + sizeof(push_23) + sizeof(addl_ops);
-	check_unsigned_int(bytes_out, expected_bytes);
+	check_unsigned_int(data->bytes_written, expected_bytes);
 
 	compare_byte_arrays("term1", push_17, sizeof(push_17),
-			buf, sizeof(push_17));
+			data->byte_buf, sizeof(push_17));
 
 	i = sizeof(push_17);
 	compare_byte_arrays("term2", push_23, sizeof(push_23),
-			&buf[i], sizeof(push_23));
+			&data->byte_buf[i], sizeof(push_23));
 
 	i = sizeof(push_17) + sizeof(push_23);
 	compare_byte_arrays("add", addl_ops, sizeof(addl_ops),
-			&buf[i], sizeof(addl_ops));
+			&data->byte_buf[i], sizeof(addl_ops));
+
+	free_std_context(ctx);
 }
 
 /* lex tests */
