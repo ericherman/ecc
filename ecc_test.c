@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "compiler.h"
 #include "elf_header.h"
 #include "lex.h"
@@ -82,6 +83,14 @@ fail:
 		fprintf(stderr, "expected[%d]=%02x\n", i, expected[i]);
 	}
 	exit(1);
+}
+
+void check_str(const char * actual, const char * expected) {
+	if (strcmp(expected, actual) != 0) {
+		fprintf(stderr, "expected '%s' but was '%s'\n",
+				expected, actual);
+		exit(1);
+	}
 }
 
 void test_output_header() {
@@ -234,39 +243,143 @@ void test_output_multiply() {
 			buffer, bytes_written);
 }
 
-void test_expression_add() {
-	unsigned int i, expected_read, expected_bytes;
-	context_t * ctx = alloc_std_context("foo", "bar");
-	std_context_t * data = (std_context_t *) ctx->data;
 
-	data->buf[0] = '1';
-	data->buf[1] = '7';
-	data->buf[2] = '+';
-	data->buf[3] = '2';
-	data->buf[4] = '3';
-	data->buf[5] = '\0';
-	data->buf_size = 6;
+typedef struct call_list_t {
+	unsigned int calls;
+	const char *call[100];
+} call_list;
+
+void call_list_print(void * data) {
+	call_list * this = (call_list *) data;
+	unsigned int i;
+
+	fprintf(stderr, "call_list {\n");
+	for (i = 0; i< this->calls; i++) {
+		fprintf(stderr, "%d:\t%s\n", i, this->call[i]);
+	}
+	fprintf(stderr, "}\n");
+}
+
+unsigned int times_called(call_list * list, const char * func_name) {
+	unsigned int i, called = 0;
+
+	for (i = 0; i< list->calls; i++) {
+		if(strcmp(func_name, list->call[i]) == 0) {
+			++called;
+		}
+	}
+	return called;
+}
+
+unsigned int add_to_call_list(void * data, const char * func_name) {
+        call_list * list = (call_list *) data;
+        list->call[list->calls++] = func_name;
+        return times_called(list, func_name);
+}
+
+char fake_lex_look_ahead_1(void * data) {
+	unsigned int called;
+	called = add_to_call_list(data, "lex_look_ahead");
+
+	if (called == 1) {
+		return '+';
+	}
+
+	return '2';
+}
+
+void fake_lex_advance(void * data, unsigned int chars) {
+	add_to_call_list(data, "lex_advance");
+	if (chars < 1) {
+		fprintf(stderr, "advance: %u?\n", chars);
+	}
+}
+
+int fake_lex_get_number_1(void * data) {
+	unsigned int called;
+	called = add_to_call_list(data, "lex_get_number");
+	if (called == 1) {
+		return 17;
+	}
+	return 23;
+}
+
+void fake_output_term(void * data, int number) {
+	add_to_call_list(data, "output_term");
+	/* should we store this for assertion? */
+	if (number == 0) {
+		;
+	}
+}
+
+void fake_output_add(void * data) {
+	add_to_call_list(data, "output_add");
+}
+
+void fake_output_subtract(void * data) {
+	add_to_call_list(data, "output_subtract");
+}
+
+void fake_output_statements_complete(void * data) {
+	add_to_call_list(data, "output_statements_complete");
+}
+
+void fake_read_line(void * data) {
+	add_to_call_list(data, "read_line");
+}
+
+void fake_write_file(void * data) {
+	add_to_call_list(data, "write_file");
+}
+
+void fake_output_header(void * data) {
+	add_to_call_list(data, "output_header");
+}
+
+void fake_output_os_return(void * data) {
+	add_to_call_list(data, "output_os_return");
+}
+
+void test_expression_add() {
+	context_t local;
+	call_list call_list;
+	context_t * ctx = &local;
+
+	call_list.calls = 0;
+	ctx->data = &call_list;
+
+
+	ctx->lex_look_ahead = fake_lex_look_ahead_1;
+	ctx->lex_advance = fake_lex_advance;
+	ctx->lex_get_number = fake_lex_get_number_1;
+
+	ctx->output_term = fake_output_term;
+	ctx->output_add = fake_output_add;
+	ctx->output_subtract = fake_output_subtract;
+	ctx->output_statements_complete = fake_output_statements_complete;
+
+	ctx->read_line = fake_read_line;
+	ctx->write_file = fake_write_file;
+
+	ctx->output_header = fake_output_header;
+	ctx->output_os_return = fake_output_os_return;
+
+	ctx->print = call_list_print;
 
 	expression(ctx);
 
-	expected_read = 5;
-	check_unsigned_int(data->buf_pos, expected_read);
-
-	expected_bytes = sizeof(push_17) + sizeof(push_23) + sizeof(addl_ops);
-	check_unsigned_int(data->bytes_written, expected_bytes);
-
-	compare_byte_arrays("term1", push_17, sizeof(push_17),
-			data->byte_buf, sizeof(push_17));
-
-	i = sizeof(push_17);
-	compare_byte_arrays("term2", push_23, sizeof(push_23),
-			&data->byte_buf[i], sizeof(push_23));
-
-	i = sizeof(push_17) + sizeof(push_23);
-	compare_byte_arrays("add", addl_ops, sizeof(addl_ops),
-			&data->byte_buf[i], sizeof(addl_ops));
-
-	free_std_context(ctx);
+	/*
+	 * ctx->print(ctx->data);
+	 */
+	check_unsigned_int(call_list.calls, 8);
+	check_str(call_list.call[0],"lex_get_number");
+	check_str(call_list.call[1], "output_term");
+	check_str(call_list.call[2], "lex_look_ahead");
+	check_str(call_list.call[3], "lex_advance");
+	check_str(call_list.call[4], "lex_get_number");
+	check_str(call_list.call[5], "output_term");
+	check_str(call_list.call[6], "output_add");
+	check_str(call_list.call[7], "lex_look_ahead");
 }
 
 /* lex tests */
