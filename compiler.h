@@ -8,6 +8,8 @@ void compile(context_t * ctx);
 
 void compile_inner(context_t * ctx);
 
+void factor(context_t * ctx);
+
 void term(context_t * ctx);
 
 void expression(context_t * ctx);

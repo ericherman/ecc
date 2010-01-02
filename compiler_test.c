@@ -69,6 +69,27 @@ void test_expression_subtract() {
 	check_expression_add_subtract(tokens, 3, "output_subtract");
 }
 
+void test_factor() {
+	const char *tokensv[] = { "2" };
+	unsigned int tokensc = 1;
+	context_t * ctx = init_fake_context(tokensv, tokensc);
+	char buf[10000];
+	mock_data * data = (mock_data *) ctx->data;
+
+	factor(ctx);
+
+	ctx->to_string(ctx->data, buf, sizeof(buf));
+
+	check_unsigned_ints(data->calls, 4, buf);
+	check_strs(data->call[0], "lex_look_ahead", buf);
+	check_strs(data->call[1], "lex_get_number", buf);
+	check_strs(data->call[2], "output_term", buf);
+	check_strs(data->call[3], "lex_look_ahead", buf);
+
+	free_fake_context(ctx);
+
+}
+
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		printf("%s takes no arguments\n", argv[0]);
@@ -77,6 +98,7 @@ int main(int argc, char *argv[]) {
 	test_term_simple();
 	test_expression_add();
 	test_expression_subtract();
+	test_factor();
 
 	return 0;
 }

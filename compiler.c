@@ -22,7 +22,7 @@ void expression(context_t * ctx) {
 	}
 }
 
-void term(context_t * ctx) {
+void factor(context_t * ctx) {
 	char c;
 	int number;
 
@@ -30,6 +30,10 @@ void term(context_t * ctx) {
 	number = (ctx)->lex_get_number( (ctx)->data );
 	(ctx)->output_term( (ctx)->data, number );
 	c = (ctx)->lex_look_ahead( (ctx)->data );
+}
+
+void term(context_t * ctx) {
+	factor(ctx);
 }
 
 int is_add_op(const char c) {
