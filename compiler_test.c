@@ -121,32 +121,19 @@ context_t * init_fake_context(context_t * ctx, call_list * list) {
 	return ctx;
 }
 
-char fake_lex_look_ahead_1(void * data) {
-	unsigned int called;
-	called = add_to_call_list(data, "lex_look_ahead");
-
-	if (called == 1) {
-		return '1';
-	}
-
-	return '\0';
-}
-
 void test_term_simple() {
 	context_t local;
 	call_list call_list;
 	context_t * ctx = init_fake_context(&local, &call_list);
 	char buf[1000];
 
-	ctx->lex_look_ahead = fake_lex_look_ahead_1;
 	term(ctx);
 
 	ctx->to_string(ctx->data, buf, sizeof(buf));
 
-	/* check_unsigned_ints(call_list.calls, 3, buf); */
+	check_unsigned_ints(call_list.calls, 2, buf);
 	check_strs(call_list.call[0],"lex_get_number", buf);
 	check_strs(call_list.call[1], "output_term", buf);
-	/* check_strs(call_list.call[2], "lex_look_ahead", buf); */
 }
 
 char fake_lex_look_ahead_2(void * data) {
