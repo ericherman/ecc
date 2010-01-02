@@ -14,6 +14,7 @@ typedef struct context_t_ {
 	void (*output_add)(void * data);
 	void (*output_subtract)(void * data);
 	void (*output_multiply)(void * data);
+	void (*output_divide)(void * data);
 	void (*output_statements_complete)(void * data);
 
 	void (*read_line)(void * data);

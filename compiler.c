@@ -43,7 +43,13 @@ void term(context_t * ctx) {
 
 		factor(ctx);
 
-		(ctx)->output_multiply( (ctx)->data );
+		switch (c) {
+		case '*':
+			(ctx)->output_multiply( (ctx)->data );
+			break;
+		case '/':
+			(ctx)->output_divide( (ctx)->data );
+		}
 	}
 }
 

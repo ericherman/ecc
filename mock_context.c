@@ -80,6 +80,10 @@ void fake_output_multiply(void * data) {
 	add_to_mock_data(data, "output_multiply");
 }
 
+void fake_output_divide(void * data) {
+	add_to_mock_data(data, "output_divide");
+}
+
 void fake_output_statements_complete(void * data) {
 	add_to_mock_data(data, "output_statements_complete");
 }
@@ -120,6 +124,7 @@ context_t * init_fake_context(const char ** token, unsigned int tokens) {
 	ctx->output_add = fake_output_add;
 	ctx->output_subtract = fake_output_subtract;
 	ctx->output_multiply = fake_output_multiply;
+	ctx->output_divide = fake_output_divide;
 	ctx->output_statements_complete = fake_output_statements_complete;
 
 	ctx->read_line = fake_read_line;

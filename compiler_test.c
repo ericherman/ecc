@@ -168,6 +168,12 @@ void test_mul_two_factor_term() {
 			"output_multiply");
 }
 
+void test_div_two_factor_term() {
+	const char *tokensv[] = { "2", "/", "3" };
+	check_two_factor_term("div_two_factor_term", tokensv, 3,
+			"output_divide");
+}
+
 void test_three_add_op_expr() {
 	const char *tokensv[] = { "16", "+", "4", "-", "3" };
 	unsigned int tokensc = 5;
@@ -229,6 +235,7 @@ int main(int argc, char *argv[]) {
 	test_expression_subtract();
 	test_factor();
 	test_mul_two_factor_term();
+	test_div_two_factor_term();
 
 	return 0;
 }

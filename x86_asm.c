@@ -88,7 +88,7 @@ void output_divide(unsigned char * buf, unsigned int buf_size,
 		0xba, 0x00, 0x00, 0x00, 0x00, /* movl $0, %edx */
 		0x5b, /* popl %ebx */
 		0x58, /* popl %eax */
-		0x0f, 0xfb, /* idiv %ebx */
+		0xf7, 0xfb, /* idiv %ebx */
 		0x50, /* pushl %eax */
 	};
 	write_bytes("divide", buf, buf_size, bytes_written, bytes, 10);
