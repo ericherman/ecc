@@ -8,9 +8,17 @@ void mock_data_to_string(void * data, char * buf, unsigned int buf_size) {
 	unsigned int i, len;
 
 	sprintf(buf, "mock_data {\n");
+	len = strlen(buf);
+	sprintf(&buf[len], "calls:\n");
 	for (i = 0; i< this->calls; i++) {
 		len = strlen(buf);
 		sprintf(&buf[len], "%d:\t%s\n", i, this->call[i]);
+	}
+	len = strlen(buf);
+	sprintf(&buf[len], "terms:\n");
+	for (i = 0; i< this->terms; i++) {
+		len = strlen(buf);
+		sprintf(&buf[len], "%d:\t%d\n", i, this->term[i]);
 	}
 	len = strlen(buf);
 	sprintf(&buf[len], "}\n");
@@ -58,8 +66,9 @@ void fake_lex_advance(void * data, unsigned int chars) {
 
 int fake_lex_get_number(void * data) {
 	mock_data * list = (mock_data *) data;
+	const char * token = list->token[list->token_pos++];
 	add_to_mock_data(data, "lex_get_number");
-	return atoi(list->token[list->token_pos++]);
+	return atoi(token);
 }
 
 void fake_output_term(void * data, int number) {

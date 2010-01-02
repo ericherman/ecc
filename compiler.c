@@ -6,8 +6,14 @@ int is_multiply_op(const char c);
 
 void expression(context_t * ctx) {
 	char c;
-	term(ctx);
 
+	if ( is_add_op((ctx)->lex_look_ahead( (ctx)->data )) ) {
+		/* okay, we have a "-(foo)" situation */
+		/* let's just slip-stream a zero. */
+		(ctx)->output_term( (ctx)->data, 0 );
+	} else {
+		term(ctx);
+	}
 	while (is_add_op(c = (ctx)->lex_look_ahead( (ctx)->data ))) {
 
 		(ctx)->lex_advance( (ctx)->data, 1 );

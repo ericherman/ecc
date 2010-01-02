@@ -29,6 +29,28 @@ void check_expected_calls(context_t * ctx, const char * test_name,
 	}
 }
 
+void check_expected_terms(context_t * ctx, const char * test_name,
+		int * expected_terms, unsigned int count) {
+
+	mock_data * data = (mock_data *) ctx->data;
+	unsigned int i, len;
+	char buf[10000];
+
+	sprintf(buf, "%s:\nexpected_terms {\n", test_name);
+	for(i = 0; i < count; i++) {
+		len = strlen(buf);
+		sprintf(&buf[len], "%d:\t%d\n", i, expected_terms[i]);
+	}
+	len = strlen(buf);
+	sprintf(&buf[len], "}\n");
+	len = strlen(buf);
+	ctx->to_string(ctx->data, &buf[len], sizeof(buf)-len);
+
+	check_unsigned_ints(data->terms, count, buf);
+	for (i = 0; i < count; i++) {
+		check_ints(data->term[i], expected_terms[i], buf);
+	}
+}
 
 void test_term_simple() {
 	const char *tokensv[] = { "23" };
@@ -57,6 +79,7 @@ void check_expression_add_subtract(const char * test_name,
 		const char * op) {
 
 	const char *expected_calls[] = {
+		"lex_look_ahead",
 		/* term */
 		/* call factor */
 		"lex_look_ahead",
@@ -79,10 +102,10 @@ void check_expression_add_subtract(const char * test_name,
 		"lex_look_ahead",
 		/* no, so finish */
 	};
-	unsigned int count = 12;
+	unsigned int count = 13;
 	context_t * ctx = init_fake_context(tokensv, tokensc);
 
-	expected_calls[10] = op;
+	expected_calls[11] = op;
 
 	expression(ctx);
 
@@ -228,6 +251,7 @@ void test_paren_factor() {
 		/* yes, eat open paren (advance) */
 		"lex_advance",
 		/* call expression */
+		"lex_look_ahead",
 		/*   call term */
 		/*     call factor */
 		/*       is paren? */
@@ -244,12 +268,67 @@ void test_paren_factor() {
 		"lex_advance",
 		/* exit factor */
 	};
-	unsigned int count = 8;
+	unsigned int count = 9;
 	context_t * ctx = init_fake_context(tokensv, tokensc);
 
 	factor(ctx);
 
 	check_expected_calls(ctx, "test_paren_factor", expected_calls, count);
+
+	free_fake_context(ctx);
+}
+
+void test_negative_expr() {
+	const char *tokensv[] = { "-", "(", "23", ")" };
+	unsigned int tokensc = 4;
+	const char *expected_calls[] = {
+		/* is add_op? */
+		"lex_look_ahead",
+		/* yes, output a 0 */
+		"output_term",
+		/* is add_op? */
+		"lex_look_ahead",
+		/* yes, eat leading minus */
+		"lex_advance",
+		/* is paren? */
+		"lex_look_ahead",
+		/* yes, eat paren */
+		"lex_advance",
+		/*call expression */
+		/* is add op? */
+		"lex_look_ahead",
+		/* no call term */
+		/* is paren? */
+		"lex_look_ahead",
+		/*no, output 23 */
+		"lex_get_number",
+		"output_term",
+		/* is multiply? */
+		"lex_look_ahead",
+		/* no, is add_op? */
+		"lex_look_ahead",
+		/* no, exit expression */
+		/* eat closing paren */
+		"lex_advance",
+		/* is mulitiply? */
+		"lex_look_ahead",
+		/* no, perform add_op */
+		"output_subtract",
+		/* is add_op? */
+		"lex_look_ahead",
+		/* no exit loop */
+	};
+
+	unsigned int count = 16;
+	int expect_termsv[] = { 0, 23 };
+	unsigned int termsc = 2;
+
+	context_t * ctx = init_fake_context(tokensv, tokensc);
+
+	expression(ctx);
+
+	check_expected_calls(ctx, "test_negative_expr", expected_calls, count);
+	check_expected_terms(ctx, "test_negative_expr", expect_termsv, termsc);
 
 	free_fake_context(ctx);
 }
@@ -266,6 +345,7 @@ int main(int argc, char *argv[]) {
 	test_mul_two_factor_term();
 	test_div_two_factor_term();
 	test_paren_factor();
+	test_negative_expr();
 
 	return 0;
 }
