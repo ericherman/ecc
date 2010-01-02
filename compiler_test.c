@@ -125,9 +125,10 @@ void test_factor() {
 	free_fake_context(ctx);
 }
 
-void test_two_factor_term() {
-	const char *tokensv[] = { "2", "*", "3" };
-	unsigned int tokensc = 3;
+void check_two_factor_term(const char * test_name,
+		const char ** tokensv, unsigned int tokensc,
+		const char * op) {
+
 	const char *expected_calls[] = {
 		/* term calls factor */
 		"lex_look_ahead",
@@ -144,7 +145,7 @@ void test_two_factor_term() {
 		"output_term",
 		"lex_look_ahead",
 		/* output the multiply */
-		"output_multiply",
+		"MULTIPLY_DIVIDE_DUMMY",
 		/* is_mulitply_op? */
 		"lex_look_ahead",
 		/* no, so finish */
@@ -152,11 +153,19 @@ void test_two_factor_term() {
 	unsigned int count = 12;
 	context_t * ctx = init_fake_context(tokensv, tokensc);
 
+	expected_calls[10] = op;
+
 	term(ctx);
 
-	check_expected_calls(ctx, "two_factor_term", expected_calls, count);
+	check_expected_calls(ctx, test_name, expected_calls, count);
 
 	free_fake_context(ctx);
+}
+
+void test_mul_two_factor_term() {
+	const char *tokensv[] = { "2", "*", "3" };
+	check_two_factor_term("mul_two_factor_term", tokensv, 3,
+			"output_multiply");
 }
 
 void test_three_add_op_expr() {
@@ -219,7 +228,7 @@ int main(int argc, char *argv[]) {
 	test_expression_add();
 	test_expression_subtract();
 	test_factor();
-	test_two_factor_term();
+	test_mul_two_factor_term();
 
 	return 0;
 }
