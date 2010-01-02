@@ -123,19 +123,46 @@ context_t * init_fake_context(context_t * ctx, call_list * list) {
 
 void test_term_simple() {
 	context_t local;
-	call_list call_list;
-	context_t * ctx = init_fake_context(&local, &call_list);
+	call_list local_data;
+	context_t * ctx = init_fake_context(&local, &local_data);
 	char buf[1000];
 
 	term(ctx);
 
 	ctx->to_string(ctx->data, buf, sizeof(buf));
 
-	check_unsigned_ints(call_list.calls, 4, buf);
-	check_strs(call_list.call[0], "lex_look_ahead", buf);
-	check_strs(call_list.call[1], "lex_get_number", buf);
-	check_strs(call_list.call[2], "output_term", buf);
-	check_strs(call_list.call[3], "lex_look_ahead", buf);
+	check_unsigned_ints(local_data.calls, 4, buf);
+	check_strs(local_data.call[0], "lex_look_ahead", buf);
+	check_strs(local_data.call[1], "lex_get_number", buf);
+	check_strs(local_data.call[2], "output_term", buf);
+	check_strs(local_data.call[3], "lex_look_ahead", buf);
+}
+
+void check_expression_add_subtract(context_t * ctx, const char * op) {
+	char buf[10000];
+	call_list * calls = (call_list *) ctx->data;
+	ctx->to_string(ctx->data, buf, sizeof(buf));
+
+	check_unsigned_ints(calls->calls, 12, buf);
+	/* term */
+        check_strs(calls->call[0], "lex_look_ahead", buf);
+	check_strs(calls->call[1], "lex_get_number", buf);
+	check_strs(calls->call[2], "output_term", buf);
+	check_strs(calls->call[3], "lex_look_ahead", buf);
+	/* is_add_op */
+	check_strs(calls->call[4], "lex_look_ahead", buf);
+	/* yes, so advance */
+	check_strs(calls->call[5], "lex_advance", buf);
+	/* term again */
+	check_strs(calls->call[6], "lex_look_ahead", buf);
+	check_strs(calls->call[7], "lex_get_number", buf);
+	check_strs(calls->call[8], "output_term", buf);
+	check_strs(calls->call[9], "lex_look_ahead", buf);
+	/* add/subtract them */
+	check_strs(calls->call[10], op, buf);
+	/* is_add_op */
+	check_strs(calls->call[11], "lex_look_ahead", buf);
+	/* no, so finish */
 }
 
 char fake_lex_look_ahead_2(void * data) {
@@ -151,37 +178,37 @@ char fake_lex_look_ahead_2(void * data) {
 
 void test_expression_add() {
 	context_t local;
-	call_list call_list;
-	context_t * ctx = init_fake_context(&local, &call_list);
-	char buf[10000];
+	call_list local_data;
+	context_t * ctx = init_fake_context(&local, &local_data);
 
 	ctx->lex_look_ahead = fake_lex_look_ahead_2;
 
 	expression(ctx);
 
+	check_expression_add_subtract(ctx, "output_add");
+}
 
-	ctx->to_string(ctx->data, buf, sizeof(buf));
+char fake_lex_look_ahead_3(void * data) {
+	unsigned int called;
+	called = add_to_call_list(data, "lex_look_ahead");
 
-	check_unsigned_ints(call_list.calls, 12, buf);
-	/* term */
-        check_strs(call_list.call[0], "lex_look_ahead", buf);
-	check_strs(call_list.call[1], "lex_get_number", buf);
-	check_strs(call_list.call[2], "output_term", buf);
-	check_strs(call_list.call[3], "lex_look_ahead", buf);
-	/* is_add_op */
-	check_strs(call_list.call[4], "lex_look_ahead", buf);
-	/* yes, so advance */
-	check_strs(call_list.call[5], "lex_advance", buf);
-	/* term again */
-	check_strs(call_list.call[6], "lex_look_ahead", buf);
-	check_strs(call_list.call[7], "lex_get_number", buf);
-	check_strs(call_list.call[8], "output_term", buf);
-	check_strs(call_list.call[9], "lex_look_ahead", buf);
-	/* add them */
-	check_strs(call_list.call[10], "output_add", buf);
-	/* is_add_op */
-	check_strs(call_list.call[11], "lex_look_ahead", buf);
-	/* no, so finish */
+	if (called == 3) {
+		return '-';
+	}
+
+	return '2';
+}
+
+void test_expression_subtract() {
+	context_t local;
+	call_list local_data;
+	context_t * ctx = init_fake_context(&local, &local_data);
+
+	ctx->lex_look_ahead = fake_lex_look_ahead_3;
+
+	expression(ctx);
+
+	check_expression_add_subtract(ctx, "output_subtract");
 }
 
 int main(int argc, char *argv[]) {
@@ -191,6 +218,7 @@ int main(int argc, char *argv[]) {
 	}
 	test_term_simple();
 	test_expression_add();
+	test_expression_subtract();
 
 	return 0;
 }
