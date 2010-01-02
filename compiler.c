@@ -1,9 +1,6 @@
 #include "compiler.h"
 
-
-int is_add_op(const char c) {
-	return c == '+' || c == '-';
-}
+int is_add_op(const char c);
 
 void expression(context_t * ctx) {
 	char c;
@@ -26,10 +23,17 @@ void expression(context_t * ctx) {
 }
 
 void term(context_t * ctx) {
+	char c;
 	int number;
 
+	c = (ctx)->lex_look_ahead( (ctx)->data );
 	number = (ctx)->lex_get_number( (ctx)->data );
 	(ctx)->output_term( (ctx)->data, number );
+	c = (ctx)->lex_look_ahead( (ctx)->data );
+}
+
+int is_add_op(const char c) {
+	return c == '+' || c == '-';
 }
 
 void compile(context_t * ctx) {

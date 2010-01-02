@@ -131,16 +131,18 @@ void test_term_simple() {
 
 	ctx->to_string(ctx->data, buf, sizeof(buf));
 
-	check_unsigned_ints(call_list.calls, 2, buf);
-	check_strs(call_list.call[0],"lex_get_number", buf);
-	check_strs(call_list.call[1], "output_term", buf);
+	check_unsigned_ints(call_list.calls, 4, buf);
+	check_strs(call_list.call[0], "lex_look_ahead", buf);
+	check_strs(call_list.call[1], "lex_get_number", buf);
+	check_strs(call_list.call[2], "output_term", buf);
+	check_strs(call_list.call[3], "lex_look_ahead", buf);
 }
 
 char fake_lex_look_ahead_2(void * data) {
 	unsigned int called;
 	called = add_to_call_list(data, "lex_look_ahead");
 
-	if (called == 1) {
+	if (called == 3) {
 		return '+';
 	}
 
@@ -160,15 +162,26 @@ void test_expression_add() {
 
 	ctx->to_string(ctx->data, buf, sizeof(buf));
 
-	check_unsigned_ints(call_list.calls, 8, buf);
-	check_strs(call_list.call[0],"lex_get_number", buf);
-	check_strs(call_list.call[1], "output_term", buf);
-	check_strs(call_list.call[2], "lex_look_ahead", buf);
-	check_strs(call_list.call[3], "lex_advance", buf);
-	check_strs(call_list.call[4], "lex_get_number", buf);
-	check_strs(call_list.call[5], "output_term", buf);
-	check_strs(call_list.call[6], "output_add", buf);
-	check_strs(call_list.call[7], "lex_look_ahead", buf);
+	check_unsigned_ints(call_list.calls, 12, buf);
+	/* term */
+        check_strs(call_list.call[0], "lex_look_ahead", buf);
+	check_strs(call_list.call[1], "lex_get_number", buf);
+	check_strs(call_list.call[2], "output_term", buf);
+	check_strs(call_list.call[3], "lex_look_ahead", buf);
+	/* is_add_op */
+	check_strs(call_list.call[4], "lex_look_ahead", buf);
+	/* yes, so advance */
+	check_strs(call_list.call[5], "lex_advance", buf);
+	/* term again */
+	check_strs(call_list.call[6], "lex_look_ahead", buf);
+	check_strs(call_list.call[7], "lex_get_number", buf);
+	check_strs(call_list.call[8], "output_term", buf);
+	check_strs(call_list.call[9], "lex_look_ahead", buf);
+	/* add them */
+	check_strs(call_list.call[10], "output_add", buf);
+	/* is_add_op */
+	check_strs(call_list.call[11], "lex_look_ahead", buf);
+	/* no, so finish */
 }
 
 int main(int argc, char *argv[]) {
