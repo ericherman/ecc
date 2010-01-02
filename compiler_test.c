@@ -38,11 +38,10 @@ void test_term_simple() {
 		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
-		"lex_look_ahead",
 		/* look ahead for multiply */
 		"lex_look_ahead",
 	};
-	unsigned int count = 5;
+	unsigned int count = 4;
 
 	context_t * ctx = init_fake_context(tokensv, tokensc);
 
@@ -63,7 +62,6 @@ void check_expression_add_subtract(const char * test_name,
 		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
-		"lex_look_ahead",
 		/* term look ahead for multiply */
 		"lex_look_ahead",
 		/* is_add_op */
@@ -75,17 +73,16 @@ void check_expression_add_subtract(const char * test_name,
 		"lex_get_number",
 		"output_term",
 		"lex_look_ahead",
-		"lex_look_ahead",
 		/* add/subtract them */
 		"ADD_SUBTRACT_DUMMY",
 		/* is_add_op */
 		"lex_look_ahead",
 		/* no, so finish */
 	};
-	unsigned int count = 14;
+	unsigned int count = 12;
 	context_t * ctx = init_fake_context(tokensv, tokensc);
 
-	expected_calls[12] = op;
+	expected_calls[10] = op;
 
 	expression(ctx);
 
@@ -114,7 +111,6 @@ void test_three_add_op_expr() {
 		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
-		"lex_look_ahead",
 		/* is_mult_op */
 		"lex_look_ahead",
 		/* no, is add op? */
@@ -125,7 +121,6 @@ void test_three_add_op_expr() {
 		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
-		"lex_look_ahead",
 		"lex_look_ahead",
 		/* output add */
 		"output_add",
@@ -138,14 +133,13 @@ void test_three_add_op_expr() {
 		"lex_get_number",
 		"output_term",
 		"lex_look_ahead",
-		"lex_look_ahead",
 		/* output subtract */
 		"output_subtract",
 		/* is add op? */
 		"lex_look_ahead",
 		/* no, done. */
 	};
-	unsigned int count = 22;
+	unsigned int count = 19;
 	context_t * ctx = init_fake_context(tokensv, tokensc);
 
 	expression(ctx);
@@ -160,12 +154,13 @@ void test_factor() {
 	const char *tokensv[] = { "2" };
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
+		/* is paren? */
 		"lex_look_ahead",
+		/* no */
 		"lex_get_number",
 		"output_term",
-		"lex_look_ahead",
 	};
-	unsigned int count = 4;
+	unsigned int count = 3;
 
 	context_t * ctx = init_fake_context(tokensv, tokensc);
 
@@ -185,7 +180,6 @@ void check_two_factor_term(const char * test_name,
 		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
-		"lex_look_ahead",
 		/* is_mult_op */
 		"lex_look_ahead",
 		/* yes, advance */
@@ -194,17 +188,16 @@ void check_two_factor_term(const char * test_name,
 		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
-		"lex_look_ahead",
 		/* output the multiply */
 		"MULTIPLY_DIVIDE_DUMMY",
 		/* is_mulitply_op? */
 		"lex_look_ahead",
 		/* no, so finish */
 	};
-	unsigned int count = 12;
+	unsigned int count = 10;
 	context_t * ctx = init_fake_context(tokensv, tokensc);
 
-	expected_calls[10] = op;
+	expected_calls[8] = op;
 
 	term(ctx);
 
@@ -225,6 +218,41 @@ void test_div_two_factor_term() {
 			"output_divide");
 }
 
+void test_paren_factor() {
+        const char *tokensv[] = { "(", "2", ")" };
+	unsigned int tokensc = 3;
+
+	const char *expected_calls[] = {
+		/* is paren? */
+		"lex_look_ahead",
+		/* yes, eat open paren (advance) */
+		"lex_advance",
+		/* call expression */
+		/*   call term */
+		/*     call factor */
+		/*       is paren? */
+		"lex_look_ahead",
+		/*       no */
+		"lex_get_number",
+		"output_term",
+		/*   is_mul_op? */
+		"lex_look_ahead",
+		/* is_add_op? */
+		"lex_look_ahead",
+		/* no. exit expression */
+		/* back in factor, eat close paren */
+		"lex_advance",
+		/* exit factor */
+	};
+	unsigned int count = 8;
+	context_t * ctx = init_fake_context(tokensv, tokensc);
+
+	factor(ctx);
+
+	check_expected_calls(ctx, "test_paren_factor", expected_calls, count);
+
+	free_fake_context(ctx);
+}
 
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
@@ -237,6 +265,7 @@ int main(int argc, char *argv[]) {
 	test_factor();
 	test_mul_two_factor_term();
 	test_div_two_factor_term();
+	test_paren_factor();
 
 	return 0;
 }

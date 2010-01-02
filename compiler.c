@@ -29,9 +29,15 @@ void factor(context_t * ctx) {
 	int number;
 
 	c = (ctx)->lex_look_ahead( (ctx)->data );
-	number = (ctx)->lex_get_number( (ctx)->data );
-	(ctx)->output_term( (ctx)->data, number );
-	c = (ctx)->lex_look_ahead( (ctx)->data );
+	if (c == '(') {
+		(ctx)->lex_advance( (ctx)->data, 1 );
+		expression(ctx);
+		/* eat close paren */
+		(ctx)->lex_advance( (ctx)->data, 1 );
+	} else {
+		number = (ctx)->lex_get_number( (ctx)->data );
+		(ctx)->output_term( (ctx)->data, number );
+	}
 }
 
 void term(context_t * ctx) {

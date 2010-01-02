@@ -5,6 +5,8 @@ function build {
   make clean
   echo "make:"
   make
+  echo "make check:"
+  make check
 }
 
 function check {
@@ -34,6 +36,6 @@ check 3 "7+ 23" 30
 check 4 "10 + 20 + 30" 60
 check 5 "16 + 4 - 3" 17
 check 6 "1000000 + 13 - 500000 - 500000" 13
-check 7 "1 + 2 * 3 - 4 / 2" 5
+check 7 "1 + 2 * 3 - 4 / (1 +1)" 5
 
 echo "SUCCESS"
