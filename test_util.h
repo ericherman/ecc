@@ -9,6 +9,9 @@ void check_unsigned_ints(unsigned int actual, unsigned int expected,
 		const char * msg);
 void check_unsigned_int(unsigned int actual, unsigned int expected);
 
+void check_ints(int actual, int expected, const char * msg);
+void check_int(int actual, int expected);
+
 void check_strs(const char * actual, const char * expected, const char * msg);
 void check_str(const char * actual, const char * expected);
 

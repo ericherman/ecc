@@ -29,6 +29,18 @@ void check_unsigned_int(unsigned int actual, unsigned int expected) {
 	check_unsigned_ints(actual, expected, "");
 }
 
+void check_ints(int actual, int expected, const char * msg) {
+	if (expected != actual) {
+		fprintf(stderr, "FAIL: %s Expected %d but was %d\n",
+				msg, expected, actual);
+		exit(1);
+	}
+}
+
+void check_int(int actual, int expected) {
+	check_unsigned_ints(actual, expected, "");
+}
+
 void check_strs(const char * actual, const char * expected, const char * msg) {
 	if (strcmp(expected, actual) != 0) {
 		fprintf(stderr, "FAIL: %s Expected '%s' but was '%s'\n",
