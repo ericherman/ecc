@@ -105,6 +105,57 @@ void test_expression_subtract() {
 			tokens, 3, "output_subtract");
 }
 
+void test_three_add_op_expr() {
+	const char *tokensv[] = { "16", "+", "4", "-", "3" };
+	unsigned int tokensc = 5;
+
+	const char *expected_calls[] = {
+		/* term calls factor */
+		"lex_look_ahead",
+		"lex_get_number",
+		"output_term",
+		"lex_look_ahead",
+		/* is_mult_op */
+		"lex_look_ahead",
+		/* no, is add op? */
+		"lex_look_ahead",
+		/* yes */
+		"lex_advance",
+		/* load next term */
+		"lex_look_ahead",
+		"lex_get_number",
+		"output_term",
+		"lex_look_ahead",
+		"lex_look_ahead",
+		/* output add */
+		"output_add",
+		/* is add op? */
+		"lex_look_ahead",
+		/* yes */
+		"lex_advance",
+		/* load next term */
+		"lex_look_ahead",
+		"lex_get_number",
+		"output_term",
+		"lex_look_ahead",
+		"lex_look_ahead",
+		/* output subtract */
+		"output_subtract",
+		/* is add op? */
+		"lex_look_ahead",
+		/* no, done. */
+	};
+	unsigned int count = 22;
+	context_t * ctx = init_fake_context(tokensv, tokensc);
+
+	expression(ctx);
+
+	check_expected_calls(ctx, "three_add_op_expr", expected_calls, count);
+
+	free_fake_context(ctx);
+
+}
+
 void test_factor() {
 	const char *tokensv[] = { "2" };
 	unsigned int tokensc = 1;
@@ -174,56 +225,6 @@ void test_div_two_factor_term() {
 			"output_divide");
 }
 
-void test_three_add_op_expr() {
-	const char *tokensv[] = { "16", "+", "4", "-", "3" };
-	unsigned int tokensc = 5;
-
-	const char *expected_calls[] = {
-		/* term calls factor */
-		"lex_look_ahead",
-		"lex_get_number",
-		"output_term",
-		"lex_look_ahead",
-		/* is_mult_op */
-		"lex_look_ahead",
-		/* no, is add op? */
-		"lex_look_ahead",
-		/* yes */
-		"lex_advance",
-		/* load next term */
-		"lex_look_ahead",
-		"lex_get_number",
-		"output_term",
-		"lex_look_ahead",
-		"lex_look_ahead",
-		/* output add */
-		"output_add",
-		/* is add op? */
-		"lex_look_ahead",
-		/* yes */
-		"lex_advance",
-		/* load next term */
-		"lex_look_ahead",
-		"lex_get_number",
-		"output_term",
-		"lex_look_ahead",
-		"lex_look_ahead",
-		/* output subtract */
-		"output_subtract",
-		/* is add op? */
-		"lex_look_ahead",
-		/* no, done. */
-	};
-	unsigned int count = 22;
-	context_t * ctx = init_fake_context(tokensv, tokensc);
-
-	expression(ctx);
-
-	check_expected_calls(ctx, "three_add_op_expr", expected_calls, count);
-
-	free_fake_context(ctx);
-
-}
 
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
