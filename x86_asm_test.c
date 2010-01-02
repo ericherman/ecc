@@ -36,6 +36,14 @@ unsigned char push_23[] = {
 	0x17, 0x00, 0x00, 0x00, /* 23 */
 };
 
+unsigned char idiv_ops[] = {
+	0xba, 0x00, 0x00, 0x00, 0x00, /* movl $0, %edx */
+	0x5b, /* popl %ebx */
+	0x58, /* popl %eax */
+	0x0f, 0xfb, /* idiv %ebx */
+	0x50, /* pushl %eax */
+};
+
 void test_output_header() {
 	unsigned char * expected;
 	unsigned expected_len;
@@ -110,7 +118,18 @@ void test_output_multiply() {
 
 	output_multiply(buffer, 128, &bytes_written);
 
-	compare_byte_arrays("output_subtract", imull_ops, sizeof(imull_ops),
+	compare_byte_arrays("output_multiply", imull_ops, sizeof(imull_ops),
+			buffer, bytes_written);
+}
+
+void test_output_divide() {
+
+	unsigned char buffer[128];
+	unsigned int bytes_written = 0;
+
+	output_divide(buffer, 128, &bytes_written);
+
+	compare_byte_arrays("output_divide", idiv_ops, sizeof(idiv_ops),
 			buffer, bytes_written);
 }
 
@@ -125,6 +144,7 @@ int main(int argc, char *argv[]) {
 	test_output_add();
 	test_output_subtract();
 	test_output_multiply();
+	test_output_divide();
 
 	return 0;
 }

@@ -20,4 +20,7 @@ void output_subtract(unsigned char * buf, unsigned int buf_size,
 void output_multiply(unsigned char * buf, unsigned int buf_size,
 		unsigned int * bytes_written);
 
+void output_divide(unsigned char * buf, unsigned int buf_size,
+		unsigned int * bytes_written);
+
 #endif /* _X86_ASM_H_ */
