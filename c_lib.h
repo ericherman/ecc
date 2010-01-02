@@ -24,7 +24,7 @@ void write_file(const char * executable,
 		unsigned char * byte_buffer, unsigned int buf_size);
 
 void str_cpy(const char * src, char * buf, unsigned int buf_size,
-                unsigned int * buf_pos);
+		unsigned int * buf_pos);
 
 #endif /* _C_LIB_H_ */
 

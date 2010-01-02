@@ -55,6 +55,11 @@ void std_output_subtract(void * data) {
 	output_subtract(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
+void std_output_multiply(void * data) {
+	std_context_t * this = (std_context_t *) data;
+	output_multiply(this->byte_buf, BBUF_MAX, &(this->bytes_written));
+}
+
 void std_output_statements_complete(void * data) {
 	std_context_t * this = (std_context_t *) data;
 	output_statements_complete(this->byte_buf, BBUF_MAX,
@@ -105,6 +110,7 @@ context_t * alloc_std_context(const char * source_file,
 	ctx->output_term = std_output_term;
 	ctx->output_add = std_output_add;
 	ctx->output_subtract = std_output_subtract;
+	ctx->output_multiply = std_output_multiply;
 	ctx->output_statements_complete = std_output_statements_complete;
 
 	ctx->read_line = std_read_line;

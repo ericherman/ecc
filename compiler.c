@@ -1,6 +1,8 @@
 #include "compiler.h"
 
 int is_add_op(const char c);
+int is_multiply_op(const char c);
+
 
 void expression(context_t * ctx) {
 	char c;
@@ -33,11 +35,24 @@ void factor(context_t * ctx) {
 }
 
 void term(context_t * ctx) {
+	char c;
 	factor(ctx);
+	while( is_multiply_op( c = (ctx)->lex_look_ahead( (ctx)->data ) ) ) {
+
+		(ctx)->lex_advance( (ctx)->data, 1 );
+
+		factor(ctx);
+
+		(ctx)->output_multiply( (ctx)->data );
+	}
 }
 
 int is_add_op(const char c) {
 	return c == '+' || c == '-';
+}
+
+int is_multiply_op(const char c) {
+	return c == '*' || c == '/';
 }
 
 void compile(context_t * ctx) {

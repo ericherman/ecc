@@ -19,6 +19,7 @@ EOF
   RESULT=$?
   if [ $RESULT != ${3} ]
   then
+    cat functional-test-${1}.src
     echo "FAIL: $RESULT != ${3}"
     exit 1;
   fi
