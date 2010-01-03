@@ -14,7 +14,11 @@ void expression(context_t * ctx) {
 	} else {
 		term(ctx);
 	}
-	while (is_add_op(c = ctx->lex_look_ahead(ctx->data))) {
+	while (1) {
+		c = ctx->lex_look_ahead(ctx->data);
+		if (!is_add_op(c)) {
+			break;
+		}
 
 		ctx->lex_advance( ctx->data, 1 );
 
@@ -49,7 +53,11 @@ void factor(context_t * ctx) {
 void term(context_t * ctx) {
 	char c;
 	factor(ctx);
-	while( is_multiply_op( c = ctx->lex_look_ahead(ctx->data) ) ) {
+	while (1) {
+		c = ctx->lex_look_ahead(ctx->data);
+		if (!is_multiply_op(c)) {
+			break;
+		}
 
 		ctx->lex_advance( ctx->data, 1 );
 
