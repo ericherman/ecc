@@ -27,8 +27,4 @@ typedef struct context_t_ {
 
 } context_t;
 
-/*
-#define lex_look_ahead(i) ( (i)->lex_look_ahead( (i)->context ) )
-*/
-
 #endif /* _CONTEXT_H_ */
