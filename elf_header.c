@@ -4,7 +4,7 @@
 unsigned char elf_header[] = {
 	/* MAGIC: */
 	0x7f, 0x45, 0x4c, 0x46, /* 127, E, L, F, */
-	0x01, 0x01, 0x01, 0x00, /* Class (32), encoding, version, OS ABI */
+	0x01, 0x01, 0x01, 0x00, /* Class (32), little endian, version, OS ABI */
 	0x00, 0x00, 0x00, 0x00,	0x00, 0x00, 0x00, 0x00, /* padding */
 
 	0x02, 0x00, /* e_type EXEC (Executable file) */
@@ -17,7 +17,7 @@ unsigned char elf_header[] = {
 	0x34, 0x00, /* e_ehsize (elf header is 52 bytes) */
 	0x20, 0x00, /* e_phentsize (program header entries are 32 bytes)*/
 	0x01, 0x00, /* e_phnum (number of program header entries) */
-	0x00, 0x00, /* e_shentsize (how big are section headers?) */
+	0x28, 0x00, /* e_shentsize (section headers are 40 bytes) */
 	0x00, 0x00, /* e_shnum (number of section headers) */
 	0x00, 0x00, /* e_shstrndx section header table index for string names */
 	/* section header table's size = (e_shentsize * e_shnum) */
