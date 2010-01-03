@@ -7,6 +7,7 @@
 typedef struct mock_data_t {
 	const char *call[100];
 	unsigned int calls;
+	int track_lookahead;
 
 	int term[100];
 	unsigned int terms;

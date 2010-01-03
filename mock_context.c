@@ -9,6 +9,8 @@ void mock_data_to_string(void * data, char * buf, unsigned int buf_size) {
 
 	sprintf(buf, "mock_data {\n");
 	len = strlen(buf);
+	sprintf(&buf[len], "track lex_look_ahead: %d\n", this->track_lookahead);
+	len = strlen(buf);
 	sprintf(&buf[len], "calls:\n");
 	for (i = 0; i< this->calls; i++) {
 		len = strlen(buf);
@@ -47,7 +49,9 @@ char fake_lex_look_ahead(void * data) {
 	const char * next_token = "";
 	char look_ahead = '\0';
 	mock_data * list = (mock_data *) data;
-	add_to_mock_data(data, "lex_look_ahead");
+	if (list->track_lookahead) {
+		add_to_mock_data(data, "lex_look_ahead");
+	}
 	if (list->token_pos < list->tokens) {
 		next_token = list->token[list->token_pos];
 		look_ahead = next_token[0];
@@ -122,6 +126,7 @@ context_t * init_fake_context(const char ** token, unsigned int tokens) {
 	list->token_pos = 0;
 	list->terms = 0;
 	list->calls = 0;
+	list->track_lookahead = 1;
 
 	ctx->data = list;
 
