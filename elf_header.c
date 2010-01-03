@@ -91,4 +91,18 @@ void output_os_return(unsigned char * buf,
 	for (i = 0; i < length; i++) {
 		buf[(*bytes_written)++] = bytes[i];
 	}
+
+	length = *bytes_written;
+	length += length % 4;
+	/* fixup program size */
+	buf[68] = 0xFF & length;
+	buf[69] = 0xFF & (length >> 8);
+	buf[70] = 0xFF & (length >> 16);
+	buf[71] = 0xFF & (length >> 24);
+
+	/* fixup memory size */
+	buf[72] = 0xFF & length;
+	buf[73] = 0xFF & (length >> 8);
+	buf[74] = 0xFF & (length >> 16);
+	buf[75] = 0xFF & (length >> 24);
 }
