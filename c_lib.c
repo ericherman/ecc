@@ -13,7 +13,7 @@ void heap_free(void *ptr) {
 }
 
 void err_msg(const char * msg) {
-	fprintf(stderr, msg);
+	fprintf(stderr, "%s", msg);
 }
 
 void read_line(const char * source_file,
