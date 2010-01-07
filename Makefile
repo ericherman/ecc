@@ -25,7 +25,8 @@ TEST_COMPILER=compiler_test
 TEST_ASM=x86_asm_test
 TEST_SUBSYSTEM=sub_system_test
 
-all: $(EXEC_SOURCES) $(EXECUTABLE) $(TEST_SOURCES) $(TEST_LEX) $(TEST_ASM) $(TEST_COMPILER) $(TEST_SUBSYSTEM)
+all: $(EXEC_SOURCES) $(EXECUTABLE) $(TEST_SOURCES) \
+	$(TEST_LEX) $(TEST_ASM) $(TEST_COMPILER) $(TEST_SUBSYSTEM)
 
 $(EXECUTABLE): $(EXEC_OBJECTS)
 	$(CC) $(LDFLAGS) $(EXEC_OBJECTS) -o $@
@@ -55,4 +56,5 @@ test:
 	./functional-test.sh
 
 clean:
-	rm -rf *o $(EXECUTABLE) $(TEST_LEX) $(TEST_ASM) $(TEST_COMPILER) $(TEST_SUBSYSTEM) functional-test-*
+	rm -rf *o $(EXECUTABLE) $(TEST_LEX) $(TEST_ASM) $(TEST_COMPILER) \
+		$(TEST_SUBSYSTEM) functional-test-*
