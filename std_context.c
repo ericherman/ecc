@@ -4,6 +4,7 @@
 #include "lex.h"
 #include "x86_asm.h"
 #include "elf_header.h"
+#include "misc.h"
 
 void std_to_string(void * data, char * buf, unsigned int buf_size) {
 	std_context_t * this = (std_context_t *) data;

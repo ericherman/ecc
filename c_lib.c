@@ -40,20 +40,11 @@ void write_file(const char * executable,
 	chmod(executable, S_IRWXU | S_IRWXG | S_IRWXO);
 }
 
-void str_cpy(const char * src, char * buf, unsigned int buf_size,
-		unsigned int * buf_pos) {
-
-	unsigned int len, max;
-	char * dest;
-
-	dest = &buf[*buf_pos];
-	max = (buf_size - *buf_pos);
-
-	len = strlen(dest);
-	if (len > max) {
-		len = max;
-	}
-	strncpy(dest, src, max);
-	dest[len -1] = '\0';
-	*buf_pos += len;
+unsigned int str_len(const char * str) {
+	return strlen(str);
 }
+
+char * str_ncpy(char * dest, const char * src, unsigned int n) {
+	return strncpy(dest, src, n);
+}
+

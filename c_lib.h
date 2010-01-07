@@ -23,8 +23,9 @@ void read_line(const char * source_file,
 void write_file(const char * executable,
 		unsigned char * byte_buffer, unsigned int buf_size);
 
-void str_cpy(const char * src, char * buf, unsigned int buf_size,
-		unsigned int * buf_pos);
+unsigned int str_len(const char * s);
+
+char * str_ncpy(char * dest, const char * src, unsigned int n);
 
 #endif /* _C_LIB_H_ */
 
