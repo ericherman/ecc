@@ -6,10 +6,10 @@
 #include "mock_context.h"
 
 
-void check_expected_calls(context_t * ctx, const char * test_name,
-		const char ** expected_calls, unsigned int count) {
+void check_expected_calls(context_t *ctx, const char *test_name,
+		const char **expected_calls, unsigned int count) {
 
-	mock_data * data = (mock_data *) ctx->data;
+	mock_data *data = (mock_data *) ctx->data;
 	unsigned int i, len;
 	char buf[10000];
 
@@ -29,10 +29,10 @@ void check_expected_calls(context_t * ctx, const char * test_name,
 	}
 }
 
-void check_expected_terms(context_t * ctx, const char * test_name,
-		int * expected_terms, unsigned int count) {
+void check_expected_terms(context_t *ctx, const char *test_name,
+		int *expected_terms, unsigned int count) {
 
-	mock_data * data = (mock_data *) ctx->data;
+	mock_data *data = (mock_data *) ctx->data;
 	unsigned int i, len;
 	char buf[10000];
 
@@ -65,7 +65,7 @@ void test_term_simple() {
 	};
 	unsigned int count = 4;
 
-	context_t * ctx = init_fake_context(tokensv, tokensc);
+	context_t *ctx = init_fake_context(tokensv, tokensc);
 
 	term(ctx);
 
@@ -74,9 +74,9 @@ void test_term_simple() {
 	free_fake_context(ctx);
 }
 
-void check_expression_add_subtract(const char * test_name,
-		const char ** tokensv, unsigned int tokensc,
-		const char * op) {
+void check_expression_add_subtract(const char *test_name,
+		const char **tokensv, unsigned int tokensc,
+		const char *op) {
 
 	const char *expected_calls[] = {
 		"lex_look_ahead",
@@ -103,7 +103,7 @@ void check_expression_add_subtract(const char * test_name,
 		/* no, so finish */
 	};
 	unsigned int count = 13;
-	context_t * ctx = init_fake_context(tokensv, tokensc);
+	context_t *ctx = init_fake_context(tokensv, tokensc);
 
 	expected_calls[11] = op;
 
@@ -163,7 +163,7 @@ void test_three_add_op_expr() {
 		/* no, done. */
 	};
 	unsigned int count = 19;
-	context_t * ctx = init_fake_context(tokensv, tokensc);
+	context_t *ctx = init_fake_context(tokensv, tokensc);
 
 	expression(ctx);
 
@@ -185,7 +185,7 @@ void test_factor() {
 	};
 	unsigned int count = 3;
 
-	context_t * ctx = init_fake_context(tokensv, tokensc);
+	context_t *ctx = init_fake_context(tokensv, tokensc);
 
 	factor(ctx);
 
@@ -194,9 +194,9 @@ void test_factor() {
 	free_fake_context(ctx);
 }
 
-void check_two_factor_term(const char * test_name,
-		const char ** tokensv, unsigned int tokensc,
-		const char * op) {
+void check_two_factor_term(const char *test_name,
+		const char **tokensv, unsigned int tokensc,
+		const char *op) {
 
 	const char *expected_calls[] = {
 		/* term calls factor */
@@ -218,7 +218,7 @@ void check_two_factor_term(const char * test_name,
 		/* no, so finish */
 	};
 	unsigned int count = 10;
-	context_t * ctx = init_fake_context(tokensv, tokensc);
+	context_t *ctx = init_fake_context(tokensv, tokensc);
 
 	expected_calls[8] = op;
 
@@ -269,7 +269,7 @@ void test_paren_factor() {
 		/* exit factor */
 	};
 	unsigned int count = 9;
-	context_t * ctx = init_fake_context(tokensv, tokensc);
+	context_t *ctx = init_fake_context(tokensv, tokensc);
 
 	factor(ctx);
 
@@ -294,13 +294,13 @@ void test_negative_expr() {
 		"lex_look_ahead",
 		/* yes, eat paren */
 		"lex_advance",
-		/*call expression */
+		/* call expression */
 		/* is add op? */
 		"lex_look_ahead",
 		/* no call term */
 		/* is paren? */
 		"lex_look_ahead",
-		/*no, output 23 */
+		/* no, output 23 */
 		"lex_get_number",
 		"output_term",
 		/* is multiply? */
@@ -323,7 +323,7 @@ void test_negative_expr() {
 	int expect_termsv[] = { 0, 23 };
 	unsigned int termsc = 2;
 
-	context_t * ctx = init_fake_context(tokensv, tokensc);
+	context_t *ctx = init_fake_context(tokensv, tokensc);
 
 	expression(ctx);
 

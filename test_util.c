@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void check_chars(char actual, char expected, const char * msg) {
+void check_chars(char actual, char expected, const char *msg) {
 	if (expected != actual) {
 		fprintf(stderr, "FAIL: %s Expected '%c' but was '%c'\n",
 				msg, expected, actual);
@@ -16,7 +16,7 @@ void check_char(char actual, char expected) {
 }
 
 void check_unsigned_ints(unsigned int actual, unsigned int expected,
-		const char * msg) {
+		const char *msg) {
 
 	if (expected != actual) {
 		fprintf(stderr, "FAIL: %s Expected %d but was %d\n",
@@ -29,7 +29,7 @@ void check_unsigned_int(unsigned int actual, unsigned int expected) {
 	check_unsigned_ints(actual, expected, "");
 }
 
-void check_ints(int actual, int expected, const char * msg) {
+void check_ints(int actual, int expected, const char *msg) {
 	if (expected != actual) {
 		fprintf(stderr, "FAIL: %s Expected %d but was %d\n",
 				msg, expected, actual);
@@ -41,7 +41,7 @@ void check_int(int actual, int expected) {
 	check_unsigned_ints(actual, expected, "");
 }
 
-void check_strs(const char * actual, const char * expected, const char * msg) {
+void check_strs(const char *actual, const char *expected, const char *msg) {
 	if (strcmp(expected, actual) != 0) {
 		fprintf(stderr, "FAIL: %s Expected '%s' but was '%s'\n",
 				msg, expected, actual);
@@ -49,13 +49,13 @@ void check_strs(const char * actual, const char * expected, const char * msg) {
 	}
 }
 
-void check_str(const char * actual, const char * expected) {
+void check_str(const char *actual, const char *expected) {
 	check_strs(actual, expected, "");
 }
 
-void compare_byte_arrays(const char * name,
-		unsigned char * expected, unsigned int expected_len,
-		unsigned char * actual, unsigned int actual_len) {
+void compare_byte_arrays(const char *name,
+		unsigned char *expected, unsigned int expected_len,
+		unsigned char *actual, unsigned int actual_len) {
 
 	unsigned int i;
 

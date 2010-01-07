@@ -45,7 +45,7 @@ unsigned char idiv_ops[] = {
 };
 
 void test_output_header() {
-	unsigned char * expected;
+	unsigned char *expected;
 	unsigned expected_len;
 	unsigned char actual[128];
 	unsigned actual_len;
@@ -75,7 +75,7 @@ void test_output_statements_complete() {
 }
 
 void test_output_footer() {
-	unsigned char * expected;
+	unsigned char *expected;
 	unsigned int expected_len;
 	unsigned char actual[128];
 	unsigned int actual_len = 0;

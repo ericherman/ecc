@@ -3,7 +3,7 @@
 #include "lex.h"
 
 void test_lex_look_ahead() {
-	const char * input = "1+ 2";
+	const char *input = "1+ 2";
 	unsigned int pos, expected_pos;
 	char result, expected_result;
 

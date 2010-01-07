@@ -7,12 +7,12 @@
 
 typedef struct std_context_t_ {
 	/* need to investigate memory mapped files */
-	const char * source_file;
+	const char *source_file;
 	char buf[LINE_MAX];
 	unsigned int buf_size;
 	unsigned int buf_pos;
 
-	const char * executable;
+	const char *executable;
 	unsigned char byte_buf[BBUF_MAX];
 	unsigned int bytes_written;
 } std_context_t;

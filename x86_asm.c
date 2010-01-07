@@ -1,11 +1,10 @@
 #include "x86_asm.h"
 #include "c_lib.h"
 
-void write_bytes(const char * name,
-		unsigned char * buf,
-		unsigned int buf_size,
-		unsigned int * bytes_written,
-		const unsigned char * to_write,
+void write_bytes(const char *name,
+		unsigned char *buf, unsigned int buf_size,
+		unsigned int *bytes_written,
+		const unsigned char *to_write,
 		unsigned int count) {
 
 	unsigned int i;
@@ -20,10 +19,8 @@ void write_bytes(const char * name,
 	}
 }
 
-void output_term(int number,
-		unsigned char * buf,
-		unsigned int buf_size,
-		unsigned int * bytes_written) {
+void output_term(int number, unsigned char *buf, unsigned int buf_size,
+		unsigned int *bytes_written) {
 
 	unsigned char bytes[5];
 
@@ -36,17 +33,16 @@ void output_term(int number,
 	write_bytes("term", buf, buf_size, bytes_written, bytes, 5);
 }
 
-void output_statements_complete(unsigned char * buf,
-		unsigned int buf_size,
-		unsigned int * bytes_written) {
+void output_statements_complete(unsigned char *buf, unsigned int buf_size,
+		unsigned int *bytes_written) {
 
 	unsigned char bytes[] = { 0x5b /* popl %ebx */ };
 
 	write_bytes("return val", buf, buf_size, bytes_written, bytes, 1);
 }
 
-void output_add(unsigned char * buf, unsigned int buf_size,
-		unsigned int * bytes_written) {
+void output_add(unsigned char *buf, unsigned int buf_size,
+		unsigned int *bytes_written) {
 
 	unsigned char bytes[] = {
 		0x5a, /* popl %edx */
@@ -57,8 +53,8 @@ void output_add(unsigned char * buf, unsigned int buf_size,
 	write_bytes("add", buf, buf_size, bytes_written, bytes, 5);
 }
 
-void output_subtract(unsigned char * buf, unsigned int buf_size,
-		unsigned int * bytes_written) {
+void output_subtract(unsigned char *buf, unsigned int buf_size,
+		unsigned int *bytes_written) {
 
 	unsigned char bytes[] = {
 		0x5a, /* popl %edx */
@@ -69,8 +65,8 @@ void output_subtract(unsigned char * buf, unsigned int buf_size,
 	write_bytes("subtract", buf, buf_size, bytes_written, bytes, 5);
 }
 
-void output_multiply(unsigned char * buf, unsigned int buf_size,
-		unsigned int * bytes_written) {
+void output_multiply(unsigned char *buf, unsigned int buf_size,
+		unsigned int *bytes_written) {
 
 	unsigned char bytes[] = {
 		0x5a, /* popl %edx */
@@ -81,8 +77,8 @@ void output_multiply(unsigned char * buf, unsigned int buf_size,
 	write_bytes("multiply", buf, buf_size, bytes_written, bytes, 6);
 }
 
-void output_divide(unsigned char * buf, unsigned int buf_size,
-		unsigned int * bytes_written) {
+void output_divide(unsigned char *buf, unsigned int buf_size,
+		unsigned int *bytes_written) {
 
 	unsigned char bytes[] = {
 		0xba, 0x00, 0x00, 0x00, 0x00, /* movl $0, %edx */

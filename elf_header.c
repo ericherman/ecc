@@ -56,7 +56,7 @@ unsigned char sys_exit[] = {
 	0x80  /* Linux Kernel */
 };
 
-unsigned char * raw_elf_header() {
+unsigned char *raw_elf_header() {
 	return elf_header;
 }
 
@@ -64,7 +64,7 @@ unsigned int raw_elf_header_size() {
 	return sizeof(elf_header);
 }
 
-unsigned char * raw_linux_return() {
+unsigned char *raw_linux_return() {
 	return sys_exit;
 }
 
@@ -72,11 +72,10 @@ unsigned int raw_linux_return_size() {
 	return sizeof(sys_exit);
 }
 
-void output_header(unsigned char * buf,
-		unsigned int buf_size,
-		unsigned int * length) {
+void output_header(unsigned char *buf, unsigned int buf_size,
+		unsigned int *length) {
 
-	unsigned char * bytes;
+	unsigned char *bytes;
 	unsigned int i;
 
 	*length = raw_elf_header_size();
@@ -90,11 +89,10 @@ void output_header(unsigned char * buf,
 	}
 }
 
-void output_os_return(unsigned char * buf,
-		unsigned int buf_size,
+void output_os_return(unsigned char *buf, unsigned int buf_size,
 		unsigned int * bytes_written) {
 
-	unsigned char * bytes;
+	unsigned char *bytes;
 	unsigned int i, length;
 
 	length = raw_linux_return_size();

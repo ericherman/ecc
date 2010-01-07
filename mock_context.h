@@ -17,8 +17,8 @@ typedef struct mock_data_t {
 	unsigned int token_pos;
 } mock_data;
 
-context_t * init_fake_context(const char ** token, unsigned int tokens);
-void free_fake_context(context_t * ctx);
+context_t *init_fake_context(const char **token, unsigned int tokens);
+void free_fake_context(context_t *ctx);
 
 #endif /* _MOCK_CONTEXT_H_ */
 

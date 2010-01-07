@@ -4,7 +4,7 @@ int is_add_op(const char c);
 int is_multiply_op(const char c);
 
 
-void expression(context_t * ctx) {
+void expression(context_t *ctx) {
 	char c;
 
 	c = ctx->lex_look_ahead(ctx->data);
@@ -21,7 +21,7 @@ void expression(context_t * ctx) {
 			break;
 		}
 
-		ctx->lex_advance( ctx->data, 1 );
+		ctx->lex_advance(ctx->data, 1);
 
 		term(ctx);
 
@@ -35,23 +35,23 @@ void expression(context_t * ctx) {
 	}
 }
 
-void factor(context_t * ctx) {
+void factor(context_t *ctx) {
 	char c;
 	int number;
 
 	c = ctx->lex_look_ahead(ctx->data);
 	if (c == '(') {
-		ctx->lex_advance( ctx->data, 1 );
+		ctx->lex_advance(ctx->data, 1);
 		expression(ctx);
 		/* eat close paren */
-		ctx->lex_advance( ctx->data, 1 );
+		ctx->lex_advance(ctx->data, 1);
 	} else {
 		number = ctx->lex_get_number(ctx->data);
-		ctx->output_term( ctx->data, number );
+		ctx->output_term(ctx->data, number);
 	}
 }
 
-void term(context_t * ctx) {
+void term(context_t *ctx) {
 	char c;
 	factor(ctx);
 	while (1) {
@@ -60,7 +60,7 @@ void term(context_t * ctx) {
 			break;
 		}
 
-		ctx->lex_advance( ctx->data, 1 );
+		ctx->lex_advance(ctx->data, 1);
 
 		factor(ctx);
 
@@ -82,13 +82,13 @@ int is_multiply_op(const char c) {
 	return c == '*' || c == '/';
 }
 
-void compile(context_t * ctx) {
+void compile(context_t *ctx) {
 	ctx->read_line(ctx->data);
 	compile_inner(ctx);
 	ctx->write_file(ctx->data);
 }
 
-void compile_inner(context_t * ctx) {
+void compile_inner(context_t *ctx) {
 	ctx->output_header(ctx->data);
 
 	expression(ctx);

@@ -3,7 +3,7 @@
 #include "compiler.h"
 
 int main(int argc, char *argv[]) {
-	context_t * ctx;
+	context_t *ctx;
 
 	if (argc < 3) {
 		err_msg("usage: ");

@@ -46,8 +46,8 @@ void test_compile_inner() {
 		0xcd, /* int */
 		0x80  /* Linux Kernel */
 	};
-	context_t * ctx = alloc_std_context("foo", "bar");
-	std_context_t * data = (std_context_t *) ctx->data;
+	context_t *ctx = alloc_std_context("foo", "bar");
+	std_context_t *data = (std_context_t *) ctx->data;
 	data->buf[0] = '2';
 	data->buf[1] = '3';
 	data->buf[2] = '\0';

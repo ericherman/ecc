@@ -2,7 +2,7 @@
 #include "c_lib.h"
 #include "misc.h"
 
-int lex_get_number(const char * str, unsigned int max_len, unsigned int *len) {
+int lex_get_number(const char *str, unsigned int max_len, unsigned int *len) {
 	unsigned int i, found, negative;
 	int result;
 
@@ -37,8 +37,8 @@ int lex_get_number(const char * str, unsigned int max_len, unsigned int *len) {
 	return result;
 }
 
-char lex_look_ahead(const char * input, unsigned int input_len,
-		unsigned int * pos) {
+char lex_look_ahead(const char *input, unsigned int input_len,
+		unsigned int *pos) {
 
 	while(is_whitespace(input[*pos])) {
 		*pos += 1;

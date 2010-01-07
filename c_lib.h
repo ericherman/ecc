@@ -11,21 +11,21 @@
  * This serves as a place to centralize thinking about these.
  */
 
-void * heap_malloc(unsigned int size);
-void   heap_free(void *ptr);
+void *heap_malloc(unsigned int size);
+void heap_free(void *ptr);
 
-void err_msg(const char * msg);
+void err_msg(const char *msg);
 
-void read_line(const char * source_file,
-		char * line_buf, unsigned int buf_size,
-		unsigned int * chars_read);
+void read_line(const char *source_file,
+		char *line_buf, unsigned int buf_size,
+		unsigned int *chars_read);
 
-void write_file(const char * executable,
-		unsigned char * byte_buffer, unsigned int buf_size);
+void write_file(const char *executable,
+		unsigned char *byte_buffer, unsigned int buf_size);
 
-unsigned int str_len(const char * s);
+unsigned int str_len(const char *s);
 
-char * str_ncpy(char * dest, const char * src, unsigned int n);
+char *str_ncpy(char *dest, const char *src, unsigned int n);
 
 #endif /* _C_LIB_H_ */
 
