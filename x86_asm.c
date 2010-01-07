@@ -1,5 +1,6 @@
 #include "x86_asm.h"
 #include "c_lib.h"
+#include "x86_asm_bytes.h"
 
 void write_bytes(const char *name,
 		unsigned char *buf, unsigned int buf_size,
@@ -36,56 +37,35 @@ void output_term(int number, unsigned char *buf, unsigned int buf_size,
 void output_statements_complete(unsigned char *buf, unsigned int buf_size,
 		unsigned int *bytes_written) {
 
-	unsigned char bytes[] = { 0x5b /* popl %ebx */ };
-
-	write_bytes("return val", buf, buf_size, bytes_written, bytes, 1);
+	write_bytes("return val", buf, buf_size, bytes_written,
+			get_return_ops(), get_return_ops_len());
 }
 
 void output_add(unsigned char *buf, unsigned int buf_size,
 		unsigned int *bytes_written) {
 
-	unsigned char bytes[] = {
-		0x5a, /* popl %edx */
-		0x58, /* popl %eax */
-		0x01, 0xd0, /* addl %edx, %eax */
-		0x50, /* pushl %eax */
-	};
-	write_bytes("add", buf, buf_size, bytes_written, bytes, 5);
+	write_bytes("add", buf, buf_size, bytes_written,
+			get_addl_ops(), get_addl_ops_len());
 }
 
 void output_subtract(unsigned char *buf, unsigned int buf_size,
 		unsigned int *bytes_written) {
 
-	unsigned char bytes[] = {
-		0x5a, /* popl %edx */
-		0x58, /* popl %eax */
-		0x29, 0xd0, /* subl %edx, %eax */
-		0x50, /* pushl %eax */
-	};
-	write_bytes("subtract", buf, buf_size, bytes_written, bytes, 5);
+	write_bytes("subtract", buf, buf_size, bytes_written,
+			get_subl_ops(), get_subl_ops_len());
 }
 
 void output_multiply(unsigned char *buf, unsigned int buf_size,
 		unsigned int *bytes_written) {
 
-	unsigned char bytes[] = {
-		0x5a, /* popl %edx */
-		0x58, /* popl %eax */
-		0x0f, 0xaf, 0xc2, /* imull %edx, %eax */
-		0x50, /* pushl %eax */
-	};
-	write_bytes("multiply", buf, buf_size, bytes_written, bytes, 6);
+	write_bytes("multiply", buf, buf_size, bytes_written,
+			get_imull_ops(), get_imull_ops_len());
 }
 
 void output_divide(unsigned char *buf, unsigned int buf_size,
 		unsigned int *bytes_written) {
 
-	unsigned char bytes[] = {
-		0xba, 0x00, 0x00, 0x00, 0x00, /* movl $0, %edx */
-		0x5b, /* popl %ebx */
-		0x58, /* popl %eax */
-		0xf7, 0xfb, /* idiv %ebx */
-		0x50, /* pushl %eax */
-	};
-	write_bytes("divide", buf, buf_size, bytes_written, bytes, 10);
+	write_bytes("divide", buf, buf_size, bytes_written,
+			get_idiv_ops(), get_idiv_ops_len());
 }
+

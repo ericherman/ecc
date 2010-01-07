@@ -3,7 +3,8 @@ CC=gcc
 CFLAGS=-c -Werror -ggdb -O0 -Wall -Wextra -pedantic -Wno-long-long
 LDFLAGS=
 
-SOURCES=elf_header.c c_lib.c misc.c x86_asm.c lex.c std_context.c compiler.c
+SOURCES=elf_header.c c_lib.c misc.c x86_asm_bytes.c x86_asm.c lex.c \
+	std_context.c compiler.c
 EXEC_SOURCES=$(SOURCES) ecc.c
 TEST_SOURCES=$(SOURCES) test_util.c
 TEST_LEX_SOURCES=$(TEST_SOURCES) lex_test.c
