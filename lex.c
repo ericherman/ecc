@@ -2,6 +2,20 @@
 #include "c_lib.h"
 #include "misc.h"
 
+unsigned int lex_get_name_length(const char *str, unsigned int input_size) {
+	unsigned int i;
+	for(i = 0; i < input_size; i++) {
+		if (is_alpha(str[i]) || is_number(str[i])) {
+			continue;
+		}
+		return i;
+	}
+	err_msg("unable to parse '");
+	err_msg(str);
+	err_msg("'\n");
+	return 0;
+}
+
 int lex_get_number(const char *str, unsigned int max_len, unsigned int *len) {
 	unsigned int i, found, negative;
 	int result;

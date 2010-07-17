@@ -56,6 +56,20 @@ void test_lex_get_number() {
 	check_int(result, expected_result);
 }
 
+void test_lex_get_name_length() {
+	const char *input = "foo_5 fx_4-2";
+	unsigned int result, expected_result;
+
+	result = lex_get_name_length(input, sizeof(input));
+	expected_result = 5;
+	check_unsigned_int(result, expected_result);
+
+	input += 6;
+	result = lex_get_name_length(input, sizeof(input));
+	expected_result = 4;
+	check_unsigned_int(result, expected_result);
+}
+
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		printf("%s takes no arguments\n", argv[0]);
@@ -64,5 +78,6 @@ int main(int argc, char *argv[]) {
 
 	test_lex_look_ahead();
 	test_lex_get_number();
+	test_lex_get_name_length();
 	return 0;
 }

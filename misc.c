@@ -9,13 +9,11 @@ int is_number(char c) {
 	return c >= '0' && c <= '9';
 }
 
-/*
 int is_alpha(char c) {
 	return ( c >= 'A' && c <= 'Z' )
 	    || ( c >= 'a' && c <= 'z' )
 	    || c == '_';
 }
-*/
 
 void str_cpy(const char *src, char *buf, unsigned int buf_size,
 		unsigned int *buf_pos) {
