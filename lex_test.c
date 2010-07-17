@@ -29,6 +29,33 @@ void test_lex_look_ahead() {
 	check_char(result, expected_result);
 }
 
+void test_lex_get_number() {
+	const char *input = "7+ 4211 * -2";
+	unsigned int pos, expected_pos;
+	int result, expected_result;
+
+	pos = 0;
+	result = lex_get_number(&input[pos], sizeof(input), &pos);
+	expected_pos = 1;
+	expected_result = 7;
+	check_unsigned_int(pos, expected_pos);
+	check_int(result, expected_result);
+
+	pos = 3;
+	result = lex_get_number(&input[pos], sizeof(input), &pos);
+	expected_pos = 7;
+	expected_result = 4211;
+	check_unsigned_int(pos, expected_pos);
+	check_int(result, expected_result);
+
+	pos = 10;
+	result = lex_get_number(&input[pos], sizeof(input), &pos);
+	expected_result = -2;
+	expected_pos = 12;
+	check_unsigned_int(pos, expected_pos);
+	check_int(result, expected_result);
+}
+
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		printf("%s takes no arguments\n", argv[0]);
@@ -36,5 +63,6 @@ int main(int argc, char *argv[]) {
 	}
 
 	test_lex_look_ahead();
+	test_lex_get_number();
 	return 0;
 }
