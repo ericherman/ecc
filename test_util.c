@@ -4,11 +4,12 @@
 #include <string.h>
 
 void check_chars(char actual, char expected, const char *msg) {
-	if (expected != actual) {
-		fprintf(stderr, "FAIL: %s Expected '%c' but was '%c'\n",
-				msg, expected, actual);
-		exit(1);
+	if (expected == actual) {
+		return;
 	}
+	fprintf(stderr, "FAIL: %s Expected '%c' but was '%c'\n",
+			msg, expected, actual);
+	exit(1);
 }
 
 void check_char(char actual, char expected) {
@@ -18,11 +19,12 @@ void check_char(char actual, char expected) {
 void check_unsigned_ints(unsigned int actual, unsigned int expected,
 		const char *msg) {
 
-	if (expected != actual) {
-		fprintf(stderr, "FAIL: %s Expected %d but was %d\n",
-				msg, expected, actual);
-		exit(1);
+	if (expected == actual) {
+		return;
 	}
+	fprintf(stderr, "FAIL: %s Expected %d but was %d\n",
+			msg, expected, actual);
+	exit(1);
 }
 
 void check_unsigned_int(unsigned int actual, unsigned int expected) {
@@ -30,11 +32,12 @@ void check_unsigned_int(unsigned int actual, unsigned int expected) {
 }
 
 void check_ints(int actual, int expected, const char *msg) {
-	if (expected != actual) {
-		fprintf(stderr, "FAIL: %s Expected %d but was %d\n",
-				msg, expected, actual);
-		exit(1);
+	if (expected == actual) {
+		return;
 	}
+	fprintf(stderr, "FAIL: %s Expected %d but was %d\n",
+			msg, expected, actual);
+	exit(1);
 }
 
 void check_int(int actual, int expected) {
@@ -42,11 +45,12 @@ void check_int(int actual, int expected) {
 }
 
 void check_strs(const char *actual, const char *expected, const char *msg) {
-	if (strcmp(expected, actual) != 0) {
-		fprintf(stderr, "FAIL: %s Expected '%s' but was '%s'\n",
-				msg, expected, actual);
-		exit(1);
+	if (strcmp(expected, actual) == 0) {
+		return;
 	}
+	fprintf(stderr, "FAIL: %s Expected '%s' but was '%s'\n",
+			msg, expected, actual);
+	exit(1);
 }
 
 void check_str(const char *actual, const char *expected) {
@@ -84,11 +88,12 @@ fail:
 }
 
 void check_ptrs(const void *actual, const void *expected, const char *msg) {
-	if (expected != actual) {
-		fprintf(stderr, "FAIL: %s Expected '%p' but was '%p'\n",
-				msg, expected, actual);
-		exit(1);
+	if (expected == actual) {
+		return;
 	}
+	fprintf(stderr, "FAIL: %s Expected '%p' but was '%p'\n",
+			msg, expected, actual);
+	exit(1);
 }
 
 void check_ptr(const void *actual, const void *expected) {
