@@ -40,7 +40,3 @@ void write_file(const char *executable,
 	chmod(executable, S_IRWXU | S_IRWXG | S_IRWXO);
 }
 
-char *str_ncpy(char *dest, const char *src, unsigned int n) {
-	return strncpy(dest, src, n);
-}
-

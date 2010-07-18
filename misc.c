@@ -28,9 +28,22 @@ void str_cpy(const char *src, char *buf, unsigned int buf_size,
 	if (len > max) {
 		len = max;
 	}
-	str_ncpy(dest, src, max);
+	str_lcpy(dest, src, max);
 	dest[len -1] = '\0';
 	*buf_pos += len;
+}
+
+char *str_lcpy(char *dest, const char *src, unsigned int limit) {
+	unsigned int pos;
+
+	for(pos = 0; pos < (limit - 1); pos++) {
+		if (src[pos] == '\0') {
+			break;
+		}
+		dest[pos] = src[pos];
+	}
+	dest[pos] = '\0';
+	return dest + pos;
 }
 
 unsigned int str_len(const char *s) {
