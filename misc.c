@@ -41,8 +41,12 @@ char *str_ncpy(char *dest, const char *src, unsigned int limit) {
 		}
 		dest[pos] = src[pos];
 	}
-	dest[pos] = '\0';
-	return dest + pos;
+
+	do {
+		dest[pos] = '\0';
+	} while (++pos < limit);
+
+	return dest;
 }
 
 unsigned int str_len(const char *s) {

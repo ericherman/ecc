@@ -26,18 +26,20 @@ void test_str_len() {
 void test_str_ncpy() {
 	const char *src = "foo";
 	char dest[80];
-	char *result;
-	/* char *expected_result; */
+	char *result, *expected_result;
 
+	dest[60] = 'X';
 	check_unsigned_int(sizeof(dest), 80);
+	check_char(dest[60], 'X');
 
 	result = str_ncpy(dest, src, sizeof(dest));
-	check_str(dest, src);
-	check_ptr(result, dest + 3);
+	check_strs(dest, src, "1");
+	check_ptrs(result, dest, "2");
+	check_chars(dest[60], '\0', "should null-out rest of buffer");
 
-	/* expected_result = */ strncpy(dest, src, sizeof(dest));
-	check_str(dest, src);
-	/* check_ptrs(result, expected_result, "2"); */
+	expected_result = strncpy(dest, src, sizeof(dest));
+	check_strs(dest, src, "3");
+	check_ptrs(result, expected_result, "4");
 }
 
 int main(int argc, char *argv[]) {
