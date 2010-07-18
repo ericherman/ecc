@@ -33,7 +33,7 @@ void test_output_header() {
 		fprintf(stderr, "elf headers are at least %d bytes\n", min);
 	}
 
-	compare_byte_arrays("ELF", expected, expected_len, actual, actual_len);
+	check_byte_arrays(actual, actual_len, expected, expected_len, "ELF");
 }
 
 void test_output_statements_complete() {
@@ -41,9 +41,9 @@ void test_output_statements_complete() {
 	unsigned int bytes_written = 0;
 
 	output_statements_complete(buffer, 128, &bytes_written);
-	compare_byte_arrays("statements_complete",
+	check_byte_arrays(buffer, bytes_written,
 			get_return_ops(), get_return_ops_len(),
-			buffer, bytes_written);
+			"statements_complete");
 }
 
 void test_output_footer() {
@@ -57,8 +57,8 @@ void test_output_footer() {
 
 	output_os_return(actual, 128, &actual_len);
 
-	compare_byte_arrays("SYS_EXIT",
-			expected, expected_len, actual, actual_len);
+	check_byte_arrays(actual, actual_len, expected, expected_len,
+		"SYS_EXIT");
 }
 
 void test_output_add() {
@@ -68,9 +68,8 @@ void test_output_add() {
 
 	output_add(buffer, 128, &bytes_written);
 
-	compare_byte_arrays("output_add",
-			get_addl_ops(), get_addl_ops_len(),
-			buffer, bytes_written);
+	check_byte_array(buffer, bytes_written,
+			get_addl_ops(), get_addl_ops_len());
 }
 
 void test_output_subtract() {
@@ -80,9 +79,8 @@ void test_output_subtract() {
 
 	output_subtract(buffer, 128, &bytes_written);
 
-	compare_byte_arrays("output_subtract",
-			get_subl_ops(), get_subl_ops_len(),
-			buffer, bytes_written);
+	check_byte_array(buffer, bytes_written,
+			get_subl_ops(), get_subl_ops_len());
 }
 
 void test_output_multiply() {
@@ -92,9 +90,8 @@ void test_output_multiply() {
 
 	output_multiply(buffer, 128, &bytes_written);
 
-	compare_byte_arrays("output_multiply",
-			get_imull_ops(), get_imull_ops_len(),
-			buffer, bytes_written);
+	check_byte_array(buffer, bytes_written,
+			get_imull_ops(), get_imull_ops_len());
 }
 
 void test_output_divide() {
@@ -104,9 +101,8 @@ void test_output_divide() {
 
 	output_divide(buffer, 128, &bytes_written);
 
-	compare_byte_arrays("output_divide",
-			get_idiv_ops(), get_idiv_ops_len(),
-			buffer, bytes_written);
+	check_byte_array(buffer, bytes_written,
+			get_idiv_ops(), get_idiv_ops_len());
 }
 
 int main(int argc, char *argv[]) {

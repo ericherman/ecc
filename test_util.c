@@ -57,9 +57,9 @@ void check_str(const char *actual, const char *expected) {
 	check_strs(actual, expected, "");
 }
 
-void compare_byte_arrays(const char *name,
+void check_byte_arrays(unsigned char *actual, unsigned int actual_len,
 		unsigned char *expected, unsigned int expected_len,
-		unsigned char *actual, unsigned int actual_len) {
+		const char *name) {
 
 	unsigned int i;
 
@@ -85,6 +85,12 @@ fail:
 		fprintf(stderr, "expected[%d]=%02x\n", i, expected[i]);
 	}
 	exit(1);
+}
+
+void check_byte_array(unsigned char *expected, unsigned int expected_len,
+		unsigned char *actual, unsigned int actual_len) {
+
+	check_byte_arrays(actual, actual_len, expected, expected_len, "");
 }
 
 void check_ptrs(const void *actual, const void *expected, const char *msg) {
