@@ -242,7 +242,7 @@ void test_div_two_factor_term() {
 }
 
 void test_paren_factor() {
-        const char *tokensv[] = { "(", "2", ")" };
+	const char *tokensv[] = { "(", "2", ")" };
 	unsigned int tokensc = 3;
 
 	const char *expected_calls[] = {
@@ -334,10 +334,10 @@ void test_negative_expr() {
 }
 
 void test_compile_inner() {
-        const char *tokensv[] = { "4" };
-        unsigned int tokensc = 1;
-        const char *expected_calls[] = {
-                "output_header",
+	const char *tokensv[] = { "4" };
+	unsigned int tokensc = 1;
+	const char *expected_calls[] = {
+		"output_header",
 		"lex_look_ahead",
 		"lex_look_ahead",
 		"lex_get_number",
@@ -352,22 +352,22 @@ void test_compile_inner() {
 	int expect_termsv[] = { 4 };
 	unsigned int termsc = 1;
 
-        context_t *ctx = init_fake_context(tokensv, tokensc);
+	context_t *ctx = init_fake_context(tokensv, tokensc);
 
-        compile_inner(ctx);
+	compile_inner(ctx);
 
-        check_expected_calls(ctx, "test_negative_expr", expected_calls, count);
-        check_expected_terms(ctx, "test_negative_expr", expect_termsv, termsc);
+	check_expected_calls(ctx, "test_negative_expr", expected_calls, count);
+	check_expected_terms(ctx, "test_negative_expr", expect_termsv, termsc);
 
-        free_fake_context(ctx);	
+	free_fake_context(ctx);
 }
 
 void test_compile() {
-        const char *tokensv[] = { "7" };
-        unsigned int tokensc = 1;
-        const char *expected_calls[] = {
+	const char *tokensv[] = { "7" };
+	unsigned int tokensc = 1;
+	const char *expected_calls[] = {
 		"read_line",
-                "output_header",
+		"output_header",
 		"lex_look_ahead",
 		"lex_look_ahead",
 		"lex_get_number",
@@ -383,14 +383,14 @@ void test_compile() {
 	int expect_termsv[] = { 7 };
 	unsigned int termsc = 1;
 
-        context_t *ctx = init_fake_context(tokensv, tokensc);
+	context_t *ctx = init_fake_context(tokensv, tokensc);
 
-        compile(ctx);
+	compile(ctx);
 
-        check_expected_calls(ctx, "test_negative_expr", expected_calls, count);
-        check_expected_terms(ctx, "test_negative_expr", expect_termsv, termsc);
+	check_expected_calls(ctx, "test_negative_expr", expected_calls, count);
+	check_expected_terms(ctx, "test_negative_expr", expect_termsv, termsc);
 
-        free_fake_context(ctx);	
+	free_fake_context(ctx);
 }
 
 int main(int argc, char *argv[]) {

@@ -59,4 +59,3 @@ unsigned int str_len(const char *s) {
 
 	return i;
 }
-

@@ -56,7 +56,7 @@ void test_compile_inner() {
 	compile_inner(ctx);
 
 	check_byte_arrays(data->byte_buf, data->bytes_written,
-		full_monty, sizeof(full_monty), "full monty");
+			full_monty, sizeof(full_monty), "full monty");
 
 	free_std_context(ctx);
 }
