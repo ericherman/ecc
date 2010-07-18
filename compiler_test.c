@@ -333,6 +333,66 @@ void test_negative_expr() {
 	free_fake_context(ctx);
 }
 
+void test_compile_inner() {
+        const char *tokensv[] = { "4" };
+        unsigned int tokensc = 1;
+        const char *expected_calls[] = {
+                "output_header",
+		"lex_look_ahead",
+		"lex_look_ahead",
+		"lex_get_number",
+		"output_term",
+		"lex_look_ahead",
+		"lex_look_ahead",
+		"output_statements_complete",
+		"output_os_return",
+	};
+
+	unsigned int count = 9;
+	int expect_termsv[] = { 4 };
+	unsigned int termsc = 1;
+
+        context_t *ctx = init_fake_context(tokensv, tokensc);
+
+        compile_inner(ctx);
+
+        check_expected_calls(ctx, "test_negative_expr", expected_calls, count);
+        check_expected_terms(ctx, "test_negative_expr", expect_termsv, termsc);
+
+        free_fake_context(ctx);	
+}
+
+void test_compile() {
+        const char *tokensv[] = { "7" };
+        unsigned int tokensc = 1;
+        const char *expected_calls[] = {
+		"read_line",
+                "output_header",
+		"lex_look_ahead",
+		"lex_look_ahead",
+		"lex_get_number",
+		"output_term",
+		"lex_look_ahead",
+		"lex_look_ahead",
+		"output_statements_complete",
+		"output_os_return",
+		"write_file"
+	};
+
+	unsigned int count = 11;
+	int expect_termsv[] = { 7 };
+	unsigned int termsc = 1;
+
+        context_t *ctx = init_fake_context(tokensv, tokensc);
+
+        compile(ctx);
+
+        check_expected_calls(ctx, "test_negative_expr", expected_calls, count);
+        check_expected_terms(ctx, "test_negative_expr", expect_termsv, termsc);
+
+        free_fake_context(ctx);	
+}
+
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		printf("%s takes no arguments\n", argv[0]);
@@ -346,6 +406,8 @@ int main(int argc, char *argv[]) {
 	test_div_two_factor_term();
 	test_paren_factor();
 	test_negative_expr();
+	test_compile_inner();
+	test_compile();
 
 	return 0;
 }
