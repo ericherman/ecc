@@ -27,12 +27,12 @@ void str_cpy_offset(const char *src, char *buf, unsigned int buf_size,
 	if (len > max) {
 		len = max;
 	}
-	str_lcpy(dest, src, max);
+	str_ncpy(dest, src, max);
 	dest[len -1] = '\0';
 	*buf_pos += len;
 }
 
-char *str_lcpy(char *dest, const char *src, unsigned int limit) {
+char *str_ncpy(char *dest, const char *src, unsigned int limit) {
 	unsigned int pos;
 
 	for(pos = 0; pos < (limit - 1); pos++) {
@@ -56,7 +56,7 @@ unsigned int str_len(const char *s) {
 			break;
 		}
 	}
-		
+
 	return i;
 }
 
