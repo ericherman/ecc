@@ -32,3 +32,19 @@ void str_cpy(const char *src, char *buf, unsigned int buf_size,
 	dest[len -1] = '\0';
 	*buf_pos += len;
 }
+
+unsigned int str_len(const char *s) {
+	unsigned int i = 0;
+	while (1) {
+		if (s[i] == '\0') {
+			break;
+		}
+		i++;
+		if (i == 0) {
+			break;
+		}
+	}
+		
+	return i;
+}
+
