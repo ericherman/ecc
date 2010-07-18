@@ -83,3 +83,14 @@ fail:
 	exit(1);
 }
 
+void check_ptrs(const void *actual, const void *expected, const char *msg) {
+	if (expected != actual) {
+		fprintf(stderr, "FAIL: %s Expected '%p' but was '%p'\n",
+				msg, expected, actual);
+		exit(1);
+	}
+}
+
+void check_ptr(const void *actual, const void *expected) {
+	check_ptrs(actual, expected, "");
+}

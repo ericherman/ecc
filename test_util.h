@@ -19,5 +19,8 @@ void compare_byte_arrays(const char *msg,
 		unsigned char *expected, unsigned int expected_len,
 		unsigned char *actual, unsigned int actual_len);
 
+void check_ptrs(const void *actual, const void *expected, const char *msg);
+void check_ptr(const void *actual, const void *expected);
+
 #endif /* _TEST_UTIL_H_ */
 
