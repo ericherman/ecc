@@ -5,7 +5,7 @@
 unsigned int lex_get_name_length(const char *str, unsigned int input_size) {
 	unsigned int i;
 	for(i = 0; i < input_size; i++) {
-		if (is_alpha(str[i]) || is_number(str[i])) {
+		if (is_alpha(str[i]) || is_number(str[i]) || str[i] == '_') {
 			continue;
 		}
 		return i;

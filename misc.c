@@ -11,8 +11,7 @@ int is_number(char c) {
 
 int is_alpha(char c) {
 	return ( c >= 'A' && c <= 'Z' )
-	    || ( c >= 'a' && c <= 'z' )
-	    || c == '_';
+	    || ( c >= 'a' && c <= 'z' );
 }
 
 void str_cpy_offset(const char *src, char *buf, unsigned int buf_size,
