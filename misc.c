@@ -15,7 +15,7 @@ int is_alpha(char c) {
 	    || c == '_';
 }
 
-void str_cpy(const char *src, char *buf, unsigned int buf_size,
+void str_cpy_offset(const char *src, char *buf, unsigned int buf_size,
 		unsigned int *buf_pos) {
 
 	unsigned int len, max;

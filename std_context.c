@@ -9,15 +9,15 @@
 void std_to_string(void *data, char *buf, unsigned int buf_size) {
 	std_context_t *this = (std_context_t *) data;
 	unsigned int buf_pos = 0;
-	str_cpy("std_context_t {\n", buf, buf_size, &buf_pos);
-	str_cpy("    source_file: ", buf, buf_size, &buf_pos);
-	str_cpy(this->source_file, buf, buf_size, &buf_pos);
-	str_cpy("\n", buf, buf_size, &buf_pos);
-	str_cpy("    buf: ", buf, buf_size, &buf_pos);
-	str_cpy(this->buf, buf, buf_size, &buf_pos);
-	str_cpy("\n", buf, buf_size, &buf_pos);
-	str_cpy("\n", buf, buf_size, &buf_pos);
-	str_cpy("}\n", buf, buf_size, &buf_pos);
+	str_cpy_offset("std_context_t {\n", buf, buf_size, &buf_pos);
+	str_cpy_offset("    source_file: ", buf, buf_size, &buf_pos);
+	str_cpy_offset(this->source_file, buf, buf_size, &buf_pos);
+	str_cpy_offset("\n", buf, buf_size, &buf_pos);
+	str_cpy_offset("    buf: ", buf, buf_size, &buf_pos);
+	str_cpy_offset(this->buf, buf, buf_size, &buf_pos);
+	str_cpy_offset("\n", buf, buf_size, &buf_pos);
+	str_cpy_offset("\n", buf, buf_size, &buf_pos);
+	str_cpy_offset("}\n", buf, buf_size, &buf_pos);
 }
 
 char std_lex_look_ahead(void *data) {
