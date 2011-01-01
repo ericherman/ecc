@@ -11,6 +11,6 @@ void str_cpy_offset(const char *src, char *buf, unsigned int buf_size,
 
 char *str_ncpy(char *dest, const char *src, unsigned int limit);
 
-unsigned int str_len(const char *s);
+unsigned int str_nlen(const char *s, unsigned int limit);
 
 #endif /* _MISC_H_ */

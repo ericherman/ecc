@@ -3,24 +3,27 @@
 #include "misc.h"
 #include <string.h>
 
-void test_str_len() {
+void test_str_nlen() {
 	const char *input = "foo";
 	const char *input2 = "fo\0bar";
 	const char *input3 = "";
 	unsigned int result, expected_result;
 
-	result = str_len(input);
+	result = str_nlen(input, sizeof(input));
 	expected_result = strlen(input);
 	check_unsigned_ints(result, expected_result, "compare with libc");
 	check_unsigned_int(result, 3);
 
-	result = str_len(input2);
+	result = str_nlen(input2, sizeof(input2));
 	expected_result = strlen(input2);
 	check_unsigned_int(result, expected_result);
 
-	result = str_len(input3);
+	result = str_nlen(input3, sizeof(input3));
 	expected_result = strlen(input3);
 	check_unsigned_int(result, expected_result);
+
+	result = str_nlen(input, 2);
+	check_unsigned_ints(result, 2, "limit to 2 not 3");
 }
 
 void test_str_ncpy() {
@@ -48,7 +51,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	test_str_len();
+	test_str_nlen();
 	test_str_ncpy();
 	return 0;
 }
