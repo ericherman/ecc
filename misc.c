@@ -60,3 +60,28 @@ unsigned int str_nlen(const char *s, unsigned int limit) {
 
 	return i;
 }
+
+void write_int(unsigned char *buf, int value) {
+	buf[0] = 0xFF & value;
+	buf[1] = 0xFF & (value >> 8);
+	buf[2] = 0xFF & (value >> 16);
+	buf[3] = 0xFF & (value >> 24);
+}
+
+void write_bytes(const char *name,
+		unsigned char *buf, unsigned int buf_size,
+		unsigned int *bytes_written,
+		const unsigned char *to_write,
+		unsigned int count) {
+
+	unsigned int i;
+	if (buf_size < (*bytes_written) + count) {
+		err_msg("buf_size too small for ");
+		err_msg(name);
+		err_msg("\n");
+		return;
+	}
+	for (i = 0; i < count; i++) {
+		buf[(*bytes_written)++] = to_write[i];
+	}
+}

@@ -1,24 +1,7 @@
 #include "x86_machine_code.h"
 #include "c_lib.h"
 #include "x86_machine_code_bytes.h"
-
-void write_bytes(const char *name,
-		unsigned char *buf, unsigned int buf_size,
-		unsigned int *bytes_written,
-		const unsigned char *to_write,
-		unsigned int count) {
-
-	unsigned int i;
-	if (buf_size < (*bytes_written) + count) {
-		err_msg("buf_size too small for ");
-		err_msg(name);
-		err_msg("\n");
-		return;
-	}
-	for (i = 0; i < count; i++) {
-		buf[(*bytes_written)++] = to_write[i];
-	}
-}
+#include "misc.h"
 
 void output_term(int number, unsigned char *buf, unsigned int buf_size,
 		unsigned int *bytes_written) {
@@ -26,10 +9,7 @@ void output_term(int number, unsigned char *buf, unsigned int buf_size,
 	unsigned char bytes[5];
 
 	bytes[0] = 0x68; /* pushl $immediate_value */
-	bytes[1] = 0xFF & number;
-	bytes[2] = 0xFF & (number >> 8);
-	bytes[3] = 0xFF & (number >> 16);
-	bytes[4] = 0xFF & (number >> 24);
+	write_int(&bytes[1], number);
 
 	write_bytes("term", buf, buf_size, bytes_written, bytes, 5);
 }
