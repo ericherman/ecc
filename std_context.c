@@ -2,7 +2,7 @@
 #include "std_context_t.h"
 #include "c_lib.h"
 #include "lex.h"
-#include "x86_asm.h"
+#include "x86_machine_code.h"
 #include "elf_header.h"
 #include "misc.h"
 

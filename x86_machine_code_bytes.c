@@ -1,4 +1,4 @@
-#include "x86_asm_bytes.h"
+#include "x86_machine_code_bytes.h"
 
 unsigned char addl_ops[] = {
 	0x5a, /* popl %edx */

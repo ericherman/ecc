@@ -3,8 +3,8 @@
 #include <string.h>
 #include "test_util.h"
 #include "elf_header.h"
-#include "x86_asm.h"
-#include "x86_asm_bytes.h"
+#include "x86_machine_code.h"
+#include "x86_machine_code_bytes.h"
 
 unsigned char push_17[] = {
 	0x68, /* push immediate value */

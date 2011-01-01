@@ -1,6 +1,6 @@
-#include "x86_asm.h"
+#include "x86_machine_code.h"
 #include "c_lib.h"
-#include "x86_asm_bytes.h"
+#include "x86_machine_code_bytes.h"
 
 void write_bytes(const char *name,
 		unsigned char *buf, unsigned int buf_size,

@@ -1,6 +1,6 @@
-/* x86_asm_bytes.h */
-#ifndef _X86_ASM_BYTES_H_
-#define _X86_ASM_BYTES_H_
+/* x86_machine_code_bytes.h */
+#ifndef _X86_MACHINE_CODE_BYTES_H_
+#define _X86_MACHINE_CODE_BYTES_H_
 
 unsigned char *get_addl_ops();
 unsigned int get_addl_ops_len();
@@ -17,4 +17,4 @@ unsigned int get_idiv_ops_len();
 unsigned char *get_return_ops();
 unsigned int get_return_ops_len();
 
-#endif /* _X86_ASM_BYTES_H_ */
+#endif /* _X86_MACHINE_CODE_BYTES_H_ */
