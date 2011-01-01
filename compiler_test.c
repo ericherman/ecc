@@ -21,7 +21,7 @@ void check_expected_calls(context_t * ctx, const char *test_name,
 	len = strlen(buf);
 	sprintf(&buf[len], "}\n");
 	len = strlen(buf);
-	ctx->to_string(ctx->data, &buf[len], sizeof(buf) - len);
+	ctx->to_string(ctx, &buf[len], sizeof(buf) - len);
 
 	check_unsigned_ints(data->calls, count, buf);
 	for (i = 0; i < count; i++) {
@@ -45,7 +45,7 @@ void check_expected_terms(context_t * ctx, const char *test_name,
 	len = strlen(buf);
 	sprintf(&buf[len], "}\n");
 	len = strlen(buf);
-	ctx->to_string(ctx->data, &buf[len], sizeof(buf) - len);
+	ctx->to_string(ctx, &buf[len], sizeof(buf) - len);
 
 	check_unsigned_ints(data->terms, count, buf);
 	for (i = 0; i < count; i++) {
@@ -66,8 +66,9 @@ void test_term_simple()
 		"lex_look_ahead",
 	};
 	unsigned int count = 4;
+	context_t *ctx;
 
-	context_t *ctx = init_fake_context(tokensv, tokensc);
+	ctx = init_fake_context(tokensv, tokensc);
 
 	term(ctx);
 

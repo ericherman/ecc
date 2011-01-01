@@ -6,24 +6,25 @@ typedef struct context_t_ {
 
 	void *data;
 
-	char (*lex_look_ahead) (void *data);
-	void (*lex_advance) (void *data, unsigned int chars);
-	int (*lex_get_number) (void *data);
+	char (*lex_look_ahead) (struct context_t_ * ctx);
+	void (*lex_advance) (struct context_t_ * ctx, unsigned int chars);
+	int (*lex_get_number) (struct context_t_ * ctx);
 
-	void (*output_term) (void *data, int number);
-	void (*output_add) (void *data);
-	void (*output_subtract) (void *data);
-	void (*output_multiply) (void *data);
-	void (*output_divide) (void *data);
-	void (*output_statements_complete) (void *data);
+	void (*output_term) (struct context_t_ * ctx, int number);
+	void (*output_add) (struct context_t_ * ctx);
+	void (*output_subtract) (struct context_t_ * ctx);
+	void (*output_multiply) (struct context_t_ * ctx);
+	void (*output_divide) (struct context_t_ * ctx);
+	void (*output_statements_complete) (struct context_t_ * ctx);
 
-	void (*read_line) (void *data);
-	void (*write_file) (void *data);
+	void (*read_line) (struct context_t_ * ctx);
+	void (*write_file) (struct context_t_ * ctx);
 
-	void (*output_header) (void *data);
-	void (*output_os_return) (void *data);
+	void (*output_header) (struct context_t_ * ctx);
+	void (*output_os_return) (struct context_t_ * ctx);
 
-	void (*to_string) (void *data, char *buf, unsigned int buf_size);
+	void (*to_string) (struct context_t_ * ctx, char *buf,
+			   unsigned int buf_size);
 
 } context_t;
 

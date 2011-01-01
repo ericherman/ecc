@@ -3,9 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-void mock_data_to_string(void *data, char *buf, unsigned int buf_size)
+mock_data *_mock_data(context_t * ctx)
 {
-	mock_data *this = (mock_data *) data;
+	return (mock_data *) ctx->data;
+}
+
+void mock_data_to_string(context_t * ctx, char *buf, unsigned int buf_size)
+{
+	mock_data *this = _mock_data(ctx);
 	unsigned int i, len;
 
 	sprintf(buf, "mock_data {\n");
@@ -42,19 +47,19 @@ unsigned int times_called(mock_data * list, const char *func_name)
 	return called;
 }
 
-void add_to_mock_data(void *data, const char *func_name)
+void add_to_mock_data(context_t * ctx, const char *func_name)
 {
-	mock_data *list = (mock_data *) data;
+	mock_data *list = _mock_data(ctx);
 	list->call[list->calls++] = func_name;
 }
 
-char fake_lex_look_ahead(void *data)
+char fake_lex_look_ahead(context_t * ctx)
 {
 	const char *next_token = "";
 	char look_ahead = '\0';
-	mock_data *list = (mock_data *) data;
+	mock_data *list = _mock_data(ctx);
 	if (list->track_lookahead) {
-		add_to_mock_data(data, "lex_look_ahead");
+		add_to_mock_data(ctx, "lex_look_ahead");
 	}
 	if (list->token_pos < list->tokens) {
 		next_token = list->token[list->token_pos];
@@ -63,74 +68,74 @@ char fake_lex_look_ahead(void *data)
 	return look_ahead;
 }
 
-void fake_lex_advance(void *data, unsigned int chars)
+void fake_lex_advance(context_t * ctx, unsigned int chars)
 {
-	mock_data *list = (mock_data *) data;
-	add_to_mock_data(data, "lex_advance");
+	mock_data *list = _mock_data(ctx);
+	add_to_mock_data(ctx, "lex_advance");
 	if (chars != strlen(list->token[list->token_pos])) {
 		fprintf(stderr, "advance: %u?\n", chars);
 	}
 	list->token_pos += 1;
 }
 
-int fake_lex_get_number(void *data)
+int fake_lex_get_number(context_t * ctx)
 {
-	mock_data *list = (mock_data *) data;
+	mock_data *list = _mock_data(ctx);
 	const char *token = list->token[list->token_pos++];
-	add_to_mock_data(data, "lex_get_number");
+	add_to_mock_data(ctx, "lex_get_number");
 	return atoi(token);
 }
 
-void fake_output_term(void *data, int number)
+void fake_output_term(context_t * ctx, int number)
 {
-	mock_data *list = (mock_data *) data;
-	add_to_mock_data(data, "output_term");
+	mock_data *list = _mock_data(ctx);
+	add_to_mock_data(ctx, "output_term");
 	list->term[list->terms++] = number;
 }
 
-void fake_output_add(void *data)
+void fake_output_add(context_t * ctx)
 {
-	add_to_mock_data(data, "output_add");
+	add_to_mock_data(ctx, "output_add");
 }
 
-void fake_output_subtract(void *data)
+void fake_output_subtract(context_t * ctx)
 {
-	add_to_mock_data(data, "output_subtract");
+	add_to_mock_data(ctx, "output_subtract");
 }
 
-void fake_output_multiply(void *data)
+void fake_output_multiply(context_t * ctx)
 {
-	add_to_mock_data(data, "output_multiply");
+	add_to_mock_data(ctx, "output_multiply");
 }
 
-void fake_output_divide(void *data)
+void fake_output_divide(context_t * ctx)
 {
-	add_to_mock_data(data, "output_divide");
+	add_to_mock_data(ctx, "output_divide");
 }
 
-void fake_output_statements_complete(void *data)
+void fake_output_statements_complete(context_t * ctx)
 {
-	add_to_mock_data(data, "output_statements_complete");
+	add_to_mock_data(ctx, "output_statements_complete");
 }
 
-void fake_read_line(void *data)
+void fake_read_line(context_t * ctx)
 {
-	add_to_mock_data(data, "read_line");
+	add_to_mock_data(ctx, "read_line");
 }
 
-void fake_write_file(void *data)
+void fake_write_file(context_t * ctx)
 {
-	add_to_mock_data(data, "write_file");
+	add_to_mock_data(ctx, "write_file");
 }
 
-void fake_output_header(void *data)
+void fake_output_header(context_t * ctx)
 {
-	add_to_mock_data(data, "output_header");
+	add_to_mock_data(ctx, "output_header");
 }
 
-void fake_output_os_return(void *data)
+void fake_output_os_return(context_t * ctx)
 {
-	add_to_mock_data(data, "output_os_return");
+	add_to_mock_data(ctx, "output_os_return");
 }
 
 context_t *init_fake_context(const char **token, unsigned int tokens)
