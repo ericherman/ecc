@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
 	if (argc < 3) {
 		err_msg("usage: ");
 		err_msg(argv[0]);
-		err_msg(" sourcefile exectuable\n");
+		err_msg(" sourcefile executable\n");
 		return 1;
 	}
 
