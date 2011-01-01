@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
 	}
 
 	ctx = alloc_std_context(argv[1], argv[2]);
-	/* ctx->print(ctx->data); */
 
 	compile(ctx);
 
