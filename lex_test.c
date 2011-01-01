@@ -2,7 +2,8 @@
 #include "test_util.h"
 #include "lex.h"
 
-void test_lex_look_ahead() {
+void test_lex_look_ahead()
+{
 	const char *input = "1+ 2";
 	unsigned int pos, expected_pos;
 	char result, expected_result;
@@ -29,7 +30,8 @@ void test_lex_look_ahead() {
 	check_char(result, expected_result);
 }
 
-void test_lex_get_number() {
+void test_lex_get_number()
+{
 	const char *input = "7+ 4211 * -2";
 	unsigned int pos, expected_pos;
 	int result, expected_result;
@@ -56,7 +58,8 @@ void test_lex_get_number() {
 	check_int(result, expected_result);
 }
 
-void test_lex_get_name_length() {
+void test_lex_get_name_length()
+{
 	const char *input = "foo_5 fx_4-2";
 	unsigned int result, expected_result;
 
@@ -70,7 +73,8 @@ void test_lex_get_name_length() {
 	check_unsigned_int(result, expected_result);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	if (argc > 1) {
 		printf("%s takes no arguments\n", argv[0]);
 		return 1;

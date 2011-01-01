@@ -1,21 +1,25 @@
 #include "misc.h"
 #include "c_lib.h"
 
-int is_whitespace(char c) {
+int is_whitespace(char c)
+{
 	return c == ' ' || c == '\t' || c == '\n' || c == '\r';
 }
 
-int is_number(char c) {
+int is_number(char c)
+{
 	return c >= '0' && c <= '9';
 }
 
-int is_alpha(char c) {
-	return ( c >= 'A' && c <= 'Z' )
-	    || ( c >= 'a' && c <= 'z' );
+int is_alpha(char c)
+{
+	return (c >= 'A' && c <= 'Z')
+	    || (c >= 'a' && c <= 'z');
 }
 
 void str_cpy_offset(const char *src, char *buf, unsigned int buf_size,
-		unsigned int *buf_pos) {
+		    unsigned int *buf_pos)
+{
 
 	unsigned int len, max;
 	char *dest;
@@ -28,14 +32,15 @@ void str_cpy_offset(const char *src, char *buf, unsigned int buf_size,
 		len = max;
 	}
 	str_ncpy(dest, src, max);
-	dest[len -1] = '\0';
+	dest[len - 1] = '\0';
 	*buf_pos += len;
 }
 
-char *str_ncpy(char *dest, const char *src, unsigned int limit) {
+char *str_ncpy(char *dest, const char *src, unsigned int limit)
+{
 	unsigned int pos;
 
-	for(pos = 0; pos < (limit - 1); pos++) {
+	for (pos = 0; pos < (limit - 1); pos++) {
 		if (src[pos] == '\0') {
 			break;
 		}
@@ -49,7 +54,8 @@ char *str_ncpy(char *dest, const char *src, unsigned int limit) {
 	return dest;
 }
 
-unsigned int str_nlen(const char *s, unsigned int limit) {
+unsigned int str_nlen(const char *s, unsigned int limit)
+{
 	unsigned int i = 0;
 	while (limit-- > 0) {
 		if (s[i] == '\0') {
@@ -61,7 +67,8 @@ unsigned int str_nlen(const char *s, unsigned int limit) {
 	return i;
 }
 
-void write_int(unsigned char *buf, int value) {
+void write_int(unsigned char *buf, int value)
+{
 	buf[0] = 0xFF & value;
 	buf[1] = 0xFF & (value >> 8);
 	buf[2] = 0xFF & (value >> 16);
@@ -69,10 +76,10 @@ void write_int(unsigned char *buf, int value) {
 }
 
 void write_bytes(const char *name,
-		unsigned char *buf, unsigned int buf_size,
-		unsigned int *bytes_written,
-		const unsigned char *to_write,
-		unsigned int count) {
+		 unsigned char *buf, unsigned int buf_size,
+		 unsigned int *bytes_written,
+		 const unsigned char *to_write, unsigned int count)
+{
 
 	unsigned int i;
 	if (buf_size < (*bytes_written) + count) {

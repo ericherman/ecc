@@ -5,23 +5,23 @@
 #include "compiler.h"
 #include "mock_context.h"
 
-
-void check_expected_calls(context_t *ctx, const char *test_name,
-		const char **expected_calls, unsigned int count) {
+void check_expected_calls(context_t * ctx, const char *test_name,
+			  const char **expected_calls, unsigned int count)
+{
 
 	mock_data *data = (mock_data *) ctx->data;
 	unsigned int i, len;
 	char buf[10000];
 
 	sprintf(buf, "%s:\nexpected_calls {\n", test_name);
-	for(i = 0; i < count; i++) {
+	for (i = 0; i < count; i++) {
 		len = strlen(buf);
 		sprintf(&buf[len], "%d:\t%s\n", i, expected_calls[i]);
 	}
 	len = strlen(buf);
 	sprintf(&buf[len], "}\n");
 	len = strlen(buf);
-	ctx->to_string(ctx->data, &buf[len], sizeof(buf)-len);
+	ctx->to_string(ctx->data, &buf[len], sizeof(buf) - len);
 
 	check_unsigned_ints(data->calls, count, buf);
 	for (i = 0; i < count; i++) {
@@ -29,22 +29,23 @@ void check_expected_calls(context_t *ctx, const char *test_name,
 	}
 }
 
-void check_expected_terms(context_t *ctx, const char *test_name,
-		int *expected_terms, unsigned int count) {
+void check_expected_terms(context_t * ctx, const char *test_name,
+			  int *expected_terms, unsigned int count)
+{
 
 	mock_data *data = (mock_data *) ctx->data;
 	unsigned int i, len;
 	char buf[10000];
 
 	sprintf(buf, "%s:\nexpected_terms {\n", test_name);
-	for(i = 0; i < count; i++) {
+	for (i = 0; i < count; i++) {
 		len = strlen(buf);
 		sprintf(&buf[len], "%d:\t%d\n", i, expected_terms[i]);
 	}
 	len = strlen(buf);
 	sprintf(&buf[len], "}\n");
 	len = strlen(buf);
-	ctx->to_string(ctx->data, &buf[len], sizeof(buf)-len);
+	ctx->to_string(ctx->data, &buf[len], sizeof(buf) - len);
 
 	check_unsigned_ints(data->terms, count, buf);
 	for (i = 0; i < count; i++) {
@@ -52,7 +53,8 @@ void check_expected_terms(context_t *ctx, const char *test_name,
 	}
 }
 
-void test_term_simple() {
+void test_term_simple()
+{
 	const char *tokensv[] = { "23" };
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
@@ -75,8 +77,9 @@ void test_term_simple() {
 }
 
 void check_expression_add_subtract(const char *test_name,
-		const char **tokensv, unsigned int tokensc,
-		const char *op) {
+				   const char **tokensv, unsigned int tokensc,
+				   const char *op)
+{
 
 	const char *expected_calls[] = {
 		"lex_look_ahead",
@@ -113,19 +116,22 @@ void check_expression_add_subtract(const char *test_name,
 	free_fake_context(ctx);
 }
 
-void test_expression_add() {
+void test_expression_add()
+{
 	const char *tokens[] = { "3", "+", "5" };
 	check_expression_add_subtract("test_expression_add",
-			tokens, 3, "output_add");
+				      tokens, 3, "output_add");
 }
 
-void test_expression_subtract() {
+void test_expression_subtract()
+{
 	const char *tokens[] = { "2", "-", "1" };
 	check_expression_add_subtract("test_expression_subtract",
-			tokens, 3, "output_subtract");
+				      tokens, 3, "output_subtract");
 }
 
-void test_three_add_op_expr() {
+void test_three_add_op_expr()
+{
 	const char *tokensv[] = { "16", "+", "4", "-", "3" };
 	unsigned int tokensc = 5;
 
@@ -173,7 +179,8 @@ void test_three_add_op_expr() {
 
 }
 
-void test_factor() {
+void test_factor()
+{
 	const char *tokensv[] = { "2" };
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
@@ -195,8 +202,9 @@ void test_factor() {
 }
 
 void check_two_factor_term(const char *test_name,
-		const char **tokensv, unsigned int tokensc,
-		const char *op) {
+			   const char **tokensv, unsigned int tokensc,
+			   const char *op)
+{
 
 	const char *expected_calls[] = {
 		/* term calls factor */
@@ -229,19 +237,22 @@ void check_two_factor_term(const char *test_name,
 	free_fake_context(ctx);
 }
 
-void test_mul_two_factor_term() {
+void test_mul_two_factor_term()
+{
 	const char *tokensv[] = { "2", "*", "3" };
 	check_two_factor_term("mul_two_factor_term", tokensv, 3,
-			"output_multiply");
+			      "output_multiply");
 }
 
-void test_div_two_factor_term() {
+void test_div_two_factor_term()
+{
 	const char *tokensv[] = { "2", "/", "3" };
 	check_two_factor_term("div_two_factor_term", tokensv, 3,
-			"output_divide");
+			      "output_divide");
 }
 
-void test_paren_factor() {
+void test_paren_factor()
+{
 	const char *tokensv[] = { "(", "2", ")" };
 	unsigned int tokensc = 3;
 
@@ -278,7 +289,8 @@ void test_paren_factor() {
 	free_fake_context(ctx);
 }
 
-void test_negative_expr() {
+void test_negative_expr()
+{
 	const char *tokensv[] = { "-", "(", "23", ")" };
 	unsigned int tokensc = 4;
 	const char *expected_calls[] = {
@@ -333,7 +345,8 @@ void test_negative_expr() {
 	free_fake_context(ctx);
 }
 
-void test_compile_inner() {
+void test_compile_inner()
+{
 	const char *tokensv[] = { "4" };
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
@@ -362,7 +375,8 @@ void test_compile_inner() {
 	free_fake_context(ctx);
 }
 
-void test_compile() {
+void test_compile()
+{
 	const char *tokensv[] = { "7" };
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
@@ -393,7 +407,8 @@ void test_compile() {
 	free_fake_context(ctx);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	if (argc > 1) {
 		printf("%s takes no arguments\n", argv[0]);
 		return 1;

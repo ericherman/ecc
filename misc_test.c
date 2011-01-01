@@ -3,7 +3,8 @@
 #include "misc.h"
 #include <string.h>
 
-void test_str_nlen() {
+void test_str_nlen()
+{
 	const char *input = "foo";
 	const char *input2 = "fo\0bar";
 	const char *input3 = "";
@@ -26,7 +27,8 @@ void test_str_nlen() {
 	check_unsigned_ints(result, 2, "limit to 2 not 3");
 }
 
-void test_str_ncpy() {
+void test_str_ncpy()
+{
 	const char *src = "foo";
 	char dest[80];
 	char *result, *expected_result;
@@ -45,7 +47,8 @@ void test_str_ncpy() {
 	check_ptrs(result, expected_result, "4");
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	if (argc > 1) {
 		printf("%s takes no arguments\n", argv[0]);
 		return 1;

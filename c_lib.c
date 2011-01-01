@@ -4,21 +4,24 @@
 #include <string.h>
 #include <sys/stat.h>
 
-void *heap_malloc(unsigned int size) {
+void *heap_malloc(unsigned int size)
+{
 	return malloc(size);
 }
 
-void heap_free(void *ptr) {
+void heap_free(void *ptr)
+{
 	free(ptr);
 }
 
-void err_msg(const char *msg) {
+void err_msg(const char *msg)
+{
 	fprintf(stderr, "%s", msg);
 }
 
 void read_line(const char *source_file,
-		char *line_buf, unsigned int buf_size,
-		unsigned int *chars_read) {
+	       char *line_buf, unsigned int buf_size, unsigned int *chars_read)
+{
 
 	FILE *file = fopen(source_file, "r");
 	if (file == NULL) {
@@ -32,11 +35,11 @@ void read_line(const char *source_file,
 }
 
 void write_file(const char *executable,
-		unsigned char *byte_buffer, unsigned int buf_size) {
+		unsigned char *byte_buffer, unsigned int buf_size)
+{
 
 	FILE *file = fopen(executable, "w");
 	fwrite(byte_buffer, 1, buf_size, file);
 	fclose(file);
 	chmod(executable, S_IRWXU | S_IRWXG | S_IRWXO);
 }
-

@@ -17,11 +17,9 @@ void heap_free(void *ptr);
 void err_msg(const char *msg);
 
 void read_line(const char *source_file,
-		char *line_buf, unsigned int buf_size,
-		unsigned int *chars_read);
+	       char *line_buf, unsigned int buf_size, unsigned int *chars_read);
 
 void write_file(const char *executable,
 		unsigned char *byte_buffer, unsigned int buf_size);
 
 #endif /* _C_LIB_H_ */
-

@@ -3,12 +3,12 @@
 int is_add_op(const char c);
 int is_multiply_op(const char c);
 
-
-void expression(context_t *ctx) {
+void expression(context_t * ctx)
+{
 	char c;
 
 	c = ctx->lex_look_ahead(ctx->data);
-	if ( c == '-' ) {
+	if (c == '-') {
 		/* okay, we have a "-(foo)" situation */
 		/* let's just slip-stream a zero. */
 		ctx->output_term(ctx->data, 0);
@@ -35,7 +35,8 @@ void expression(context_t *ctx) {
 	}
 }
 
-void factor(context_t *ctx) {
+void factor(context_t * ctx)
+{
 	char c;
 	int number;
 
@@ -51,7 +52,8 @@ void factor(context_t *ctx) {
 	}
 }
 
-void term(context_t *ctx) {
+void term(context_t * ctx)
+{
 	char c;
 	factor(ctx);
 	while (1) {
@@ -74,21 +76,25 @@ void term(context_t *ctx) {
 	}
 }
 
-int is_add_op(const char c) {
+int is_add_op(const char c)
+{
 	return c == '+' || c == '-';
 }
 
-int is_multiply_op(const char c) {
+int is_multiply_op(const char c)
+{
 	return c == '*' || c == '/';
 }
 
-void compile(context_t *ctx) {
+void compile(context_t * ctx)
+{
 	ctx->read_line(ctx->data);
 	compile_inner(ctx);
 	ctx->write_file(ctx->data);
 }
 
-void compile_inner(context_t *ctx) {
+void compile_inner(context_t * ctx)
+{
 	ctx->output_header(ctx->data);
 
 	expression(ctx);

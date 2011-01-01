@@ -3,22 +3,22 @@
 #define _X86_MACHINE_CODE_H_
 
 void output_term(int number,
-		unsigned char *buf, unsigned int buf_size,
-		unsigned int *bytes_written);
+		 unsigned char *buf, unsigned int buf_size,
+		 unsigned int *bytes_written);
 
 void output_statements_complete(unsigned char *buf, unsigned int buf_size,
-		unsigned int *bytes_written);
+				unsigned int *bytes_written);
 
 void output_add(unsigned char *buf, unsigned int buf_size,
 		unsigned int *bytes_written);
 
 void output_subtract(unsigned char *buf, unsigned int buf_size,
-		unsigned int *bytes_written);
+		     unsigned int *bytes_written);
 
 void output_multiply(unsigned char *buf, unsigned int buf_size,
-		unsigned int *bytes_written);
+		     unsigned int *bytes_written);
 
 void output_divide(unsigned char *buf, unsigned int buf_size,
-		unsigned int *bytes_written);
+		   unsigned int *bytes_written);
 
 #endif /* _X86_MACHINE_CODE_H_ */

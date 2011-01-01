@@ -6,7 +6,8 @@
 #include "elf_header.h"
 #include "misc.h"
 
-void std_to_string(void *data, char *buf, unsigned int buf_size) {
+void std_to_string(void *data, char *buf, unsigned int buf_size)
+{
 	std_context_t *this = (std_context_t *) data;
 	unsigned int buf_pos = 0;
 	str_cpy_offset("std_context_t {\n", buf, buf_size, &buf_pos);
@@ -20,17 +21,20 @@ void std_to_string(void *data, char *buf, unsigned int buf_size) {
 	str_cpy_offset("}\n", buf, buf_size, &buf_pos);
 }
 
-char std_lex_look_ahead(void *data) {
+char std_lex_look_ahead(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	return lex_look_ahead(this->buf, this->buf_size, &(this->buf_pos));
 }
 
-void std_lex_advance(void *data, unsigned int chars) {
+void std_lex_advance(void *data, unsigned int chars)
+{
 	std_context_t *this = (std_context_t *) data;
 	this->buf_pos += chars;
 }
 
-int std_lex_get_number(void *data) {
+int std_lex_get_number(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	const char *sub_str;
 	unsigned int sub_str_size;
@@ -41,60 +45,70 @@ int std_lex_get_number(void *data) {
 	return lex_get_number(sub_str, sub_str_size, &(this->buf_pos));
 }
 
-void std_output_term(void *data, int number) {
+void std_output_term(void *data, int number)
+{
 	std_context_t *this = (std_context_t *) data;
 	output_term(number, this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_add(void *data) {
+void std_output_add(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	output_add(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_subtract(void *data) {
+void std_output_subtract(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	output_subtract(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_multiply(void *data) {
+void std_output_multiply(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	output_multiply(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_divide(void *data) {
+void std_output_divide(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	output_divide(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_statements_complete(void *data) {
+void std_output_statements_complete(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	output_statements_complete(this->byte_buf, BBUF_MAX,
-			&(this->bytes_written));
+				   &(this->bytes_written));
 }
 
-void std_read_line(void *data) {
+void std_read_line(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	read_line(this->source_file, this->buf, LINE_MAX, &(this->buf_size));
 	this->buf_size += 1;
 }
 
-void std_write_file(void *data) {
+void std_write_file(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	write_file(this->executable, this->byte_buf, this->bytes_written);
 }
 
-void std_output_header(void *data) {
+void std_output_header(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	output_header(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_os_return(void *data) {
+void std_output_os_return(void *data)
+{
 	std_context_t *this = (std_context_t *) data;
 	output_os_return(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-
-context_t *alloc_std_context(const char *source_file, const char *executable) {
+context_t *alloc_std_context(const char *source_file, const char *executable)
+{
 
 	context_t *ctx;
 	unsigned int size;
@@ -145,7 +159,8 @@ context_t *alloc_std_context(const char *source_file, const char *executable) {
 	return ctx;
 }
 
-void free_std_context(context_t *ctx) {
+void free_std_context(context_t * ctx)
+{
 	heap_free(ctx->data);
 	heap_free(ctx);
 }

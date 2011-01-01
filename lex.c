@@ -2,9 +2,10 @@
 #include "c_lib.h"
 #include "misc.h"
 
-unsigned int lex_get_name_length(const char *str, unsigned int input_size) {
+unsigned int lex_get_name_length(const char *str, unsigned int input_size)
+{
 	unsigned int i;
-	for(i = 0; i < input_size; i++) {
+	for (i = 0; i < input_size; i++) {
 		if (is_alpha(str[i]) || is_number(str[i]) || str[i] == '_') {
 			continue;
 		}
@@ -16,14 +17,15 @@ unsigned int lex_get_name_length(const char *str, unsigned int input_size) {
 	return 0;
 }
 
-int lex_get_number(const char *str, unsigned int max_len, unsigned int *len) {
+int lex_get_number(const char *str, unsigned int max_len, unsigned int *len)
+{
 	unsigned int i, found, negative;
 	int result;
 
 	result = 0;
 	found = 0;
 	negative = 0;
-	for(i = 0; i < max_len; i++) {
+	for (i = 0; i < max_len; i++) {
 		if (!found && is_whitespace(str[i])) {
 			continue;
 		}
@@ -39,7 +41,7 @@ int lex_get_number(const char *str, unsigned int max_len, unsigned int *len) {
 	}
 	(*len) += i;
 
-	if ( !found ) {
+	if (!found) {
 		err_msg("unable to parse '");
 		err_msg(str);
 		err_msg("'\n");
@@ -52,11 +54,12 @@ int lex_get_number(const char *str, unsigned int max_len, unsigned int *len) {
 }
 
 char lex_look_ahead(const char *input, unsigned int input_len,
-		unsigned int *pos) {
+		    unsigned int *pos)
+{
 
-	while(is_whitespace(input[*pos])) {
+	while (is_whitespace(input[*pos])) {
 		*pos += 1;
-		if (*pos >= input_len-1) {
+		if (*pos >= input_len - 1) {
 			break;
 		}
 	}

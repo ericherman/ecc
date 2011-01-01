@@ -7,16 +7,17 @@
 #include "x86_machine_code_bytes.h"
 
 unsigned char push_17[] = {
-	0x68, /* push immediate value */
-	0x11, 0x00, 0x00, 0x00, /* 17 */
+	0x68,			/* push immediate value */
+	0x11, 0x00, 0x00, 0x00,	/* 17 */
 };
 
 unsigned char push_23[] = {
-	0x68, /* push immediate value */
-	0x17, 0x00, 0x00, 0x00, /* 23 */
+	0x68,			/* push immediate value */
+	0x17, 0x00, 0x00, 0x00,	/* 23 */
 };
 
-void test_output_header() {
+void test_output_header()
+{
 	unsigned char *expected;
 	unsigned expected_len;
 	unsigned char actual[128];
@@ -36,17 +37,19 @@ void test_output_header() {
 	check_byte_arrays(actual, actual_len, expected, expected_len, "ELF");
 }
 
-void test_output_statements_complete() {
+void test_output_statements_complete()
+{
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
 
 	output_statements_complete(buffer, 128, &bytes_written);
 	check_byte_arrays(buffer, bytes_written,
-			get_return_ops(), get_return_ops_len(),
-			"statements_complete");
+			  get_return_ops(), get_return_ops_len(),
+			  "statements_complete");
 }
 
-void test_output_footer() {
+void test_output_footer()
+{
 	unsigned char *expected;
 	unsigned int expected_len;
 	unsigned char actual[128];
@@ -58,10 +61,11 @@ void test_output_footer() {
 	output_os_return(actual, 128, &actual_len);
 
 	check_byte_arrays(actual, actual_len, expected, expected_len,
-		"SYS_EXIT");
+			  "SYS_EXIT");
 }
 
-void test_output_add() {
+void test_output_add()
+{
 
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
@@ -69,10 +73,11 @@ void test_output_add() {
 	output_add(buffer, 128, &bytes_written);
 
 	check_byte_array(buffer, bytes_written,
-			get_addl_ops(), get_addl_ops_len());
+			 get_addl_ops(), get_addl_ops_len());
 }
 
-void test_output_subtract() {
+void test_output_subtract()
+{
 
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
@@ -80,10 +85,11 @@ void test_output_subtract() {
 	output_subtract(buffer, 128, &bytes_written);
 
 	check_byte_array(buffer, bytes_written,
-			get_subl_ops(), get_subl_ops_len());
+			 get_subl_ops(), get_subl_ops_len());
 }
 
-void test_output_multiply() {
+void test_output_multiply()
+{
 
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
@@ -91,10 +97,11 @@ void test_output_multiply() {
 	output_multiply(buffer, 128, &bytes_written);
 
 	check_byte_array(buffer, bytes_written,
-			get_imull_ops(), get_imull_ops_len());
+			 get_imull_ops(), get_imull_ops_len());
 }
 
-void test_output_divide() {
+void test_output_divide()
+{
 
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
@@ -102,10 +109,11 @@ void test_output_divide() {
 	output_divide(buffer, 128, &bytes_written);
 
 	check_byte_array(buffer, bytes_written,
-			get_idiv_ops(), get_idiv_ops_len());
+			 get_idiv_ops(), get_idiv_ops_len());
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	if (argc > 1) {
 		printf("%s takes no arguments\n", argv[0]);
 		return 1;
