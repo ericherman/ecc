@@ -1,11 +1,11 @@
 #!/bin/bash
 
 function build {
-  echo "make clean:"
-  make clean
-  echo "make:"
-  make
-  echo "make check:"
+  echo "make clean:" &&
+  make clean &&
+  echo "make:" &&
+  make &&
+  echo "make check:" &&
   make check
 }
 
@@ -28,7 +28,7 @@ EOF
   rm functional-test-${1}*
 }
 
-build
+build || exit $?
 
 check 0 "0" 0
 check 1 "42" 42
