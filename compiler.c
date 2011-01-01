@@ -3,6 +3,11 @@
 int is_add_op(const char c);
 int is_multiply_op(const char c);
 
+void statement(context_t * ctx)
+{
+	expression(ctx);
+}
+
 void expression(context_t * ctx)
 {
 	char c;
@@ -97,7 +102,9 @@ void compile_inner(context_t * ctx)
 {
 	ctx->output_header(ctx);
 
-	expression(ctx);
+	while (ctx->lex_look_ahead(ctx) != '\0') {
+		statement(ctx);
+	}
 
 	ctx->output_statements_complete(ctx);
 	ctx->output_os_return(ctx);

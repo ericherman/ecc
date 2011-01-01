@@ -354,15 +354,17 @@ void test_compile_inner()
 		"output_header",
 		"lex_look_ahead",
 		"lex_look_ahead",
+		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
+		"lex_look_ahead",
 		"lex_look_ahead",
 		"lex_look_ahead",
 		"output_statements_complete",
 		"output_os_return",
 	};
 
-	unsigned int count = 9;
+	unsigned int count = 11;
 	int expect_termsv[] = { 4 };
 	unsigned int termsc = 1;
 
@@ -370,8 +372,8 @@ void test_compile_inner()
 
 	compile_inner(ctx);
 
-	check_expected_calls(ctx, "test_negative_expr", expected_calls, count);
-	check_expected_terms(ctx, "test_negative_expr", expect_termsv, termsc);
+	check_expected_calls(ctx, "test_compile_inner", expected_calls, count);
+	check_expected_terms(ctx, "test_compile_inner", expect_termsv, termsc);
 
 	free_fake_context(ctx);
 }
@@ -385,8 +387,10 @@ void test_compile()
 		"output_header",
 		"lex_look_ahead",
 		"lex_look_ahead",
+		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
+		"lex_look_ahead",
 		"lex_look_ahead",
 		"lex_look_ahead",
 		"output_statements_complete",
@@ -394,7 +398,7 @@ void test_compile()
 		"write_file"
 	};
 
-	unsigned int count = 11;
+	unsigned int count = 13;
 	int expect_termsv[] = { 7 };
 	unsigned int termsc = 1;
 
@@ -402,8 +406,8 @@ void test_compile()
 
 	compile(ctx);
 
-	check_expected_calls(ctx, "test_negative_expr", expected_calls, count);
-	check_expected_terms(ctx, "test_negative_expr", expect_termsv, termsc);
+	check_expected_calls(ctx, "test_compile", expected_calls, count);
+	check_expected_terms(ctx, "test_compile", expect_termsv, termsc);
 
 	free_fake_context(ctx);
 }
