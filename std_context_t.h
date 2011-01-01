@@ -12,7 +12,7 @@ typedef struct std_context_t_ {
 	unsigned int buf_size;
 	unsigned int buf_pos;
 
-	const char *executable;
+	const char *out_file;
 	unsigned char byte_buf[BBUF_MAX];
 	unsigned int bytes_written;
 } std_context_t;

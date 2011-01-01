@@ -4,7 +4,7 @@
 
 #include "context.h"
 
-context_t *alloc_std_context(const char *source_file, const char *executable);
+context_t *alloc_std_context(const char *source_file, const char *out_file);
 
 void free_std_context(context_t * ptr);
 

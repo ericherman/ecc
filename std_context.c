@@ -92,7 +92,7 @@ void std_read_line(void *data)
 void std_write_file(void *data)
 {
 	std_context_t *this = (std_context_t *) data;
-	write_file(this->executable, this->byte_buf, this->bytes_written);
+	write_file(this->out_file, this->byte_buf, this->bytes_written);
 }
 
 void std_output_header(void *data)
@@ -107,7 +107,7 @@ void std_output_os_return(void *data)
 	output_os_return(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-context_t *alloc_std_context(const char *source_file, const char *executable)
+context_t *alloc_std_context(const char *source_file, const char *out_file)
 {
 
 	context_t *ctx;
@@ -153,7 +153,7 @@ context_t *alloc_std_context(const char *source_file, const char *executable)
 	data->buf[0] = '\0';
 	data->buf_size = 0;
 	data->buf_pos = 0;
-	data->executable = executable;
+	data->out_file = out_file;
 	data->bytes_written = 0;
 
 	return ctx;

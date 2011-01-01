@@ -19,13 +19,13 @@ void err_msg(const char *msg)
 	fprintf(stderr, "%s", msg);
 }
 
-void read_line(const char *source_file,
+void read_line(const char *in_file,
 	       char *line_buf, unsigned int buf_size, unsigned int *chars_read)
 {
 
-	FILE *file = fopen(source_file, "r");
+	FILE *file = fopen(in_file, "r");
 	if (file == NULL) {
-		fprintf(stderr, "Error opening file %s", source_file);
+		fprintf(stderr, "Error opening file %s", in_file);
 		exit(1);
 	}
 
@@ -34,12 +34,13 @@ void read_line(const char *source_file,
 	fclose(file);
 }
 
-void write_file(const char *executable,
+void write_file(const char *out_file,
 		unsigned char *byte_buffer, unsigned int buf_size)
 {
 
-	FILE *file = fopen(executable, "w");
+	FILE *file = fopen(out_file, "w");
 	fwrite(byte_buffer, 1, buf_size, file);
 	fclose(file);
-	chmod(executable, S_IRWXU | S_IRWXG | S_IRWXO);
+
+	chmod(out_file, S_IRWXU | S_IRWXG | S_IRWXO);
 }
