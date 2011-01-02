@@ -15,6 +15,7 @@ void *heap_malloc(unsigned int size);
 void heap_free(void *ptr);
 
 void err_msg(const char *msg);
+void die();
 
 void read_line(const char *in_file,
 	       char *line_buf, unsigned int buf_size, unsigned int *chars_read);

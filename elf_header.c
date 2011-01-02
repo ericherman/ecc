@@ -86,7 +86,7 @@ void output_header(unsigned char *buf, unsigned int buf_size,
 	*length = raw_elf_header_size();
 	if (buf_size < *length) {
 		err_msg("buf_size too small for output_header\n");
-		return;
+		die();
 	}
 	bytes = raw_elf_header();
 	for (i = 0; i < *length; i++) {
@@ -104,7 +104,7 @@ void output_os_return(unsigned char *buf, unsigned int buf_size,
 	length = raw_linux_return_size();
 	if (buf_size < *bytes_written + length) {
 		err_msg("buf_size too small for output_os_return\n");
-		return;
+		die();
 	}
 	bytes = raw_linux_return();
 	for (i = 0; i < length; i++) {

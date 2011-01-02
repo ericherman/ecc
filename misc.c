@@ -86,7 +86,7 @@ void write_bytes(const char *name,
 		err_msg("buf_size too small for ");
 		err_msg(name);
 		err_msg("\n");
-		return;
+		die();
 	}
 	for (i = 0; i < count; i++) {
 		buf[(*bytes_written)++] = to_write[i];

@@ -124,7 +124,7 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	ctx = heap_malloc(size);
 	if (!ctx) {
 		err_msg("could not allocate context_t\n");
-		return ctx;
+		die();
 	}
 
 	ctx->lex_look_ahead = std_lex_look_ahead;
@@ -150,7 +150,7 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	ctx->data = heap_malloc(size);
 	if (!ctx->data) {
 		err_msg("could not allocate context data\n");
-		return ctx;
+		die();
 	}
 	data = (std_context_t *) ctx->data;
 

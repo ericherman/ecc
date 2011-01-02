@@ -14,6 +14,7 @@ unsigned int lex_get_name_length(const char *str, unsigned int input_size)
 	err_msg("lex_get_name_length unable to parse '");
 	err_msg(str);
 	err_msg("'\n");
+	die();
 	return 0;
 }
 
@@ -45,6 +46,7 @@ int lex_get_number(const char *str, unsigned int max_len, unsigned int *len)
 		err_msg("lex_get_number unable to parse '");
 		err_msg(str);
 		err_msg("'\n");
+		die();
 	}
 	if (negative) {
 		result = -result;

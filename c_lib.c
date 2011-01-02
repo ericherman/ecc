@@ -19,6 +19,12 @@ void err_msg(const char *msg)
 	fprintf(stderr, "%s", msg);
 }
 
+void die()
+{
+	int status = 1;
+	exit(status);
+}
+
 void read_line(const char *in_file,
 	       char *line_buf, unsigned int buf_size, unsigned int *chars_read)
 {
