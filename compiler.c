@@ -1,5 +1,7 @@
 #include "compiler.h"
 
+#define TOKEN_MAX 1000
+
 int is_add_op(const char c);
 int is_multiply_op(const char c);
 
@@ -10,10 +12,10 @@ void statement(context_t * ctx)
 
 void expression(context_t * ctx)
 {
-	char c;
+	char token[TOKEN_MAX];
 
-	c = ctx->lex_look_ahead(ctx);
-	if (c == '-') {
+	ctx->lex_look_ahead(ctx, token, TOKEN_MAX);
+	if (token[0] == '-') {
 		/* okay, we have a "-(foo)" situation */
 		/* let's just slip-stream a zero. */
 		ctx->output_term(ctx, 0);
@@ -21,8 +23,8 @@ void expression(context_t * ctx)
 		term(ctx);
 	}
 	while (1) {
-		c = ctx->lex_look_ahead(ctx);
-		if (!is_add_op(c)) {
+		ctx->lex_look_ahead(ctx, token, TOKEN_MAX);
+		if (!is_add_op(token[0])) {
 			break;
 		}
 
@@ -30,7 +32,7 @@ void expression(context_t * ctx)
 
 		term(ctx);
 
-		switch (c) {
+		switch (token[0]) {
 		case '+':
 			ctx->output_add(ctx);
 			break;
@@ -42,11 +44,11 @@ void expression(context_t * ctx)
 
 void factor(context_t * ctx)
 {
-	char c;
+	char token[TOKEN_MAX];
 	int number;
 
-	c = ctx->lex_look_ahead(ctx);
-	if (c == '(') {
+	ctx->lex_look_ahead(ctx, token, TOKEN_MAX);
+	if (token[0] == '(') {
 		ctx->lex_advance(ctx, 1);
 		expression(ctx);
 		/* eat close paren */
@@ -59,11 +61,11 @@ void factor(context_t * ctx)
 
 void term(context_t * ctx)
 {
-	char c;
+	char token[TOKEN_MAX];
 	factor(ctx);
 	while (1) {
-		c = ctx->lex_look_ahead(ctx);
-		if (!is_multiply_op(c)) {
+		ctx->lex_look_ahead(ctx, token, TOKEN_MAX);
+		if (!is_multiply_op(token[0])) {
 			break;
 		}
 
@@ -71,7 +73,7 @@ void term(context_t * ctx)
 
 		factor(ctx);
 
-		switch (c) {
+		switch (token[0]) {
 		case '*':
 			ctx->output_multiply(ctx);
 			break;
@@ -100,9 +102,14 @@ void compile(context_t * ctx)
 
 void compile_inner(context_t * ctx)
 {
+	char token[TOKEN_MAX];
 	ctx->output_header(ctx);
 
-	while (ctx->lex_look_ahead(ctx) != '\0') {
+	while (1) {
+		ctx->lex_look_ahead(ctx, token, TOKEN_MAX);
+		if (token[0] == '\0') {
+			break;
+		}
 		statement(ctx);
 	}
 

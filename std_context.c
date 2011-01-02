@@ -26,10 +26,11 @@ void std_to_string(context_t * ctx, char *buf, unsigned int buf_size)
 	str_cpy_offset("}\n", buf, buf_size, &buf_pos);
 }
 
-char std_lex_look_ahead(context_t * ctx)
+void std_lex_look_ahead(context_t * ctx, char *result, unsigned int buf_size)
 {
 	std_context_t *this = _std_context(ctx);
-	return lex_look_ahead(this->buf, this->buf_size, &(this->buf_pos));
+	unsigned int *pos = &(this->buf_pos);
+	lex_look_ahead(this->buf, this->buf_size, pos, result, buf_size);
 }
 
 void std_lex_advance(context_t * ctx, unsigned int chars)

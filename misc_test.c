@@ -47,6 +47,21 @@ void test_str_ncpy()
 	check_ptrs(result, expected_result, "4");
 }
 
+void test_str_ncmp()
+{
+	const char *str1 = "foo";
+	const char *str2 = "foo2";
+	const char *str3 = "fun";
+	int result;
+
+	result = str_ncmp(str1, sizeof(str1), str1, sizeof(str1));
+	check_int(result, 0);
+	result = str_ncmp(str1, sizeof(str1), str2, sizeof(str2));
+	check_int(result, 0);
+	result = str_ncmp(str1, sizeof(str1), str3, sizeof(str3));
+	check_int(result, 0);
+}
+
 int main(int argc, char *argv[])
 {
 	if (argc > 1) {

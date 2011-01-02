@@ -53,19 +53,18 @@ void add_to_mock_data(context_t * ctx, const char *func_name)
 	list->call[list->calls++] = func_name;
 }
 
-char fake_lex_look_ahead(context_t * ctx)
+void fake_lex_look_ahead(context_t * ctx, char *output, unsigned int buf_size)
 {
 	const char *next_token = "";
-	char look_ahead = '\0';
 	mock_data *list = _mock_data(ctx);
+	output[0] = '\0';
 	if (list->track_lookahead) {
 		add_to_mock_data(ctx, "lex_look_ahead");
 	}
 	if (list->token_pos < list->tokens) {
 		next_token = list->token[list->token_pos];
-		look_ahead = next_token[0];
+		strncpy(output, next_token, buf_size);
 	}
-	return look_ahead;
 }
 
 void fake_lex_advance(context_t * ctx, unsigned int chars)

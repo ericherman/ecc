@@ -67,6 +67,24 @@ unsigned int str_nlen(const char *s, unsigned int limit)
 	return i;
 }
 
+int str_ncmp(const char *left, unsigned int left_size,
+	     const char *right, unsigned int right_size)
+{
+	int diff = 0;
+	unsigned int i = 0;
+	while (i < left_size && i < right_size) {
+		diff = left[i] - right[i];
+		if (diff != 0) {
+			return diff;
+		}
+		if (left[i] == '\0') {
+			return 0;
+		}
+		i++;
+	}
+	return left_size - right_size;
+}
+
 void write_int(unsigned char *buf, int value)
 {
 	buf[0] = 0xFF & value;
