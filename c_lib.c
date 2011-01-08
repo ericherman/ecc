@@ -28,8 +28,9 @@ void die()
 void read_line(const char *in_file,
 	       char *line_buf, unsigned int buf_size, unsigned int *chars_read)
 {
+	FILE *file;
 
-	FILE *file = fopen(in_file, "r");
+	file = fopen(in_file, "r");
 	if (file == NULL) {
 		fprintf(stderr, "Error opening file %s", in_file);
 		exit(1);
@@ -44,7 +45,9 @@ void write_file(const char *out_file,
 		unsigned char *byte_buffer, unsigned int buf_size)
 {
 
-	FILE *file = fopen(out_file, "w");
+	FILE *file;
+
+	file = fopen(out_file, "w");
 	fwrite(byte_buffer, 1, buf_size, file);
 	fclose(file);
 

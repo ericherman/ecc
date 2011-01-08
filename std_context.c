@@ -15,6 +15,7 @@ void std_to_string(context_t * ctx, char *buf, unsigned int buf_size)
 {
 	std_context_t *this = _std_context(ctx);
 	unsigned int buf_pos = 0;
+
 	str_cpy_offset("std_context_t {\n", buf, buf_size, &buf_pos);
 	str_cpy_offset("    source_file: ", buf, buf_size, &buf_pos);
 	str_cpy_offset(this->source_file, buf, buf_size, &buf_pos);

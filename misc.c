@@ -72,6 +72,7 @@ int str_ncmp(const char *left, unsigned int left_size,
 {
 	int diff = 0;
 	unsigned int i = 0;
+
 	while (i < left_size && i < right_size) {
 		diff = left[i] - right[i];
 		if (diff != 0) {
@@ -98,8 +99,8 @@ void write_bytes(const char *name,
 		 unsigned int *bytes_written,
 		 const unsigned char *to_write, unsigned int count)
 {
-
 	unsigned int i;
+
 	if (buf_size < (*bytes_written) + count) {
 		err_msg("buf_size too small for ");
 		err_msg(name);

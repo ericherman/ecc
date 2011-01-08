@@ -62,6 +62,7 @@ void factor(context_t * ctx)
 void term(context_t * ctx)
 {
 	char token[TOKEN_MAX];
+
 	factor(ctx);
 	while (1) {
 		ctx->lex_look_ahead(ctx, token, TOKEN_MAX);

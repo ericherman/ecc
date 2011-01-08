@@ -66,7 +66,6 @@ void test_output_footer()
 
 void test_output_add()
 {
-
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
 
@@ -78,7 +77,6 @@ void test_output_add()
 
 void test_output_subtract()
 {
-
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
 
@@ -90,7 +88,6 @@ void test_output_subtract()
 
 void test_output_multiply()
 {
-
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
 
@@ -102,7 +99,6 @@ void test_output_multiply()
 
 void test_output_divide()
 {
-
 	unsigned char buffer[128];
 	unsigned int bytes_written = 0;
 

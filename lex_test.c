@@ -7,6 +7,7 @@ void check_token(const char *input, unsigned int input_size,
 		 const char *expected_result, unsigned int expected_pos)
 {
 	char result[80];
+
 	lex_look_ahead(input, input_size, pos, result, sizeof(result));
 	check_unsigned_ints(*pos, expected_pos, "expected pos");
 	check_strs(result, expected_result, "token");
