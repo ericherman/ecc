@@ -27,11 +27,13 @@ void std_to_string(context_t * ctx, char *buf, unsigned int buf_size)
 	str_cpy_offset("}\n", buf, buf_size, &buf_pos);
 }
 
-void std_lex_look_ahead(context_t * ctx, char *result, unsigned int buf_size)
+const char *std_lex_look_ahead(context_t * ctx)
 {
 	std_context_t *this = _std_context(ctx);
 	unsigned int *pos = &(this->buf_pos);
-	lex_look_ahead(this->buf, this->buf_size, pos, result, buf_size);
+	lex_look_ahead(this->buf, this->buf_size, pos, this->next_token,
+		       TOKEN_MAX);
+	return this->next_token;
 }
 
 void std_lex_advance(context_t * ctx, unsigned int chars)
@@ -160,6 +162,7 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	data->buf[0] = '\0';
 	data->buf_size = 0;
 	data->buf_pos = 0;
+	data->next_token[0] = '\0';
 	data->out_file = out_file;
 	data->bytes_written = 0;
 

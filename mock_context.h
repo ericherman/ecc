@@ -9,6 +9,8 @@ typedef struct mock_data_t {
 	unsigned int calls;
 	int track_lookahead;
 
+	char no_token[1];
+
 	int term[100];
 	unsigned int terms;
 

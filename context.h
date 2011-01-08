@@ -6,8 +6,7 @@ typedef struct context_t_ {
 
 	void *data;
 
-	void (*lex_look_ahead) (struct context_t_ * ctx, char *buf,
-				unsigned int buf_size);
+	const char *(*lex_look_ahead) (struct context_t_ * ctx);
 	void (*lex_advance) (struct context_t_ * ctx, unsigned int chars);
 	int (*lex_get_number) (struct context_t_ * ctx);
 

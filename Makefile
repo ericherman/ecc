@@ -1,6 +1,7 @@
 #
 CC=gcc
-CFLAGS=-c -Werror -ggdb -O0 -Wall -Wextra -pedantic -Wno-long-long
+CFLAGS=-c -Werror -Wall -Wextra -pedantic -Wno-long-long \
+ -ggdb -O0 -finstrument-functions
 LDFLAGS=
 
 SOURCES=elf_header.c c_lib.c misc.c x86_machine_code_bytes.c \

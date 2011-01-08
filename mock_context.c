@@ -65,21 +65,19 @@ int _last_was_look_ahead(context_t * ctx)
 	return (strcmp(last, "lex_look_ahead") == 0) ? 1 : 0;
 }
 
-void fake_lex_look_ahead(context_t * ctx, char *output, unsigned int buf_size)
+const char *fake_lex_look_ahead(context_t * ctx)
 {
-	const char *next_token = "";
 	mock_data *list = _mock_data(ctx);
 
-	output[0] = '\0';
 	if (list->track_lookahead) {
 		if (list->track_lookahead > 1 || !_last_was_look_ahead(ctx)) {
 			add_to_mock_data(ctx, "lex_look_ahead");
 		}
 	}
 	if (list->token_pos < list->tokens) {
-		next_token = list->token[list->token_pos];
-		strncpy(output, next_token, buf_size);
+		return list->token[list->token_pos];
 	}
+	return list->no_token;
 }
 
 void fake_lex_advance(context_t * ctx, unsigned int chars)
@@ -161,6 +159,7 @@ context_t *init_fake_context(const char **token, unsigned int tokens)
 	list->token = token;
 	list->tokens = tokens;
 	list->token_pos = 0;
+	list->no_token[0] = '\0';
 	list->terms = 0;
 	list->calls = 0;
 	list->track_lookahead = 1;

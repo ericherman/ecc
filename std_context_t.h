@@ -3,6 +3,7 @@
 #define _STD_CONTEXT_T_H_
 
 #define LINE_MAX 1024
+#define TOKEN_MAX 100
 #define BBUF_MAX 0xFFFF
 
 typedef struct std_context_t_ {
@@ -11,6 +12,8 @@ typedef struct std_context_t_ {
 	char buf[LINE_MAX];
 	unsigned int buf_size;
 	unsigned int buf_pos;
+
+	char next_token[TOKEN_MAX];
 
 	const char *out_file;
 	unsigned char byte_buf[BBUF_MAX];
