@@ -86,13 +86,11 @@ void check_expression_add_subtract(const char *test_name,
 		"lex_look_ahead",
 		/* term */
 		/* call factor */
-		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
 		/* term look ahead for multiply */
 		"lex_look_ahead",
 		/* is_add_op */
-		"lex_look_ahead",
 		/* yes, so advance */
 		"lex_advance",
 		/* term again */
@@ -106,10 +104,10 @@ void check_expression_add_subtract(const char *test_name,
 		"lex_look_ahead",
 		/* no, so finish */
 	};
-	unsigned int count = 13;
+	unsigned int count = 11;
 	context_t *ctx = init_fake_context(tokensv, tokensc);
 
-	expected_calls[11] = op;
+	expected_calls[9] = op;
 
 	expression(ctx);
 
@@ -263,7 +261,6 @@ void test_paren_factor()
 		/* yes, eat open paren (advance) */
 		"lex_advance",
 		/* call expression */
-		"lex_look_ahead",
 		/*   call term */
 		/*     call factor */
 		/*       is paren? */
@@ -274,13 +271,12 @@ void test_paren_factor()
 		/*   is_mul_op? */
 		"lex_look_ahead",
 		/* is_add_op? */
-		"lex_look_ahead",
 		/* no. exit expression */
 		/* back in factor, eat close paren */
 		"lex_advance",
 		/* exit factor */
 	};
-	unsigned int count = 9;
+	unsigned int count = 7;
 	context_t *ctx = init_fake_context(tokensv, tokensc);
 
 	factor(ctx);
@@ -312,14 +308,12 @@ void test_negative_expr()
 		"lex_look_ahead",
 		/* no call term */
 		/* is paren? */
-		"lex_look_ahead",
 		/* no, output 23 */
 		"lex_get_number",
 		"output_term",
 		/* is multiply? */
 		"lex_look_ahead",
 		/* no, is add_op? */
-		"lex_look_ahead",
 		/* no, exit expression */
 		/* eat closing paren */
 		"lex_advance",
@@ -332,7 +326,7 @@ void test_negative_expr()
 		/* no exit loop */
 	};
 
-	unsigned int count = 16;
+	unsigned int count = 14;
 	int expect_termsv[] = { 0, 23 };
 	unsigned int termsc = 2;
 
@@ -353,18 +347,14 @@ void test_compile_inner()
 	const char *expected_calls[] = {
 		"output_header",
 		"lex_look_ahead",
-		"lex_look_ahead",
-		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
-		"lex_look_ahead",
-		"lex_look_ahead",
 		"lex_look_ahead",
 		"output_statements_complete",
 		"output_os_return",
 	};
 
-	unsigned int count = 11;
+	unsigned int count = 7;
 	int expect_termsv[] = { 4 };
 	unsigned int termsc = 1;
 
@@ -386,19 +376,15 @@ void test_compile()
 		"read_line",
 		"output_header",
 		"lex_look_ahead",
-		"lex_look_ahead",
-		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
-		"lex_look_ahead",
-		"lex_look_ahead",
 		"lex_look_ahead",
 		"output_statements_complete",
 		"output_os_return",
 		"write_file"
 	};
 
-	unsigned int count = 13;
+	unsigned int count = 9;
 	int expect_termsv[] = { 7 };
 	unsigned int termsc = 1;
 
