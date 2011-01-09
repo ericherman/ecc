@@ -6,7 +6,8 @@
 #include "elf_header.h"
 #include "misc.h"
 
-std_context_t *_std_context(context_t * ctx)
+/* convenience function to hide casting clutter */
+inline std_context_t *_std_context(context_t * ctx)
 {
 	return (std_context_t *) ctx->data;
 }
