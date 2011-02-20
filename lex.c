@@ -20,7 +20,7 @@ int lex_get_number(const char *str, unsigned int max_len, unsigned int *len)
 			negative = 1;
 		} else if (is_number(str[i])) {
 			found = 1;
-			result = result * 10 + (str[i] - '0');
+			result = (result * 10) + (str[i] - '0');
 		} else {
 			break;
 		}
