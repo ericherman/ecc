@@ -57,6 +57,33 @@ void test_lex_look_ahead_2()
 	check_token(input, len, &pos, "7", pos + 1);
 }
 
+void test_lex_look_ahead_3()
+{
+	const char *input = "int a=2; int b=17;";
+	unsigned int len, pos;
+
+	len = strlen(input);
+
+	pos = 0;
+	check_token(input, len, &pos, "int", 0);
+	pos += 3;
+	check_token(input, len, &pos, "a", pos + 1);
+	pos += 1;
+	check_token(input, len, &pos, "=", pos);
+	pos += 1;
+	check_token(input, len, &pos, "2", pos);
+	pos += 1;
+	check_token(input, len, &pos, ";", pos);
+	pos += 1;
+	check_token(input, len, &pos, "int", pos + 1);
+	pos += 3;
+	check_token(input, len, &pos, "b", pos + 1);
+	pos += 1;
+	check_token(input, len, &pos, "=", pos);
+	pos += 1;
+	check_token(input, len, &pos, "17", pos);
+}
+
 void test_lex_get_number()
 {
 	const char *input = "7+ 4211 * -2";
@@ -94,6 +121,7 @@ int main(int argc, char *argv[])
 
 	test_lex_look_ahead_1();
 	test_lex_look_ahead_2();
+	test_lex_look_ahead_3();
 	test_lex_get_number();
 	return 0;
 }

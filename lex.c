@@ -3,6 +3,7 @@
 #include "misc.h"
 
 int _is_operator(char c);
+int _is_statement_terminator(char c);
 
 int lex_get_number(const char *str, unsigned int max_len, unsigned int *len)
 {
@@ -70,6 +71,9 @@ void lex_look_ahead(const char *input, unsigned int input_len,
 			if (is_number(last) && !is_number(next)) {
 				break;
 			}
+			if (_is_statement_terminator(next)) {
+				break;
+			}
 			if (_is_operator(last)) {
 				break;
 			}
@@ -89,5 +93,10 @@ void lex_look_ahead(const char *input, unsigned int input_len,
 int _is_operator(char c)
 {
 	return c == '+' || c == '-' || c == '*' || c == '/' || c == '('
-	    || c == ')';
+	    || c == ')' || c == '=';
+}
+
+int _is_statement_terminator(char c)
+{
+	return c == ';';
 }
