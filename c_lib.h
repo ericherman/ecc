@@ -17,8 +17,8 @@ void heap_free(void *ptr);
 void err_msg(const char *msg);
 void die();
 
-void read_line(const char *in_file,
-	       char *line_buf, unsigned int buf_size, unsigned int *chars_read);
+void read_file(const char *in_file,
+	       char *file_buf, unsigned int buf_size, unsigned int *chars_read);
 
 void write_file(const char *out_file,
 		unsigned char *byte_buffer, unsigned int buf_size);

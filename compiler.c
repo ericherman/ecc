@@ -103,7 +103,7 @@ int is_multiply_precedence_op(const char *token)
 
 void compile(context_t * ctx)
 {
-	ctx->read_line(ctx);
+	ctx->read_file(ctx);
 	compile_inner(ctx);
 	ctx->write_file(ctx);
 }

@@ -373,7 +373,7 @@ void test_compile()
 	const char *tokensv[] = { "7" };
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
-		"read_line",
+		"read_file",
 		"output_header",
 		"lex_look_ahead",
 		"lex_get_number",

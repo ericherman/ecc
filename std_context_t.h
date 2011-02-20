@@ -2,14 +2,14 @@
 #ifndef _STD_CONTEXT_T_H_
 #define _STD_CONTEXT_T_H_
 
-#define LINE_MAX 1024
+#define FILE_MAX 1024
 #define TOKEN_MAX 100
 #define BBUF_MAX 0xFFFF
 
 typedef struct std_context_t_ {
 	/* need to investigate memory mapped files */
 	const char *source_file;
-	char buf[LINE_MAX];
+	char buf[FILE_MAX];
 	unsigned int buf_size;
 	unsigned int buf_pos;
 

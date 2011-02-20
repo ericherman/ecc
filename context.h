@@ -17,7 +17,7 @@ typedef struct context_t_ {
 	void (*output_divide) (struct context_t_ * ctx);
 	void (*output_statements_complete) (struct context_t_ * ctx);
 
-	void (*read_line) (struct context_t_ * ctx);
+	void (*read_file) (struct context_t_ * ctx);
 	void (*write_file) (struct context_t_ * ctx);
 
 	void (*output_header) (struct context_t_ * ctx);

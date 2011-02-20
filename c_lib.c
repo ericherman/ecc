@@ -25,8 +25,8 @@ void die()
 	exit(status);
 }
 
-void read_line(const char *in_file,
-	       char *line_buf, unsigned int buf_size, unsigned int *chars_read)
+void read_file(const char *in_file,
+	       char *file_buf, unsigned int buf_size, unsigned int *chars_read)
 {
 	FILE *file;
 
@@ -36,8 +36,8 @@ void read_line(const char *in_file,
 		exit(1);
 	}
 
-	fgets(line_buf, buf_size, file);
-	*chars_read = strlen(line_buf);
+	fgets(file_buf, buf_size, file);
+	*chars_read = strlen(file_buf);
 	fclose(file);
 }
 

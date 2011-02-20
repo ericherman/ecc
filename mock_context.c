@@ -131,9 +131,9 @@ void fake_output_statements_complete(context_t * ctx)
 	add_to_mock_data(ctx, "output_statements_complete");
 }
 
-void fake_read_line(context_t * ctx)
+void fake_read_file(context_t * ctx)
 {
-	add_to_mock_data(ctx, "read_line");
+	add_to_mock_data(ctx, "read_file");
 }
 
 void fake_write_file(context_t * ctx)
@@ -177,7 +177,7 @@ context_t *init_fake_context(const char **token, unsigned int tokens)
 	ctx->output_divide = fake_output_divide;
 	ctx->output_statements_complete = fake_output_statements_complete;
 
-	ctx->read_line = fake_read_line;
+	ctx->read_file = fake_read_file;
 	ctx->write_file = fake_write_file;
 
 	ctx->output_header = fake_output_header;

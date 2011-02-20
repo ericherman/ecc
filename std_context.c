@@ -92,10 +92,10 @@ void std_output_statements_complete(context_t * ctx)
 				   &(this->bytes_written));
 }
 
-void std_read_line(context_t * ctx)
+void std_read_file(context_t * ctx)
 {
 	std_context_t *this = _std_context(ctx);
-	read_line(this->source_file, this->buf, LINE_MAX, &(this->buf_size));
+	read_file(this->source_file, this->buf, FILE_MAX, &(this->buf_size));
 	this->buf_size += 1;
 }
 
@@ -143,7 +143,7 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	ctx->output_divide = std_output_divide;
 	ctx->output_statements_complete = std_output_statements_complete;
 
-	ctx->read_line = std_read_line;
+	ctx->read_file = std_read_file;
 	ctx->write_file = std_write_file;
 
 	ctx->output_header = std_output_header;
