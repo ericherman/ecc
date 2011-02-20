@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "test_util.h"
 #include "lex.h"
 
@@ -23,28 +24,28 @@ void test_lex_look_ahead()
 	pos = 0;
 	expected_pos = 0;
 	expected_result = "1";
-	check_token(input, sizeof(input), &pos, expected_result, expected_pos);
+	check_token(input, strlen(input), &pos, expected_result, expected_pos);
 
 	pos = 1;
 	expected_pos = 1;
 	expected_result = "+";
-	check_token(input, sizeof(input), &pos, expected_result, expected_pos);
+	check_token(input, strlen(input), &pos, expected_result, expected_pos);
 
 	pos = 2;
 	expected_pos = 3;
 	expected_result = "2";
-	check_token(input, sizeof(input), &pos, expected_result, expected_pos);
+	check_token(input, strlen(input), &pos, expected_result, expected_pos);
 
 	pos = 0;
-	check_token(input2, sizeof(input2), &pos, "231", 0);
+	check_token(input2, strlen(input2), &pos, "231", 0);
 	pos += 3;
-	check_token(input2, sizeof(input2), &pos, "+", pos);
+	check_token(input2, strlen(input2), &pos, "+", pos);
 	pos += 1;
-	check_token(input2, sizeof(input2), &pos, "1421", pos + 1);
+	check_token(input2, strlen(input2), &pos, "1421", pos + 1);
 	pos += 4;
-	check_token(input2, sizeof(input2), &pos, "-", pos + 1);
+	check_token(input2, strlen(input2), &pos, "-", pos + 1);
 	pos += 1;
-	check_token(input2, sizeof(input2), &pos, "7", pos + 1);
+	check_token(input2, strlen(input2), &pos, "7", pos + 1);
 }
 
 void test_lex_get_number()
@@ -54,21 +55,21 @@ void test_lex_get_number()
 	int result, expected_result;
 
 	pos = 0;
-	result = lex_get_number(&input[pos], sizeof(input), &pos);
+	result = lex_get_number(&input[pos], strlen(input), &pos);
 	expected_pos = 1;
 	expected_result = 7;
 	check_unsigned_int(pos, expected_pos);
 	check_int(result, expected_result);
 
 	pos = 3;
-	result = lex_get_number(&input[pos], sizeof(input), &pos);
+	result = lex_get_number(&input[pos], strlen(input), &pos);
 	expected_pos = 7;
 	expected_result = 4211;
 	check_unsigned_int(pos, expected_pos);
 	check_int(result, expected_result);
 
 	pos = 10;
-	result = lex_get_number(&input[pos], sizeof(input), &pos);
+	result = lex_get_number(&input[pos], strlen(input), &pos);
 	expected_result = -2;
 	expected_pos = 12;
 	check_unsigned_int(pos, expected_pos);
