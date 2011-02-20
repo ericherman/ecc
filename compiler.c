@@ -3,8 +3,8 @@
 
 #define TOKEN_MAX 1000
 
-int is_add_op(const char c);
-int is_multiply_op(const char c);
+int is_add_precedence_op(const char *token);
+int is_multiply_precedence_op(const char *token);
 
 void statement(context_t * ctx)
 {
@@ -26,7 +26,7 @@ void expression(context_t * ctx)
 	}
 	while (1) {
 		token = ctx->lex_look_ahead(ctx);
-		if (!is_add_op(token[0])) {
+		if (!is_add_precedence_op(token)) {
 			break;
 		}
 
@@ -70,7 +70,7 @@ void term(context_t * ctx)
 	factor(ctx);
 	while (1) {
 		token = ctx->lex_look_ahead(ctx);
-		if (!is_multiply_op(token[0])) {
+		if (!is_multiply_precedence_op(token)) {
 			break;
 		}
 
@@ -89,13 +89,15 @@ void term(context_t * ctx)
 	}
 }
 
-int is_add_op(const char c)
+int is_add_precedence_op(const char *token)
 {
+	char c = token[0];
 	return c == '+' || c == '-';
 }
 
-int is_multiply_op(const char c)
+int is_multiply_precedence_op(const char *token)
 {
+	char c = token[0];
 	return c == '*' || c == '/';
 }
 
@@ -117,7 +119,14 @@ void compile_inner(context_t * ctx)
 		if (token[0] == '\0') {
 			break;
 		}
+
 		statement(ctx);
+
+		token = ctx->lex_look_ahead(ctx);
+		if (token[0] == ';') {
+			/* eat the ';' token */
+			ctx->lex_advance(ctx, 1);
+		}
 	}
 
 	ctx->output_statements_complete(ctx);
