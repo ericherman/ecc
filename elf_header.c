@@ -97,7 +97,8 @@ void output_os_return(unsigned char *buf, unsigned int buf_size,
 		      unsigned int *bytes_written)
 {
 	unsigned char *bytes;
-	unsigned int i, length;
+	unsigned int i;
+	unsigned int length;
 
 	length = raw_linux_return_size();
 	if (buf_size < *bytes_written + length) {

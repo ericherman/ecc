@@ -91,13 +91,17 @@ void term(context_t * ctx)
 
 int is_add_precedence_op(const char *token)
 {
-	char c = token[0];
+	char c;
+
+	c = token[0];
 	return c == '+' || c == '-';
 }
 
 int is_multiply_precedence_op(const char *token)
 {
-	char c = token[0];
+	char c;
+
+	c = token[0];
 	return c == '*' || c == '/';
 }
 

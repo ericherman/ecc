@@ -21,7 +21,9 @@ void err_msg(const char *msg)
 
 void die()
 {
-	int status = 1;
+	int status;
+
+	status = 1;
 	exit(status);
 }
 

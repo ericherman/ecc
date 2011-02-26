@@ -7,7 +7,9 @@ int _is_statement_terminator(char c);
 
 int lex_get_number(const char *str, unsigned int max_len, unsigned int *len)
 {
-	unsigned int i, found, negative;
+	unsigned int i;
+	unsigned int found;
+	unsigned int negative;
 	int result;
 
 	result = 0;
@@ -45,10 +47,15 @@ int lex_get_number(const char *str, unsigned int max_len, unsigned int *len)
 void lex_look_ahead(const char *input, unsigned int input_len,
 		    unsigned int *pos, char *output, unsigned int output_size)
 {
-	unsigned int i = 0;
-	unsigned int end = *pos + input_len;
-	char last = '\0';
-	char next = '\0';
+	unsigned int i;
+	unsigned int end;
+	char last;
+	char next;
+
+	i = 0;
+	end = *pos + input_len;
+	last = '\0';
+	next = '\0';
 
 	while (is_whitespace(input[*pos])) {
 		*pos += 1;

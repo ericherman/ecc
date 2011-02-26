@@ -14,8 +14,11 @@ inline std_context_t *_std_context(context_t * ctx)
 
 void std_to_string(context_t * ctx, char *buf, unsigned int buf_size)
 {
-	std_context_t *this = _std_context(ctx);
-	unsigned int buf_pos = 0;
+	std_context_t *this;
+	unsigned int buf_pos;
+
+	this = _std_context(ctx);
+	buf_pos = 0;
 
 	str_cpy_offset("std_context_t {\n", buf, buf_size, &buf_pos);
 	str_cpy_offset("    source_file: ", buf, buf_size, &buf_pos);
@@ -30,8 +33,11 @@ void std_to_string(context_t * ctx, char *buf, unsigned int buf_size)
 
 const char *std_lex_look_ahead(context_t * ctx)
 {
-	std_context_t *this = _std_context(ctx);
-	unsigned int *pos = &(this->buf_pos);
+	std_context_t *this;
+	unsigned int *pos;
+
+	this = _std_context(ctx);
+	pos = &(this->buf_pos);
 	lex_look_ahead(this->buf, this->buf_size, pos, this->next_token,
 		       TOKEN_MAX);
 	return this->next_token;
@@ -39,16 +45,19 @@ const char *std_lex_look_ahead(context_t * ctx)
 
 void std_lex_advance(context_t * ctx, unsigned int chars)
 {
-	std_context_t *this = _std_context(ctx);
+	std_context_t *this;
+
+	this = _std_context(ctx);
 	this->buf_pos += chars;
 }
 
 int std_lex_get_number(context_t * ctx)
 {
-	std_context_t *this = _std_context(ctx);
+	std_context_t *this;
 	const char *sub_str;
 	unsigned int sub_str_size;
 
+	this = _std_context(ctx);
 	sub_str = &(this->buf[this->buf_pos]);
 	sub_str_size = this->buf_size - this->buf_pos;
 
@@ -57,13 +66,17 @@ int std_lex_get_number(context_t * ctx)
 
 void std_output_term(context_t * ctx, int number)
 {
-	std_context_t *this = _std_context(ctx);
+	std_context_t *this;
+
+	this = _std_context(ctx);
 	output_term(number, this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
 void std_output_add(context_t * ctx)
 {
-	std_context_t *this = _std_context(ctx);
+	std_context_t *this;
+
+	this = _std_context(ctx);
 	output_add(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
@@ -81,33 +94,43 @@ void std_output_multiply(context_t * ctx)
 
 void std_output_divide(context_t * ctx)
 {
-	std_context_t *this = _std_context(ctx);
+	std_context_t *this;
+
+	this = _std_context(ctx);
 	output_divide(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
 void std_output_statements_complete(context_t * ctx)
 {
-	std_context_t *this = _std_context(ctx);
+	std_context_t *this;
+
+	this = _std_context(ctx);
 	output_statements_complete(this->byte_buf, BBUF_MAX,
 				   &(this->bytes_written));
 }
 
 void std_read_file(context_t * ctx)
 {
-	std_context_t *this = _std_context(ctx);
+	std_context_t *this;
+
+	this = _std_context(ctx);
 	read_file(this->source_file, this->buf, FILE_MAX, &(this->buf_size));
 	this->buf_size += 1;
 }
 
 void std_write_file(context_t * ctx)
 {
-	std_context_t *this = _std_context(ctx);
+	std_context_t *this;
+
+	this = _std_context(ctx);
 	write_file(this->out_file, this->byte_buf, this->bytes_written);
 }
 
 void std_output_header(context_t * ctx)
 {
-	std_context_t *this = _std_context(ctx);
+	std_context_t *this;
+
+	this = _std_context(ctx);
 	output_header(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
