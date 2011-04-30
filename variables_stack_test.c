@@ -51,14 +51,14 @@ void check_depth(unsigned int check_num, names_stack_t * stack,
 	unsigned int actual_depth;
 	char buf[MAX_TO_STRING];
 
-	sprintf(buf, "check %u: ",check_num);
+	sprintf(buf, "check %u: ", check_num);
 
-	stack_to_string(stack, buf + strlen(buf), MAX_TO_STRING-strlen(buf));
+	stack_to_string(stack, buf + strlen(buf), MAX_TO_STRING - strlen(buf));
 	actual_depth = stack_name_pos(stack, name);
 	check_unsigned_ints(actual_depth, depth, buf);
 }
 
-void test_two_level_stack()
+void test_two_level_stack(void)
 {
 	names_stack_t *stack;
 	unsigned int check_num;
@@ -102,6 +102,32 @@ void test_two_level_stack()
 	stack_destroy(stack);
 }
 
+void test_create_destroy_works(void)
+{
+	names_stack_t *stack;
+
+	stack = stack_new();
+	stack_destroy(stack);
+
+	stack = stack_new();
+	stack_enter(stack);
+	stack_name_add(stack, "baz");
+	stack_name_add(stack, "foo");
+	stack_destroy(stack);
+
+	stack = stack_new();
+	stack_enter(stack);
+	stack_enter(stack);
+	stack_enter(stack);
+	stack_name_add(stack, "baz");
+	stack_name_add(stack, "foo");
+	stack_enter(stack);
+	stack_name_add(stack, "foo");
+	stack_name_add(stack, "baz");
+	stack_enter(stack);
+	stack_destroy(stack);
+}
+
 int main(int argc, char *argv[])
 {
 	if (argc > 1) {
@@ -110,6 +136,7 @@ int main(int argc, char *argv[])
 	}
 
 	test_two_level_stack();
+	test_create_destroy_works();
 
 	return 0;
 }

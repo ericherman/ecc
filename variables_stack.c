@@ -44,10 +44,12 @@ void stack_enter_or_leave(names_stack_t * stack, unsigned int enter)
 	}
 
 	size = sizeof(names_list_t *) * new_names_lists_c;
-	names_lists = (names_list_t **) heap_malloc(size);
-	if (!names_lists) {
-		err_msg("malloc names_list_t array\n");
-		die();
+	if (size > 0) {
+		names_lists = (names_list_t **) heap_malloc(size);
+		if (!names_lists) {
+			err_msg("malloc names_list_t array\n");
+			die();
+		}
 	}
 
 	for (i = 0; i < old_names_lists_c && i < new_names_lists_c; i++) {
@@ -59,6 +61,8 @@ void stack_enter_or_leave(names_stack_t * stack, unsigned int enter)
 		for (i = 0; i < old_names_list->names_c; i++) {
 			heap_free((void *)old_names_list->names[i]);
 		}
+		heap_free((void *)old_names_list->names);
+		heap_free((void *)old_names_list);
 	}
 	if (old_names_lists) {
 		heap_free(old_names_lists);
@@ -107,7 +111,7 @@ void stack_name_add(names_stack_t * stack, const char *name)
 		heap_free(old_names);
 	}
 
-	size = sizeof(char) * str_nlen(name,100) + 1;
+	size = sizeof(char) * str_nlen(name, 100) + 1;
 	new_buffer = (char *)heap_malloc(size);
 	if (!new_buffer) {
 		err_msg("malloc char*\n");
@@ -159,10 +163,12 @@ void stack_destroy(names_stack_t * stack)
 		stack_leave(stack);
 	}
 
-	if (stack->names_lists && stack->names_lists[0]) {
-		heap_free(stack->names_lists[0]->names);
-	}
-	if (stack->names_lists) {
+	if (stack->names_lists_c > 0) {
+		if (stack->names_lists[0]) {
+			if (stack->names_lists[0]->names) {
+				heap_free(stack->names_lists[0]->names);
+			}
+		}
 		heap_free(stack->names_lists);
 	}
 	heap_free(stack);
