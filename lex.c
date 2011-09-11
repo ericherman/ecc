@@ -65,7 +65,7 @@ void lex_look_ahead(const char *input, unsigned int input_len,
 	}
 
 	output[0] = '\0';
-	while ((*pos + i) < end) {
+	while (input[*pos] && (*pos + i) < end) {
 		last = next;
 		next = input[*pos + i];
 		if (is_whitespace(next)) {
