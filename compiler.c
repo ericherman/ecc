@@ -1,4 +1,5 @@
 #include "compiler.h"
+#include "compiler_inner.h"
 #include "misc.h"
 
 #define TOKEN_MAX 1000

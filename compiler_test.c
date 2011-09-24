@@ -3,6 +3,7 @@
 #include <string.h>
 #include "test_util.h"
 #include "compiler.h"
+#include "compiler_inner.h"
 #include "mock_context.h"
 
 void check_expected_calls(context_t * ctx, const char *test_name,

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "test_util.h"
 #include "compiler.h"
+#include "compiler_inner.h"
 #include "std_context.h"
 #include "std_context_t.h"
 
