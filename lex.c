@@ -97,6 +97,19 @@ void lex_look_ahead(const char *input, unsigned int input_len,
 	}
 }
 
+void lex_look_ahead_n(const char *input, unsigned int input_len,
+		      unsigned int *pos, unsigned int num_ahead,
+		      char *output, unsigned int output_size)
+{
+	unsigned int i;
+
+	output[0] = '\0';
+	for (i = 0; i < num_ahead; i++) {
+		*pos += str_nlen(output, output_size);
+		lex_look_ahead(input, input_len, pos, output, output_size);
+	}
+}
+
 int _is_operator(char c)
 {
 	return c == '+' || c == '-' || c == '*' || c == '/' || c == '('

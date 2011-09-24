@@ -84,6 +84,19 @@ void test_lex_look_ahead_3()
 	check_token(input, len, &pos, "17", pos);
 }
 
+void test_lex_look_ahead_n_1()
+{
+	const char *input = "foo= 2;int b;";
+	unsigned int len, pos;
+	char result[80];
+
+	len = strlen(input);
+
+	pos = 0;
+	lex_look_ahead_n(input, len, &pos, 2, result, sizeof(result));
+	check_strs(result, "=", "test_lex_look_ahead_n_1");
+}
+
 void test_lex_get_number()
 {
 	const char *input = "7+ 4211 * -2";
@@ -123,5 +136,6 @@ int main(int argc, char *argv[])
 	test_lex_look_ahead_2();
 	test_lex_look_ahead_3();
 	test_lex_get_number();
+	test_lex_look_ahead_n_1();
 	return 0;
 }
