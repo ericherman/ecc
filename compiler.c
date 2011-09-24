@@ -6,13 +6,18 @@
 
 int is_add_precedence_op(const char *token);
 int is_multiply_precedence_op(const char *token);
+int is_declaration(const char *token);
 
 void statement(context_t * ctx)
 {
 	const char *token;
 
 	token = ctx->lex_look_ahead(ctx);
-	expression(ctx, token);
+	if (is_declaration(token)) {
+		/* declaration(ctx, token); */
+	} else {
+		expression(ctx, token);
+	}
 }
 
 void expression(context_t * ctx, const char *token)
@@ -105,6 +110,11 @@ int is_multiply_precedence_op(const char *token)
 
 	c = token[0];
 	return c == '*' || c == '/';
+}
+
+int is_declaration(const char *token)
+{
+	return 0 == str_ncmp("int", 4, token, TOKEN_MAX);
 }
 
 void compile(context_t * ctx)
