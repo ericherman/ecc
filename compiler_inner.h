@@ -10,6 +10,6 @@ void factor(context_t * ctx);
 
 void term(context_t * ctx);
 
-void expression(context_t * ctx);
+void expression(context_t * ctx, const char *token);
 
 #endif /* _COMPILER_INNER_H_ */

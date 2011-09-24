@@ -110,7 +110,7 @@ void check_expression_add_subtract(const char *test_name,
 
 	expected_calls[9] = op;
 
-	expression(ctx);
+	expression(ctx, ctx->lex_look_ahead(ctx));
 
 	check_expected_calls(ctx, test_name, expected_calls, count);
 	free_fake_context(ctx);
@@ -171,7 +171,7 @@ void test_three_add_op_expr()
 	unsigned int count = 19;
 	context_t *ctx = init_fake_context(tokensv, tokensc);
 
-	expression(ctx);
+	expression(ctx, ctx->lex_look_ahead(ctx));
 
 	check_expected_calls(ctx, "three_add_op_expr", expected_calls, count);
 
@@ -333,7 +333,7 @@ void test_negative_expr()
 
 	context_t *ctx = init_fake_context(tokensv, tokensc);
 
-	expression(ctx);
+	expression(ctx, ctx->lex_look_ahead(ctx));
 
 	check_expected_calls(ctx, "test_negative_expr", expected_calls, count);
 	check_expected_terms(ctx, "test_negative_expr", expect_termsv, termsc);

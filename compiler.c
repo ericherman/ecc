@@ -9,15 +9,16 @@ int is_multiply_precedence_op(const char *token);
 
 void statement(context_t * ctx)
 {
-	expression(ctx);
-}
-
-void expression(context_t * ctx)
-{
 	const char *token;
-	char previous_token[TOKEN_MAX];
 
 	token = ctx->lex_look_ahead(ctx);
+	expression(ctx, token);
+}
+
+void expression(context_t * ctx, const char *token)
+{
+	char previous_token[TOKEN_MAX];
+
 	if (token[0] == '-') {
 		/* okay, we have a "-(foo)" situation */
 		/* let's just slip-stream a zero. */
@@ -54,7 +55,7 @@ void factor(context_t * ctx)
 	token = ctx->lex_look_ahead(ctx);
 	if (token[0] == '(') {
 		ctx->lex_advance(ctx, 1);
-		expression(ctx);
+		expression(ctx, token);
 		/* eat close paren */
 		ctx->lex_advance(ctx, 1);
 	} else {
