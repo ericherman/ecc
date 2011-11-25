@@ -71,6 +71,7 @@ void test_two_level_stack(void)
 	check_depth(check_num++, stack, "foo", 0);
 	check_depth(check_num++, stack, "bar", 0);
 	check_depth(check_num++, stack, "baz", 0);
+	check_unsigned_int(stack_frame_size(stack), 0);
 
 	stack_name_add(stack, "foo");
 	stack_name_add(stack, "bar");
@@ -78,22 +79,28 @@ void test_two_level_stack(void)
 	check_depth(check_num++, stack, "foo", 1);
 	check_depth(check_num++, stack, "bar", 2);
 	check_depth(check_num++, stack, "baz", 0);
+	check_unsigned_ints(stack_frame_size(stack), 2, "1");
 
 	stack_enter(stack);
+	check_unsigned_ints(stack_frame_size(stack), 0, "2");
 	stack_name_add(stack, "baz");
+	check_unsigned_ints(stack_frame_size(stack), 1, "3");
 	stack_name_add(stack, "foo");
+	check_unsigned_ints(stack_frame_size(stack), 2, "4");
 
 	check_depth(check_num++, stack, "foo", 2);
 	check_depth(check_num++, stack, "bar", 0);
 	check_depth(check_num++, stack, "baz", 1);
 
 	stack_leave(stack);
+	check_unsigned_ints(stack_frame_size(stack), 2, "5");
 
 	check_depth(check_num++, stack, "foo", 1);
 	check_depth(check_num++, stack, "bar", 2);
 	check_depth(check_num++, stack, "baz", 0);
 
 	stack_leave(stack);
+	check_unsigned_ints(stack_frame_size(stack), 0, "6");
 
 	check_depth(check_num++, stack, "foo", 0);
 	check_depth(check_num++, stack, "bar", 0);

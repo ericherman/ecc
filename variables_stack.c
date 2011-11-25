@@ -147,6 +147,22 @@ unsigned int stack_name_pos(names_stack_t * stack, const char *name)
 	return 0;
 }
 
+unsigned int stack_frame_size(names_stack_t * stack)
+{
+	names_list_t *list;
+
+	if (stack->names_lists_c == 0) {
+		return 0;
+	}
+	list = stack->names_lists[stack->names_lists_c - 1];
+	if (!list) {
+		err_msg("no list?\n");
+		return 0;
+	}
+
+	return list->names_c;
+}
+
 void stack_enter(names_stack_t * stack)
 {
 	stack_enter_or_leave(stack, 1);

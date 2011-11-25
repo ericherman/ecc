@@ -11,11 +11,11 @@ typedef struct {
 	unsigned int names_lists_c;
 } names_stack_t;
 
-void stack_to_string(names_stack_t * stack, char *buf, unsigned int buf_size);
 names_stack_t *stack_new(void);
 void stack_enter(names_stack_t * stack);
 void stack_name_add(names_stack_t * stack, const char *name);
 unsigned int stack_name_pos(names_stack_t * stack, const char *name);
+unsigned int stack_frame_size(names_stack_t * stack);
 void stack_leave(names_stack_t * stack);
 void stack_destroy(names_stack_t * stack);
 
