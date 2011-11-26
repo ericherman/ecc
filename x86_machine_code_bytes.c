@@ -41,6 +41,8 @@ unsigned char return_ops[] = { 0x5b /* popl %ebx */  };
 
 unsigned int return_ops_len = sizeof(return_ops);
 
+unsigned char pushl_op = 0x68;	/* pushl $immediate_value */
+
 unsigned char *get_addl_ops()
 {
 	return addl_ops;
@@ -89,4 +91,9 @@ unsigned char *get_return_ops()
 unsigned int get_return_ops_len()
 {
 	return return_ops_len;
+}
+
+unsigned char get_pushl_op()
+{
+	return pushl_op;
 }

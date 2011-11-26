@@ -17,4 +17,5 @@ unsigned int get_idiv_ops_len();
 unsigned char *get_return_ops();
 unsigned int get_return_ops_len();
 
+unsigned char get_pushl_op();
 #endif /* _X86_MACHINE_CODE_BYTES_H_ */

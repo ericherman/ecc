@@ -9,7 +9,7 @@ void output_term(int number, unsigned char *buf, unsigned int buf_size,
 
 	unsigned char bytes[5];
 
-	bytes[0] = 0x68;	/* pushl $immediate_value */
+	bytes[0] = get_pushl_op();
 	write_int(&bytes[1], number);
 
 	write_bytes("term", buf, buf_size, bytes_written, bytes, 5);
