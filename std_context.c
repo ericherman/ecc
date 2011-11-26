@@ -100,6 +100,22 @@ void std_output_divide(context_t * ctx)
 	output_divide(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
+void std_output_stack_enter(context_t * ctx)
+{
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	output_stack_enter(this->byte_buf, BBUF_MAX, &(this->bytes_written));
+}
+
+void std_output_stack_leave(context_t * ctx)
+{
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	output_stack_leave(this->byte_buf, BBUF_MAX, &(this->bytes_written));
+}
+
 void std_output_statements_complete(context_t * ctx)
 {
 	std_context_t *this;
@@ -164,6 +180,8 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	ctx->output_subtract = std_output_subtract;
 	ctx->output_multiply = std_output_multiply;
 	ctx->output_divide = std_output_divide;
+	ctx->output_stack_enter = std_output_stack_enter;
+	ctx->output_stack_leave = std_output_stack_leave;
 	ctx->output_statements_complete = std_output_statements_complete;
 
 	ctx->read_file = std_read_file;

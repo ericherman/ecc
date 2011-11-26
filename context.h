@@ -15,6 +15,8 @@ typedef struct context_t_ {
 	void (*output_subtract) (struct context_t_ * ctx);
 	void (*output_multiply) (struct context_t_ * ctx);
 	void (*output_divide) (struct context_t_ * ctx);
+	void (*output_stack_enter) (struct context_t_ * ctx);
+	void (*output_stack_leave) (struct context_t_ * ctx);
 	void (*output_statements_complete) (struct context_t_ * ctx);
 
 	void (*read_file) (struct context_t_ * ctx);

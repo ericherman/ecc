@@ -126,6 +126,16 @@ void fake_output_divide(context_t * ctx)
 	add_to_mock_data(ctx, "output_divide");
 }
 
+void fake_output_stack_enter(context_t * ctx)
+{
+	add_to_mock_data(ctx, "output_stack_enter");
+}
+
+void fake_output_stack_leave(context_t * ctx)
+{
+	add_to_mock_data(ctx, "output_stack_leave");
+}
+
 void fake_output_statements_complete(context_t * ctx)
 {
 	add_to_mock_data(ctx, "output_statements_complete");
@@ -175,6 +185,8 @@ context_t *init_fake_context(const char **token, unsigned int tokens)
 	ctx->output_subtract = fake_output_subtract;
 	ctx->output_multiply = fake_output_multiply;
 	ctx->output_divide = fake_output_divide;
+	ctx->output_stack_enter = fake_output_stack_enter;
+	ctx->output_stack_leave = fake_output_stack_leave;
 	ctx->output_statements_complete = fake_output_statements_complete;
 
 	ctx->read_file = fake_read_file;

@@ -130,6 +130,7 @@ void compile_inner(context_t * ctx)
 
 	ctx->output_header(ctx);
 
+	ctx->output_stack_enter(ctx);
 	while (1) {
 		token = ctx->lex_look_ahead(ctx);
 		if (token[0] == '\0') {
@@ -146,5 +147,6 @@ void compile_inner(context_t * ctx)
 	}
 
 	ctx->output_statements_complete(ctx);
+	ctx->output_stack_leave(ctx);
 	ctx->output_os_return(ctx);
 }

@@ -21,4 +21,10 @@ void output_multiply(unsigned char *buf, unsigned int buf_size,
 void output_divide(unsigned char *buf, unsigned int buf_size,
 		   unsigned int *bytes_written);
 
+void output_stack_enter(unsigned char *buf, unsigned int buf_size,
+			unsigned int *bytes_written);
+
+void output_stack_leave(unsigned char *buf, unsigned int buf_size,
+			unsigned int *bytes_written);
+
 #endif /* _X86_MACHINE_CODE_H_ */

@@ -43,6 +43,19 @@ unsigned int return_ops_len = sizeof(return_ops);
 
 unsigned char pushl_op = 0x68;	/* pushl $immediate_value */
 
+unsigned char stack_enter_ops[] = {
+	0x55,			/* pushl %ebp */
+	0x89, 0xe5,		/* movl %esp, %ebp */
+};
+
+unsigned int stack_enter_ops_len = sizeof(stack_enter_ops);
+
+unsigned char stack_leave_ops[] = {
+	0x5d,			/* popl %ebp */
+};
+
+unsigned int stack_leave_ops_len = sizeof(stack_leave_ops);
+
 unsigned char *get_addl_ops()
 {
 	return addl_ops;
@@ -96,4 +109,24 @@ unsigned int get_return_ops_len()
 unsigned char get_pushl_op()
 {
 	return pushl_op;
+}
+
+unsigned char *get_stack_enter_ops()
+{
+	return stack_enter_ops;
+}
+
+unsigned int get_stack_enter_ops_len()
+{
+	return stack_enter_ops_len;
+}
+
+unsigned char *get_stack_leave_ops()
+{
+	return stack_leave_ops;
+}
+
+unsigned int get_stack_leave_ops_len()
+{
+	return stack_leave_ops_len;
 }

@@ -347,15 +347,17 @@ void test_compile_inner()
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
 		"output_header",
+		"output_stack_enter",
 		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
 		"lex_look_ahead",
 		"output_statements_complete",
+		"output_stack_leave",
 		"output_os_return",
 	};
 
-	unsigned int count = 7;
+	unsigned int count = 9;
 	int expect_termsv[] = { 4 };
 	unsigned int termsc = 1;
 
@@ -376,16 +378,18 @@ void test_compile()
 	const char *expected_calls[] = {
 		"read_file",
 		"output_header",
+		"output_stack_enter",
 		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
 		"lex_look_ahead",
 		"output_statements_complete",
+		"output_stack_leave",
 		"output_os_return",
 		"write_file"
 	};
 
-	unsigned int count = 9;
+	unsigned int count = 11;
 	int expect_termsv[] = { 7 };
 	unsigned int termsc = 1;
 

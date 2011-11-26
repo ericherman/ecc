@@ -18,4 +18,11 @@ unsigned char *get_return_ops();
 unsigned int get_return_ops_len();
 
 unsigned char get_pushl_op();
+
+unsigned char *get_stack_enter_ops();
+unsigned int get_stack_enter_ops_len();
+
+unsigned char *get_stack_leave_ops();
+unsigned int get_stack_leave_ops_len();
+
 #endif /* _X86_MACHINE_CODE_BYTES_H_ */
