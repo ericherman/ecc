@@ -55,7 +55,9 @@ void assignment(context_t * ctx, const char *variable)
 
 	token = ctx->lex_look_ahead(ctx);
 	if (token[0] != '=') {
+		err_msg("token '");
 		err_msg(token);
+		err_msg("' is not an '='\n");
 		die();
 	}
 	ctx->lex_advance(ctx, str_nlen(token, TOKEN_MAX));
