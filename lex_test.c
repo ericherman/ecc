@@ -97,34 +97,6 @@ void test_lex_look_ahead_n_1()
 	check_strs(result, "=", "test_lex_look_ahead_n_1");
 }
 
-void test_lex_get_number()
-{
-	const char *input = "7+ 4211 * -2";
-	unsigned int pos, expected_pos;
-	int result, expected_result;
-
-	pos = 0;
-	result = lex_get_number(&input[pos], strlen(input), &pos);
-	expected_pos = 1;
-	expected_result = 7;
-	check_unsigned_int(pos, expected_pos);
-	check_int(result, expected_result);
-
-	pos = 3;
-	result = lex_get_number(&input[pos], strlen(input), &pos);
-	expected_pos = 7;
-	expected_result = 4211;
-	check_unsigned_int(pos, expected_pos);
-	check_int(result, expected_result);
-
-	pos = 10;
-	result = lex_get_number(&input[pos], strlen(input), &pos);
-	expected_result = -2;
-	expected_pos = 12;
-	check_unsigned_int(pos, expected_pos);
-	check_int(result, expected_result);
-}
-
 int main(int argc, char *argv[])
 {
 	if (argc > 1) {
@@ -135,7 +107,6 @@ int main(int argc, char *argv[])
 	test_lex_look_ahead_1();
 	test_lex_look_ahead_2();
 	test_lex_look_ahead_3();
-	test_lex_get_number();
 	test_lex_look_ahead_n_1();
 	return 0;
 }

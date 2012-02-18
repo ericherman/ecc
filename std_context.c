@@ -52,19 +52,6 @@ void std_lex_advance(context_t * ctx, unsigned int chars)
 	this->buf_pos += chars;
 }
 
-int std_lex_get_number(context_t * ctx)
-{
-	std_context_t *this;
-	const char *sub_str;
-	unsigned int sub_str_size;
-
-	this = _std_context(ctx);
-	sub_str = &(this->buf[this->buf_pos]);
-	sub_str_size = this->buf_size - this->buf_pos;
-
-	return lex_get_number(sub_str, sub_str_size, &(this->buf_pos));
-}
-
 void std_stack_enter(struct context_t_ *ctx)
 {
 	std_context_t *this;
@@ -233,7 +220,6 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 
 	ctx->lex_look_ahead = std_lex_look_ahead;
 	ctx->lex_advance = std_lex_advance;
-	ctx->lex_get_number = std_lex_get_number;
 
 	ctx->stack_enter = std_stack_enter;
 	ctx->stack_assign_name = std_stack_assign_name;

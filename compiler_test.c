@@ -60,7 +60,7 @@ void test_term_simple()
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
 		/* call factor */
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		/* look ahead for multiply */
 		"lex_look_ahead",
@@ -116,7 +116,7 @@ void test_assignment()
 		"lex_look_ahead",
 		"lex_advance",
 		"lex_look_ahead",
-		"lex_get_number",
+		"lex_advance",
 		"stack_name_pos",
 		"output_stack_assign_int",
 	};
@@ -145,7 +145,7 @@ void check_expression_add_subtract(const char *test_name,
 		"lex_look_ahead",
 		/* term */
 		/* call factor */
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		/* term look ahead for multiply */
 		"lex_look_ahead",
@@ -154,7 +154,7 @@ void check_expression_add_subtract(const char *test_name,
 		"lex_advance",
 		/* term again */
 		"lex_look_ahead",
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		"lex_look_ahead",
 		/* add/subtract them */
@@ -196,7 +196,7 @@ void test_three_add_op_expr()
 	const char *expected_calls[] = {
 		/* term calls factor */
 		"lex_look_ahead",
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		/* is_mult_op */
 		"lex_look_ahead",
@@ -206,7 +206,7 @@ void test_three_add_op_expr()
 		"lex_advance",
 		/* load next term */
 		"lex_look_ahead",
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		"lex_look_ahead",
 		/* output add */
@@ -217,7 +217,7 @@ void test_three_add_op_expr()
 		"lex_advance",
 		/* load next term */
 		"lex_look_ahead",
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		"lex_look_ahead",
 		/* output subtract */
@@ -244,7 +244,7 @@ void test_factor()
 	const char *expected_calls[] = {
 		/* is paren? */
 		/* no */
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 	};
 	unsigned int count = 2;
@@ -265,7 +265,7 @@ void check_two_factor_term(const char *test_name,
 
 	const char *expected_calls[] = {
 		/* term calls factor */
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		/* is_mult_op */
 		"lex_look_ahead",
@@ -273,7 +273,7 @@ void check_two_factor_term(const char *test_name,
 		"lex_advance",
 		/* load next factor */
 		"lex_look_ahead",
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		/* output the multiply */
 		"MULTIPLY_DIVIDE_DUMMY",
@@ -322,7 +322,7 @@ void test_paren_factor()
 		/*       is paren? */
 		"lex_look_ahead",
 		/*       no */
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		/*   is_mul_op? */
 		"lex_look_ahead",
@@ -365,7 +365,7 @@ void test_negative_expr()
 		/* no call term */
 		/* is paren? */
 		/* no, output 23 */
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		/* is multiply? */
 		"lex_look_ahead",
@@ -405,7 +405,7 @@ void test_compile_inner()
 		"stack_enter",
 		"output_stack_enter",
 		"lex_look_ahead",
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		"lex_look_ahead",
 		"output_statements_complete",
@@ -438,7 +438,7 @@ void test_compile()
 		"stack_enter",
 		"output_stack_enter",
 		"lex_look_ahead",
-		"lex_get_number",
+		"lex_advance",
 		"output_term",
 		"lex_look_ahead",
 		"output_statements_complete",

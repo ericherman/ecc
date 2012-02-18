@@ -5,45 +5,6 @@
 int _is_operator(char c);
 int _is_statement_terminator(char c);
 
-int lex_get_number(const char *str, unsigned int max_len, unsigned int *len)
-{
-	unsigned int i;
-	unsigned int found;
-	unsigned int negative;
-	int result;
-
-	result = 0;
-	found = 0;
-	negative = 0;
-	for (i = 0; i < max_len; i++) {
-		if (!found && is_whitespace(str[i])) {
-			continue;
-		}
-		if (!found && !negative && str[i] == '-') {
-			negative = 1;
-		} else if (is_number(str[i])) {
-			found = 1;
-			result = (result * 10) + (str[i] - '0');
-		} else {
-			break;
-		}
-
-	}
-	(*len) += i;
-
-	if (!found) {
-		err_msg("lex_get_number unable to parse '");
-		err_msg(str);
-		err_msg("'\n");
-		die();
-	}
-	if (negative) {
-		result = -result;
-	}
-
-	return result;
-}
-
 void lex_look_ahead(const char *input, unsigned int input_len,
 		    unsigned int *pos, char *output, unsigned int output_size)
 {

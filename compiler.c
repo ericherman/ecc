@@ -62,7 +62,8 @@ void assignment(context_t * ctx, const char *variable)
 
 	token = ctx->lex_look_ahead(ctx);
 	if (is_number(token[0])) {
-		number = ctx->lex_get_number(ctx);
+		number = a_to_i(token, str_nlen(token,TOKEN_MAX));
+		ctx->lex_advance(ctx, str_nlen(token, TOKEN_MAX));
 		var_pos = ctx->stack_name_pos(ctx, variable);
 		ctx->output_stack_assign_int(ctx, var_pos, number);
 	} else {
@@ -107,6 +108,7 @@ void expression(context_t * ctx, const char *token)
 void factor(context_t * ctx, const char *token)
 {
 	int number;
+	unsigned int negate;
 
 	if (token[0] == '(') {
 		ctx->lex_advance(ctx, 1);
@@ -115,7 +117,18 @@ void factor(context_t * ctx, const char *token)
 		/* eat close paren */
 		ctx->lex_advance(ctx, 1);
 	} else {
-		number = ctx->lex_get_number(ctx);
+		if((token[0] == '-') && (str_nlen(token, TOKEN_MAX) == 1)) {
+			negate = 1;
+			ctx->lex_advance(ctx, 1);
+			token = ctx->lex_look_ahead(ctx);
+		} else {
+			negate = 0;
+		}
+		number = a_to_i(token, str_nlen(token, TOKEN_MAX));
+		if (negate) {
+			number = -number;
+		}
+                ctx->lex_advance(ctx, str_nlen(token, TOKEN_MAX));
 		ctx->output_term(ctx, number);
 	}
 }
