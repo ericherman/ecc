@@ -6,6 +6,8 @@
 #define TOKEN_MAX 100
 #define BBUF_MAX 0xFFFF
 
+#include "names_stack.h"
+
 typedef struct std_context_t_ {
 	/* need to investigate memory mapped files */
 	const char *source_file;
@@ -14,6 +16,8 @@ typedef struct std_context_t_ {
 	unsigned int buf_pos;
 
 	char next_token[TOKEN_MAX];
+
+	names_stack_t *names_stack;
 
 	const char *out_file;
 	unsigned char byte_buf[BBUF_MAX];

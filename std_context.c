@@ -5,6 +5,7 @@
 #include "x86_machine_code.h"
 #include "elf_header.h"
 #include "misc.h"
+#include "names_stack.h"
 
 /* convenience function to hide casting clutter */
 inline std_context_t *_std_context(context_t * ctx)
@@ -43,6 +44,21 @@ const char *std_lex_look_ahead(context_t * ctx)
 	return this->next_token;
 }
 
+const char *std_lex_get_name(context_t * ctx)
+{
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	ctx->lex_look_ahead(ctx);
+	if (!(is_alpha(this->next_token[0]) || (this->next_token[0] == '_'))) {
+		err_msg("token '");
+		err_msg(this->next_token);
+		err_msg("' not a valid name\n");
+		die();
+	}
+	return this->next_token;
+}
+
 void std_lex_advance(context_t * ctx, unsigned int chars)
 {
 	std_context_t *this;
@@ -62,6 +78,46 @@ int std_lex_get_number(context_t * ctx)
 	sub_str_size = this->buf_size - this->buf_pos;
 
 	return lex_get_number(sub_str, sub_str_size, &(this->buf_pos));
+}
+
+void std_stack_enter(struct context_t_ *ctx)
+{
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	stack_enter(this->names_stack);
+}
+
+void std_stack_assign_name(context_t * ctx, const char *name)
+{
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	stack_name_add(this->names_stack, name);
+}
+
+unsigned int std_stack_name_pos(struct context_t_ *ctx, const char *name)
+{
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	return stack_name_pos(this->names_stack, name);
+}
+
+unsigned int std_stack_frame_size(struct context_t_ *ctx)
+{
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	return stack_frame_size(this->names_stack);
+}
+
+void std_stack_leave(struct context_t_ *ctx)
+{
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	stack_leave(this->names_stack);
 }
 
 void std_output_term(context_t * ctx, int number)
@@ -106,6 +162,24 @@ void std_output_stack_enter(context_t * ctx)
 
 	this = _std_context(ctx);
 	output_stack_enter(this->byte_buf, BBUF_MAX, &(this->bytes_written));
+}
+
+void std_output_stack_allocate(context_t * ctx, unsigned int bytes)
+{
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	output_stack_allocate(bytes, this->byte_buf, BBUF_MAX,
+			      &(this->bytes_written));
+}
+
+void std_output_stack_assign_int(context_t * ctx, unsigned int depth, int num)
+{
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	output_stack_assign_int(depth, num, this->byte_buf, BBUF_MAX,
+				&(this->bytes_written));
 }
 
 void std_output_stack_leave(context_t * ctx)
@@ -162,6 +236,7 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	context_t *ctx;
 	unsigned int size;
 	std_context_t *data;
+	names_stack_t *names_stack;
 
 	size = sizeof(struct context_t_);
 
@@ -174,6 +249,13 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	ctx->lex_look_ahead = std_lex_look_ahead;
 	ctx->lex_advance = std_lex_advance;
 	ctx->lex_get_number = std_lex_get_number;
+	ctx->lex_get_name = std_lex_get_name;
+
+	ctx->stack_enter = std_stack_enter;
+	ctx->stack_assign_name = std_stack_assign_name;
+	ctx->stack_name_pos = std_stack_name_pos;
+	ctx->stack_frame_size = std_stack_frame_size;
+	ctx->stack_leave = std_stack_leave;
 
 	ctx->output_term = std_output_term;
 	ctx->output_add = std_output_add;
@@ -181,6 +263,8 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	ctx->output_multiply = std_output_multiply;
 	ctx->output_divide = std_output_divide;
 	ctx->output_stack_enter = std_output_stack_enter;
+	ctx->output_stack_allocate = std_output_stack_allocate;
+	ctx->output_stack_assign_int = std_output_stack_assign_int;
 	ctx->output_stack_leave = std_output_stack_leave;
 	ctx->output_statements_complete = std_output_statements_complete;
 
@@ -208,11 +292,19 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	data->out_file = out_file;
 	data->bytes_written = 0;
 
+	names_stack = stack_new();
+	data->names_stack = names_stack;
+
 	return ctx;
 }
 
 void free_std_context(context_t * ctx)
 {
+	std_context_t *this;
+
+	this = _std_context(ctx);
+	stack_destroy(this->names_stack);
+	this->names_stack = 0;
 	heap_free(ctx->data);
 	heap_free(ctx);
 }

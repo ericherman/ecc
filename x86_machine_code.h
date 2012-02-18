@@ -24,6 +24,14 @@ void output_divide(unsigned char *buf, unsigned int buf_size,
 void output_stack_enter(unsigned char *buf, unsigned int buf_size,
 			unsigned int *bytes_written);
 
+void output_stack_allocate(unsigned int bytes,
+			   unsigned char *buf, unsigned int buf_size,
+			   unsigned int *bytes_written);
+
+void output_stack_assign_int(unsigned int depth, int number,
+			     unsigned char *buf, unsigned int buf_size,
+			     unsigned int *bytes_written);
+
 void output_stack_leave(unsigned char *buf, unsigned int buf_size,
 			unsigned int *bytes_written);
 

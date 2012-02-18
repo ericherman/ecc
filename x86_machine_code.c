@@ -56,6 +56,33 @@ void output_stack_enter(unsigned char *buf, unsigned int buf_size,
 		    get_stack_enter_ops(), get_stack_enter_ops_len());
 }
 
+void output_stack_allocate(unsigned int bytes_to_allocate,
+			   unsigned char *buf, unsigned int buf_size,
+			   unsigned int *bytes_written)
+{
+	unsigned char bytes[5];
+
+	bytes[0] = 0x85;
+	/* 81 /5 id SUB r/m32,imm32 Subtract imm32 from r/m32 */
+	write_int(&bytes[1], bytes_to_allocate);
+
+	write_bytes("stack allocate", buf, buf_size, bytes_written, bytes, 5);
+}
+
+void output_stack_assign_int(unsigned int depth, int number,
+			     unsigned char *buf, unsigned int buf_size,
+			     unsigned int *bytes_written)
+{
+	unsigned char bytes[9];
+
+	bytes[0] = get_movl_ebp_op();
+
+	write_int(&bytes[1], depth);
+	write_int(&bytes[5], number);
+
+	write_bytes("stack assign int", buf, buf_size, bytes_written, bytes, 9);
+}
+
 void output_stack_leave(unsigned char *buf, unsigned int buf_size,
 			unsigned int *bytes_written)
 {

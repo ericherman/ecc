@@ -78,6 +78,36 @@ void test_term_simple()
 	free_fake_context(ctx);
 }
 
+void test_declaration()
+{
+	const char *tokensv[] = { "int", "a" };
+	unsigned int tokensc = 2;
+	const char *expected_calls[] = {
+		/* eat the 'int' */
+		"lex_advance",
+		"lex_get_name",
+		"stack_assign_name",
+		"lex_look_ahead",
+		"stack_frame_size",
+		/* subract 4 from the stack */
+		"output_stack_allocate",
+	};
+	unsigned int count = 6;
+	context_t *ctx;
+	mock_data *data;
+
+	ctx = init_fake_context(tokensv, tokensc);
+
+	/* mock out the stack frame size response */
+	data = (mock_data *) ctx->data;
+	data->mock_return_uint_vals[0] = 1;
+
+	declaration(ctx, tokensv[0]);
+
+	check_expected_calls(ctx, "test_declaration", expected_calls, count);
+
+}
+
 void check_expression_add_subtract(const char *test_name,
 				   const char **tokensv, unsigned int tokensc,
 				   const char *op)
@@ -347,17 +377,19 @@ void test_compile_inner()
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
 		"output_header",
+		"stack_enter",
 		"output_stack_enter",
 		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
 		"lex_look_ahead",
 		"output_statements_complete",
+		"stack_leave",
 		"output_stack_leave",
 		"output_os_return",
 	};
 
-	unsigned int count = 9;
+	unsigned int count = 11;
 	int expect_termsv[] = { 4 };
 	unsigned int termsc = 1;
 
@@ -378,18 +410,20 @@ void test_compile()
 	const char *expected_calls[] = {
 		"read_file",
 		"output_header",
+		"stack_enter",
 		"output_stack_enter",
 		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
 		"lex_look_ahead",
 		"output_statements_complete",
+		"stack_leave",
 		"output_stack_leave",
 		"output_os_return",
 		"write_file"
 	};
 
-	unsigned int count = 11;
+	unsigned int count = 13;
 	int expect_termsv[] = { 7 };
 	unsigned int termsc = 1;
 
@@ -417,6 +451,7 @@ int main(int argc, char *argv[])
 	test_div_two_factor_term();
 	test_paren_factor();
 	test_negative_expr();
+	test_declaration();
 	test_compile_inner();
 	test_compile();
 

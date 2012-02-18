@@ -12,4 +12,6 @@ void term(context_t * ctx);
 
 void expression(context_t * ctx, const char *token);
 
+void declaration(context_t * ctx, const char *token);
+
 #endif /* _COMPILER_INNER_H_ */

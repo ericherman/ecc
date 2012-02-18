@@ -25,4 +25,6 @@ unsigned int get_stack_enter_ops_len();
 unsigned char *get_stack_leave_ops();
 unsigned int get_stack_leave_ops_len();
 
+unsigned char get_movl_ebp_op();
+
 #endif /* _X86_MACHINE_CODE_BYTES_H_ */

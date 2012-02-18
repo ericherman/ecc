@@ -17,6 +17,10 @@ typedef struct mock_data_t {
 	const char **token;
 	unsigned int tokens;
 	unsigned int token_pos;
+
+	unsigned int mock_return_uint_vals[100];
+	unsigned int mock_return_uint_val_c;
+
 } mock_data;
 
 context_t *init_fake_context(const char **token, unsigned int tokens);

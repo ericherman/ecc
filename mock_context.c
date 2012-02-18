@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "misc.h"
 
 mock_data *_mock_data(context_t * ctx)
 {
@@ -99,6 +100,52 @@ int fake_lex_get_number(context_t * ctx)
 	return atoi(token);
 }
 
+const char *fake_lex_get_name(context_t * ctx)
+{
+	mock_data *list = _mock_data(ctx);
+	const char *token = list->token[list->token_pos++];
+	add_to_mock_data(ctx, "lex_get_name");
+	return token;
+}
+
+void fake_stack_enter(context_t * ctx)
+{
+	add_to_mock_data(ctx, "stack_enter");
+}
+
+void fake_stack_assign_name(context_t * ctx, const char *name)
+{
+	if (is_number(name[0])) {
+		fprintf(stderr, "name '%s' starts with digit\n", name);
+	}
+	add_to_mock_data(ctx, "stack_assign_name");
+}
+
+unsigned int fake_stack_name_pos(context_t * ctx, const char *name)
+{
+	mock_data *this = _mock_data(ctx);
+
+	if (is_number(name[0])) {
+		fprintf(stderr, "name '%s' starts with digit\n", name);
+	}
+
+	add_to_mock_data(ctx, "stack_name_pos");
+	return this->mock_return_uint_vals[this->mock_return_uint_val_c++];
+}
+
+unsigned int fake_stack_frame_size(context_t * ctx)
+{
+	mock_data *this = _mock_data(ctx);
+
+	add_to_mock_data(ctx, "stack_frame_size");
+	return this->mock_return_uint_vals[this->mock_return_uint_val_c++];
+}
+
+void fake_stack_leave(context_t * ctx)
+{
+	add_to_mock_data(ctx, "stack_leave");
+}
+
 void fake_output_term(context_t * ctx, int number)
 {
 	mock_data *list = _mock_data(ctx);
@@ -129,6 +176,24 @@ void fake_output_divide(context_t * ctx)
 void fake_output_stack_enter(context_t * ctx)
 {
 	add_to_mock_data(ctx, "output_stack_enter");
+}
+
+void fake_output_stack_allocate(context_t * ctx, unsigned int bytes)
+{
+	if (bytes == 0) {
+		fprintf(stderr, "allocating zero bytes?\n");
+	}
+	add_to_mock_data(ctx, "output_stack_allocate");
+}
+
+void fake_output_stack_assign_int(context_t * ctx, unsigned int depth, int val)
+{
+	mock_data *list = _mock_data(ctx);
+	if (depth == 0) {
+		fprintf(stderr, "depth of zero?\n");
+	}
+	add_to_mock_data(ctx, "output_stack_enter");
+	list->term[list->terms++] = val;
 }
 
 void fake_output_stack_leave(context_t * ctx)
@@ -173,12 +238,20 @@ context_t *init_fake_context(const char **token, unsigned int tokens)
 	list->terms = 0;
 	list->calls = 0;
 	list->track_lookahead = 1;
+	list->mock_return_uint_val_c = 0;
 
 	ctx->data = list;
 
 	ctx->lex_look_ahead = fake_lex_look_ahead;
 	ctx->lex_advance = fake_lex_advance;
 	ctx->lex_get_number = fake_lex_get_number;
+	ctx->lex_get_name = fake_lex_get_name;
+
+	ctx->stack_enter = fake_stack_enter;
+	ctx->stack_assign_name = fake_stack_assign_name;
+	ctx->stack_name_pos = fake_stack_name_pos;
+	ctx->stack_frame_size = fake_stack_frame_size;
+	ctx->stack_leave = fake_stack_leave;
 
 	ctx->output_term = fake_output_term;
 	ctx->output_add = fake_output_add;
@@ -186,6 +259,8 @@ context_t *init_fake_context(const char **token, unsigned int tokens)
 	ctx->output_multiply = fake_output_multiply;
 	ctx->output_divide = fake_output_divide;
 	ctx->output_stack_enter = fake_output_stack_enter;
+	ctx->output_stack_allocate = fake_output_stack_allocate;
+	ctx->output_stack_assign_int = fake_output_stack_assign_int;
 	ctx->output_stack_leave = fake_output_stack_leave;
 	ctx->output_statements_complete = fake_output_statements_complete;
 

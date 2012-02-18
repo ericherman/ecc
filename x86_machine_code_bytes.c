@@ -56,6 +56,8 @@ unsigned char stack_leave_ops[] = {
 
 unsigned int stack_leave_ops_len = sizeof(stack_leave_ops);
 
+unsigned char movl_ebp = 0xbd;	/* B8+ rd MOV r32,imm32 Move imm32 to r32 */
+
 unsigned char *get_addl_ops()
 {
 	return addl_ops;
@@ -129,4 +131,9 @@ unsigned char *get_stack_leave_ops()
 unsigned int get_stack_leave_ops_len()
 {
 	return stack_leave_ops_len;
+}
+
+unsigned char get_movl_ebp_op()
+{
+	return movl_ebp;
 }

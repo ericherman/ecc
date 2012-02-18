@@ -7,6 +7,7 @@
 int is_add_precedence_op(const char *token);
 int is_multiply_precedence_op(const char *token);
 int is_declaration(const char *token);
+void done_declaring(context_t * ctx);
 
 void statement(context_t * ctx)
 {
@@ -14,9 +15,21 @@ void statement(context_t * ctx)
 
 	token = ctx->lex_look_ahead(ctx);
 	if (is_declaration(token)) {
-		/* declaration(ctx, token); */
+		declaration(ctx, token);
 	} else {
 		expression(ctx, token);
+	}
+}
+
+
+void declaration(context_t * ctx, const char *token)
+{
+	ctx->lex_advance(ctx, str_nlen(token, TOKEN_MAX));
+	token = ctx->lex_get_name(ctx);
+	ctx->stack_assign_name(ctx, token);
+	token = ctx->lex_look_ahead(ctx);
+	if (!(is_declaration(token))) {
+		done_declaring(ctx);
 	}
 }
 
@@ -96,6 +109,21 @@ void term(context_t * ctx)
 	}
 }
 
+void done_declaring(context_t * ctx) {
+	unsigned int frame_size;
+	unsigned int bytes;
+	unsigned int variable_size;
+
+	variable_size = 4;
+	frame_size = ctx->stack_frame_size(ctx);
+	if (frame_size == 0) {
+		return;
+	}
+	bytes = variable_size * frame_size;
+
+	ctx->output_stack_allocate(ctx, bytes);
+}
+
 int is_add_precedence_op(const char *token)
 {
 	char c;
@@ -130,6 +158,7 @@ void compile_inner(context_t * ctx)
 
 	ctx->output_header(ctx);
 
+	ctx->stack_enter(ctx);
 	ctx->output_stack_enter(ctx);
 	while (1) {
 		token = ctx->lex_look_ahead(ctx);
@@ -147,6 +176,7 @@ void compile_inner(context_t * ctx)
 	}
 
 	ctx->output_statements_complete(ctx);
+	ctx->stack_leave(ctx);
 	ctx->output_stack_leave(ctx);
 	ctx->output_os_return(ctx);
 }
