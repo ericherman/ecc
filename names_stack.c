@@ -1,4 +1,4 @@
-#include "variables_stack.h"
+#include "names_stack.h"
 #include "c_lib.h"
 #include "misc.h"
 

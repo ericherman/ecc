@@ -1,5 +1,5 @@
-#ifndef _VARIABLES_STACK_H_
-#define _VARIABLES_STACK_H_
+#ifndef _NAMES_STACK_H_
+#define _NAMES_STACK_H_
 
 typedef struct {
 	const char **names;
@@ -19,4 +19,4 @@ unsigned int stack_frame_size(names_stack_t * stack);
 void stack_leave(names_stack_t * stack);
 void stack_destroy(names_stack_t * stack);
 
-#endif /* _VARIABLES_STACK_H_ */
+#endif /* _NAMES_STACK_H_ */
