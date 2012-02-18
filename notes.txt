@@ -1,0 +1,4 @@
+page 2-5 (actual p 35) has a serious error in Table 2-1:
+the "ModR/M" bytes are off by one row
+
+http://www.intel.com/design/intarch/manuals/243191.htm
