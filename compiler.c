@@ -1,6 +1,7 @@
 #include "compiler.h"
 #include "compiler_inner.h"
 #include "misc.h"
+#include "c_lib.h"
 
 #define TOKEN_MAX 1000
 
@@ -16,11 +17,14 @@ void statement(context_t * ctx)
 	token = ctx->lex_look_ahead(ctx);
 	if (is_declaration(token)) {
 		declaration(ctx, token);
-	} else {
-		expression(ctx, token);
+		return;
 	}
+	if (is_alpha(token[0])) {
+		assignment(ctx, token);
+		return;
+	}
+	expression(ctx, token);
 }
-
 
 void declaration(context_t * ctx, const char *token)
 {
@@ -30,6 +34,33 @@ void declaration(context_t * ctx, const char *token)
 	token = ctx->lex_look_ahead(ctx);
 	if (!(is_declaration(token))) {
 		done_declaring(ctx);
+	}
+}
+
+void assignment(context_t * ctx, const char *variable)
+{
+	const char *token;
+	unsigned int var_pos;
+	int number;
+
+	/* advance past variable */
+	ctx->lex_advance(ctx, str_nlen(variable, TOKEN_MAX));
+
+	token = ctx->lex_look_ahead(ctx);
+	if (token[0] != '=') {
+		err_msg(token);
+		die();
+	}
+	ctx->lex_advance(ctx, str_nlen(token, TOKEN_MAX));
+
+	token = ctx->lex_look_ahead(ctx);
+	if(is_number(token[0])) {
+		number = ctx->lex_get_number(ctx);
+		var_pos = ctx->stack_name_pos(ctx, variable);
+		ctx->output_stack_assign_int(ctx, var_pos, number);
+	} else {
+		err_msg("not supported\n");
+		die();
 	}
 }
 

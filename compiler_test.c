@@ -108,6 +108,35 @@ void test_declaration()
 
 }
 
+void test_assignment()
+{
+	const char *tokensv[] = { "a", "=", "2" };
+	unsigned int tokensc = 3;
+	const char *expected_calls[] = {
+		"lex_advance",
+		"lex_look_ahead",
+		"lex_advance",
+		"lex_look_ahead",
+		"lex_get_number",
+		"stack_name_pos",
+		"output_stack_assign_int",
+	};
+	unsigned int count = 7;
+	context_t *ctx;
+	mock_data *data;
+
+	ctx = init_fake_context(tokensv, tokensc);
+
+	/* mock out the stack name pos response */
+	data = (mock_data *) ctx->data;
+	data->mock_return_uint_vals[0] = 7;
+
+	assignment(ctx, tokensv[0]);
+
+	check_expected_calls(ctx, "test_assignment", expected_calls, count);
+
+}
+
 void check_expression_add_subtract(const char *test_name,
 				   const char **tokensv, unsigned int tokensc,
 				   const char *op)
@@ -452,6 +481,7 @@ int main(int argc, char *argv[])
 	test_paren_factor();
 	test_negative_expr();
 	test_declaration();
+	test_assignment();
 	test_compile_inner();
 	test_compile();
 

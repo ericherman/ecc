@@ -192,7 +192,7 @@ void fake_output_stack_assign_int(context_t * ctx, unsigned int depth, int val)
 	if (depth == 0) {
 		fprintf(stderr, "depth of zero?\n");
 	}
-	add_to_mock_data(ctx, "output_stack_enter");
+	add_to_mock_data(ctx, "output_stack_assign_int");
 	list->term[list->terms++] = val;
 }
 
