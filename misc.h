@@ -16,6 +16,8 @@ unsigned int str_nlen(const char *s, unsigned int limit);
 int str_ncmp(const char *left, unsigned int left_size,
 	     const char *right, unsigned int right_size);
 
+int a_to_i(const char *str, unsigned int max_len);
+
 void write_int(unsigned char *buf, int value);
 void write_bytes(const char *name,
 		 unsigned char *buf, unsigned int buf_size,

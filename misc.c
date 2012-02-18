@@ -117,3 +117,41 @@ void write_bytes(const char *name,
 		buf[(*bytes_written)++] = to_write[i];
 	}
 }
+
+int a_to_i(const char *str, unsigned int max_len)
+{
+	unsigned int i;
+	unsigned int found;
+	unsigned int negative;
+	int result;
+
+	result = 0;
+	found = 0;
+	negative = 0;
+	for (i = 0; i < max_len; i++) {
+		if (!found && is_whitespace(str[i])) {
+			continue;
+		}
+		if (!found && !negative && str[i] == '-') {
+			negative = 1;
+		} else if (is_number(str[i])) {
+			found = 1;
+			result = (result * 10) + (str[i] - '0');
+		} else {
+			break;
+		}
+
+	}
+
+	if (!found) {
+		err_msg("a_to_i unable to parse '");
+		err_msg(str);
+		err_msg("'\n");
+		die();
+	}
+	if (negative) {
+		result = -result;
+	}
+
+	return result;
+}

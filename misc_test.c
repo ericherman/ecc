@@ -62,6 +62,23 @@ void test_str_ncmp()
 	check_int(result, 0);
 }
 
+void test_a_to_i()
+{
+	int result, expected_result;
+
+	result = a_to_i("7", 2);
+	expected_result = 7;
+	check_int(result, expected_result);
+
+	result = a_to_i("4211", 5);
+	expected_result = 4211;
+	check_int(result, expected_result);
+
+	result = a_to_i(" -2 ", 5);
+	expected_result = -2;
+	check_int(result, expected_result);
+}
+
 int main(int argc, char *argv[])
 {
 	if (argc > 1) {
@@ -71,5 +88,7 @@ int main(int argc, char *argv[])
 
 	test_str_nlen();
 	test_str_ncpy();
+	test_a_to_i();
+
 	return 0;
 }
