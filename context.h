@@ -13,7 +13,8 @@ typedef struct context_t_ {
 
 	void (*stack_enter) (struct context_t_ * ctx);
 	void (*stack_assign_name) (struct context_t_ * ctx, const char *name);
-	unsigned int (*stack_name_pos) (struct context_t_ * ctx, const char *name);
+	unsigned int (*stack_name_pos) (struct context_t_ * ctx,
+					const char *name);
 	unsigned int (*stack_frame_size) (struct context_t_ * ctx);
 	void (*stack_leave) (struct context_t_ * ctx);
 
@@ -23,8 +24,10 @@ typedef struct context_t_ {
 	void (*output_multiply) (struct context_t_ * ctx);
 	void (*output_divide) (struct context_t_ * ctx);
 	void (*output_stack_enter) (struct context_t_ * ctx);
-	void (*output_stack_allocate) (struct context_t_ * ctx, unsigned int bytes);
-	void (*output_stack_assign_int) (struct context_t_ * ctx, unsigned int depth, int number);
+	void (*output_stack_allocate) (struct context_t_ * ctx,
+				       unsigned int bytes);
+	void (*output_stack_assign_int) (struct context_t_ * ctx,
+					 unsigned int depth, int number);
 	void (*output_stack_leave) (struct context_t_ * ctx);
 	void (*output_statements_complete) (struct context_t_ * ctx);
 

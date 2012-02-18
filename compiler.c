@@ -54,7 +54,7 @@ void assignment(context_t * ctx, const char *variable)
 	ctx->lex_advance(ctx, str_nlen(token, TOKEN_MAX));
 
 	token = ctx->lex_look_ahead(ctx);
-	if(is_number(token[0])) {
+	if (is_number(token[0])) {
 		number = ctx->lex_get_number(ctx);
 		var_pos = ctx->stack_name_pos(ctx, variable);
 		ctx->output_stack_assign_int(ctx, var_pos, number);
@@ -140,7 +140,8 @@ void term(context_t * ctx)
 	}
 }
 
-void done_declaring(context_t * ctx) {
+void done_declaring(context_t * ctx)
+{
 	unsigned int frame_size;
 	unsigned int bytes;
 	unsigned int variable_size;
