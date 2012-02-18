@@ -6,9 +6,9 @@
 
 void compile_inner(context_t * ctx);
 
-void factor(context_t * ctx);
+void factor(context_t * ctx, const char *token);
 
-void term(context_t * ctx);
+void term(context_t * ctx, const char *token);
 
 void expression(context_t * ctx, const char *token);
 

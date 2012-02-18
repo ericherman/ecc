@@ -73,7 +73,7 @@ void expression(context_t * ctx, const char *token)
 		/* let's just slip-stream a zero. */
 		ctx->output_term(ctx, 0);
 	} else {
-		term(ctx);
+		term(ctx, token);
 	}
 	while (1) {
 		token = ctx->lex_look_ahead(ctx);
@@ -83,8 +83,9 @@ void expression(context_t * ctx, const char *token)
 
 		str_ncpy(previous_token, token, TOKEN_MAX);
 		ctx->lex_advance(ctx, 1);
+		token = ctx->lex_look_ahead(ctx);
 
-		term(ctx);
+		term(ctx, token);
 
 		switch (previous_token[0]) {
 		case '+':
@@ -96,14 +97,13 @@ void expression(context_t * ctx, const char *token)
 	}
 }
 
-void factor(context_t * ctx)
+void factor(context_t * ctx, const char *token)
 {
-	const char *token;
 	int number;
 
-	token = ctx->lex_look_ahead(ctx);
 	if (token[0] == '(') {
 		ctx->lex_advance(ctx, 1);
+		token = ctx->lex_look_ahead(ctx);
 		expression(ctx, token);
 		/* eat close paren */
 		ctx->lex_advance(ctx, 1);
@@ -113,12 +113,11 @@ void factor(context_t * ctx)
 	}
 }
 
-void term(context_t * ctx)
+void term(context_t * ctx, const char *token)
 {
-	const char *token;
 	char previous_token[TOKEN_MAX];
 
-	factor(ctx);
+	factor(ctx, token);
 	while (1) {
 		token = ctx->lex_look_ahead(ctx);
 		if (!is_multiply_precedence_op(token)) {
@@ -127,8 +126,9 @@ void term(context_t * ctx)
 
 		str_ncpy(previous_token, token, TOKEN_MAX);
 		ctx->lex_advance(ctx, 1);
+		token = ctx->lex_look_ahead(ctx);
 
-		factor(ctx);
+		factor(ctx, token);
 
 		switch (previous_token[0]) {
 		case '*':

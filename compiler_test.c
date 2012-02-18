@@ -60,18 +60,17 @@ void test_term_simple()
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
 		/* call factor */
-		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
 		/* look ahead for multiply */
 		"lex_look_ahead",
 	};
-	unsigned int count = 4;
+	unsigned int count = 3;
 	context_t *ctx;
 
 	ctx = init_fake_context(tokensv, tokensc);
 
-	term(ctx);
+	term(ctx, tokensv[0]);
 
 	check_expected_calls(ctx, "test_term_simple", expected_calls, count);
 
@@ -244,16 +243,15 @@ void test_factor()
 	unsigned int tokensc = 1;
 	const char *expected_calls[] = {
 		/* is paren? */
-		"lex_look_ahead",
 		/* no */
 		"lex_get_number",
 		"output_term",
 	};
-	unsigned int count = 3;
+	unsigned int count = 2;
 
 	context_t *ctx = init_fake_context(tokensv, tokensc);
 
-	factor(ctx);
+	factor(ctx, tokensv[0]);
 
 	check_expected_calls(ctx, "test_factor", expected_calls, count);
 
@@ -267,7 +265,6 @@ void check_two_factor_term(const char *test_name,
 
 	const char *expected_calls[] = {
 		/* term calls factor */
-		"lex_look_ahead",
 		"lex_get_number",
 		"output_term",
 		/* is_mult_op */
@@ -284,12 +281,12 @@ void check_two_factor_term(const char *test_name,
 		"lex_look_ahead",
 		/* no, so finish */
 	};
-	unsigned int count = 10;
+	unsigned int count = 9;
 	context_t *ctx = init_fake_context(tokensv, tokensc);
 
-	expected_calls[8] = op;
+	expected_calls[7] = op;
 
-	term(ctx);
+	term(ctx, tokensv[0]);
 
 	check_expected_calls(ctx, test_name, expected_calls, count);
 
@@ -317,7 +314,6 @@ void test_paren_factor()
 
 	const char *expected_calls[] = {
 		/* is paren? */
-		"lex_look_ahead",
 		/* yes, eat open paren (advance) */
 		"lex_advance",
 		/* call expression */
@@ -336,10 +332,10 @@ void test_paren_factor()
 		"lex_advance",
 		/* exit factor */
 	};
-	unsigned int count = 7;
+	unsigned int count = 6;
 	context_t *ctx = init_fake_context(tokensv, tokensc);
 
-	factor(ctx);
+	factor(ctx, tokensv[0]);
 
 	check_expected_calls(ctx, "test_paren_factor", expected_calls, count);
 
