@@ -1,0 +1,10 @@
+"egregiously cheesy compiler"
+
+A for-fun project to provide a place for exploring
+ * x86 assembly
+ * how to translate some C ideas to machine code
+ * modularization and polymorphism in straight C
+ * low-level C unit testing
+
+Please do not confuse this with something intended to be useful
+for anything other than fun or exploration.
