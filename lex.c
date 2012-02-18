@@ -110,26 +110,6 @@ void lex_look_ahead_n(const char *input, unsigned int input_len,
 	}
 }
 
-void lex_get_name(const char *input, unsigned int input_len,
-		  char *output, unsigned int output_size, unsigned int *len)
-{
-	unsigned int pos;
-
-	pos = 0;
-	output[0] = '\0';
-	lex_look_ahead(input, input_len, &pos, output, output_size);
-	if (output[0] == '\0') {
-		err_msg("no token\n");
-		die();
-	} else if (!((is_alpha(output[0])) || (output[0] == '_'))) {
-		err_msg("not a valid name: '");
-		err_msg(output);
-		err_msg("'\n");
-		die();
-	}
-	*len = str_nlen(output, output_size);
-}
-
 int _is_operator(char c)
 {
 	return c == '+' || c == '-' || c == '*' || c == '/' || c == '('

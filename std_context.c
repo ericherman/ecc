@@ -44,21 +44,6 @@ const char *std_lex_look_ahead(context_t * ctx)
 	return this->next_token;
 }
 
-const char *std_lex_get_name(context_t * ctx)
-{
-	std_context_t *this;
-
-	this = _std_context(ctx);
-	ctx->lex_look_ahead(ctx);
-	if (!(is_alpha(this->next_token[0]) || (this->next_token[0] == '_'))) {
-		err_msg("token '");
-		err_msg(this->next_token);
-		err_msg("' not a valid name\n");
-		die();
-	}
-	return this->next_token;
-}
-
 void std_lex_advance(context_t * ctx, unsigned int chars)
 {
 	std_context_t *this;
@@ -249,7 +234,6 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	ctx->lex_look_ahead = std_lex_look_ahead;
 	ctx->lex_advance = std_lex_advance;
 	ctx->lex_get_number = std_lex_get_number;
-	ctx->lex_get_name = std_lex_get_name;
 
 	ctx->stack_enter = std_stack_enter;
 	ctx->stack_assign_name = std_stack_assign_name;

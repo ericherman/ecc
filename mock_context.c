@@ -100,14 +100,6 @@ int fake_lex_get_number(context_t * ctx)
 	return atoi(token);
 }
 
-const char *fake_lex_get_name(context_t * ctx)
-{
-	mock_data *list = _mock_data(ctx);
-	const char *token = list->token[list->token_pos++];
-	add_to_mock_data(ctx, "lex_get_name");
-	return token;
-}
-
 void fake_stack_enter(context_t * ctx)
 {
 	add_to_mock_data(ctx, "stack_enter");
@@ -245,7 +237,6 @@ context_t *init_fake_context(const char **token, unsigned int tokens)
 	ctx->lex_look_ahead = fake_lex_look_ahead;
 	ctx->lex_advance = fake_lex_advance;
 	ctx->lex_get_number = fake_lex_get_number;
-	ctx->lex_get_name = fake_lex_get_name;
 
 	ctx->stack_enter = fake_stack_enter;
 	ctx->stack_assign_name = fake_stack_assign_name;

@@ -8,6 +8,7 @@
 int is_add_precedence_op(const char *token);
 int is_multiply_precedence_op(const char *token);
 int is_declaration(const char *token);
+int is_valid_name(const char *token);
 void done_declaring(context_t * ctx);
 
 void statement(context_t * ctx)
@@ -29,7 +30,13 @@ void statement(context_t * ctx)
 void declaration(context_t * ctx, const char *token)
 {
 	ctx->lex_advance(ctx, str_nlen(token, TOKEN_MAX));
-	token = ctx->lex_get_name(ctx);
+	token = ctx->lex_look_ahead(ctx);
+	if (!(is_valid_name(token))) {
+		err_msg("token '");
+		err_msg(token);
+		err_msg("' not a valid name\n");
+		die();
+	}
 	ctx->stack_assign_name(ctx, token);
 	token = ctx->lex_look_ahead(ctx);
 	if (!(is_declaration(token))) {
@@ -175,6 +182,14 @@ int is_multiply_precedence_op(const char *token)
 int is_declaration(const char *token)
 {
 	return 0 == str_ncmp("int", 4, token, TOKEN_MAX);
+}
+
+int is_valid_name(const char *token)
+{
+	char c;
+
+	c = token[0];
+	return c == '_' || is_alpha(c);
 }
 
 void compile(context_t * ctx)

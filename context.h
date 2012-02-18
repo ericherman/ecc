@@ -9,7 +9,6 @@ typedef struct context_t_ {
 	const char *(*lex_look_ahead) (struct context_t_ * ctx);
 	void (*lex_advance) (struct context_t_ * ctx, unsigned int chars);
 	int (*lex_get_number) (struct context_t_ * ctx);
-	const char *(*lex_get_name) (struct context_t_ * ctx);
 
 	void (*stack_enter) (struct context_t_ * ctx);
 	void (*stack_assign_name) (struct context_t_ * ctx, const char *name);

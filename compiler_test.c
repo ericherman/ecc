@@ -84,7 +84,7 @@ void test_declaration()
 	const char *expected_calls[] = {
 		/* eat the 'int' */
 		"lex_advance",
-		"lex_get_name",
+		"lex_look_ahead",
 		"stack_assign_name",
 		"lex_look_ahead",
 		"stack_frame_size",
