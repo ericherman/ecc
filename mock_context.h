@@ -1,6 +1,6 @@
 /* mock_context.h */
-#ifndef _MOCK_CONTEXT_H_
-#define _MOCK_CONTEXT_H_
+#ifndef MOCK_CONTEXT_H
+#define MOCK_CONTEXT_H
 
 #include "context.h"
 
@@ -26,4 +26,4 @@ typedef struct mock_data_t {
 context_t *init_fake_context(const char **token, unsigned int tokens);
 void free_fake_context(context_t * ctx);
 
-#endif /* _MOCK_CONTEXT_H_ */
+#endif /* MOCK_CONTEXT_H */

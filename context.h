@@ -1,6 +1,6 @@
 /* data.h */
-#ifndef _CONTEXT_H_
-#define _CONTEXT_H_
+#ifndef CONTEXT_H
+#define CONTEXT_H
 
 typedef struct context_t_ {
 
@@ -40,4 +40,4 @@ typedef struct context_t_ {
 
 } context_t;
 
-#endif /* _CONTEXT_H_ */
+#endif /* CONTEXT_H */

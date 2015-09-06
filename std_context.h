@@ -1,6 +1,6 @@
 /* std_context.h */
-#ifndef _STD_CONTEXT_H_
-#define _STD_CONTEXT_H_
+#ifndef STD_CONTEXT_H
+#define STD_CONTEXT_H
 
 #include "context.h"
 
@@ -8,4 +8,4 @@ context_t *alloc_std_context(const char *source_file, const char *out_file);
 
 void free_std_context(context_t * ptr);
 
-#endif /* _STD_CONTEXT_H_ */
+#endif /* STD_CONTEXT_H */

@@ -1,6 +1,6 @@
 /* compiler_inner.h */
-#ifndef _COMPILER_INNER_H_
-#define _COMPILER_INNER_H_
+#ifndef COMPILER_INNER_H
+#define COMPILER_INNER_H
 
 #include "context.h"
 
@@ -16,4 +16,4 @@ void declaration(context_t * ctx, const char *token);
 
 void assignment(context_t * ctx, const char *token);
 
-#endif /* _COMPILER_INNER_H_ */
+#endif /* COMPILER_INNER_H */

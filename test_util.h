@@ -1,6 +1,6 @@
 /* test_util.h */
-#ifndef _TEST_UTIL_H_
-#define _TEST_UTIL_H_
+#ifndef TEST_UTIL_H
+#define TEST_UTIL_H
 
 void check_chars(char actual, char expected, const char *msg);
 void check_char(char actual, char expected);
@@ -24,4 +24,4 @@ void check_byte_arrays(unsigned char *actual, unsigned int actual_len,
 void check_byte_array(unsigned char *actual, unsigned int actual_len,
 		      unsigned char *expected, unsigned int expected_len);
 
-#endif /* _TEST_UTIL_H_ */
+#endif /* TEST_UTIL_H */

@@ -1,6 +1,6 @@
 /* misc.h */
-#ifndef _MISC_H_
-#define _MISC_H_
+#ifndef MISC_H
+#define MISC_H
 
 int is_whitespace(char c);
 int is_number(char c);
@@ -24,4 +24,4 @@ void write_bytes(const char *name,
 		 unsigned int *bytes_written,
 		 const unsigned char *to_write, unsigned int count);
 
-#endif /* _MISC_H_ */
+#endif /* MISC_H */

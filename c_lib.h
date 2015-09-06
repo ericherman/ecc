@@ -1,6 +1,6 @@
 /* c_lib.h */
-#ifndef _C_LIB_H_
-#define _C_LIB_H_
+#ifndef C_LIB_H
+#define C_LIB_H
 
 /*
  * This is stuff needed from libc.
@@ -23,4 +23,4 @@ void read_file(const char *in_file,
 void write_file(const char *out_file,
 		unsigned char *byte_buffer, unsigned int buf_size);
 
-#endif /* _C_LIB_H_ */
+#endif /* C_LIB_H */

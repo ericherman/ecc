@@ -1,6 +1,6 @@
 /* elf_header.h */
-#ifndef _ELF_HEADER_H_
-#define _ELF_HEADER_H_
+#ifndef ELF_HEADER_H
+#define ELF_HEADER_H
 
 void output_header(unsigned char *buf, unsigned int buf_size,
 		   unsigned int *bytes_written);
@@ -14,4 +14,4 @@ unsigned int raw_elf_header_size();
 unsigned char *raw_linux_return();
 unsigned int raw_linux_return_size();
 
-#endif /* _ELF_HEADER_H_ */
+#endif /* ELF_HEADER_H */

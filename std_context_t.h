@@ -1,6 +1,6 @@
 /* std_context_t.h */
-#ifndef _STD_CONTEXT_T_H_
-#define _STD_CONTEXT_T_H_
+#ifndef STD_CONTEXT_T_H
+#define STD_CONTEXT_T_H
 
 #define FILE_MAX 1024
 #define TOKEN_MAX 100
@@ -24,4 +24,4 @@ typedef struct std_context_t_ {
 	unsigned int bytes_written;
 } std_context_t;
 
-#endif /* _STD_CONTEXT_T_H_ */
+#endif /* STD_CONTEXT_T_H */

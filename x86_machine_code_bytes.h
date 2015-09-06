@@ -1,6 +1,6 @@
 /* x86_machine_code_bytes.h */
-#ifndef _X86_MACHINE_CODE_BYTES_H_
-#define _X86_MACHINE_CODE_BYTES_H_
+#ifndef X86_MACHINE_CODE_BYTES_H
+#define X86_MACHINE_CODE_BYTES_H
 
 unsigned char *get_addl_ops();
 unsigned int get_addl_ops_len();
@@ -27,4 +27,4 @@ unsigned int get_stack_leave_ops_len();
 
 unsigned char get_movl_ebp_op();
 
-#endif /* _X86_MACHINE_CODE_BYTES_H_ */
+#endif /* X86_MACHINE_CODE_BYTES_H */
