@@ -24,6 +24,6 @@ typedef struct mock_data_t {
 } mock_data;
 
 context_t *init_fake_context(const char **token, unsigned int tokens);
-void free_fake_context(context_t * ctx);
+void free_fake_context(context_t *ctx);
 
 #endif /* MOCK_CONTEXT_H */

@@ -31,6 +31,9 @@ TEST_NAMES_STACK=names_stack_test
 TEST_MACHINE_CODE=x86_machine_code_test
 TEST_SUBSYSTEM=sub_system_test
 
+# extracted from https://github.com/torvalds/linux/blob/master/scripts/Lindent
+LINDENT=indent -npro -kr -i8 -ts8 -sob -l80 -ss -ncs -cp1 -il0
+
 all: $(EXEC_SOURCES) $(EXECUTABLE) $(TEST_SOURCES) \
 	$(TEST_MISC) $(TEST_LEX) $(TEST_NAMES_STACK) $(TEST_MACHINE_CODE) \
 	$(TEST_COMPILER) $(TEST_NAMES_STACK) $(TEST_SUBSYSTEM)
@@ -70,7 +73,16 @@ check:
 test:
 	./functional-test.sh
 
+tidy:
+	$(LINDENT) \
+		-T FILE \
+		-T size_t \
+		-T context_t \
+		-T mock_data \
+		-T names_stack_t \
+		*.h *.c
+
 clean:
 	rm -rf *o $(EXECUTABLE) $(TEST_MISC) $(TEST_LEX) $(TEST_MACHINE_CODE) \
 		$(TEST_NAMES_STACK) $(TEST_COMPILER) $(TEST_SUBSYSTEM) \
-		functional-test-*
+		functional-test-* *~

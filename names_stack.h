@@ -12,11 +12,11 @@ typedef struct {
 } names_stack_t;
 
 names_stack_t *stack_new(void);
-void stack_enter(names_stack_t * stack);
-void stack_name_add(names_stack_t * stack, const char *name);
-unsigned int stack_name_pos(names_stack_t * stack, const char *name);
-unsigned int stack_frame_size(names_stack_t * stack);
-void stack_leave(names_stack_t * stack);
-void stack_destroy(names_stack_t * stack);
+void stack_enter(names_stack_t *stack);
+void stack_name_add(names_stack_t *stack, const char *name);
+unsigned int stack_name_pos(names_stack_t *stack, const char *name);
+unsigned int stack_frame_size(names_stack_t *stack);
+void stack_leave(names_stack_t *stack);
+void stack_destroy(names_stack_t *stack);
 
 #endif /* NAMES_STACK_H */

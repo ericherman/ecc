@@ -9,9 +9,9 @@ int is_add_precedence_op(const char *token);
 int is_multiply_precedence_op(const char *token);
 int is_declaration(const char *token);
 int is_valid_name(const char *token);
-void done_declaring(context_t * ctx);
+void done_declaring(context_t *ctx);
 
-void statement(context_t * ctx)
+void statement(context_t *ctx)
 {
 	const char *token;
 
@@ -27,7 +27,7 @@ void statement(context_t * ctx)
 	expression(ctx, token);
 }
 
-void declaration(context_t * ctx, const char *token)
+void declaration(context_t *ctx, const char *token)
 {
 	ctx->lex_advance(ctx, str_nlen(token, TOKEN_MAX));
 	token = ctx->lex_look_ahead(ctx);
@@ -44,7 +44,7 @@ void declaration(context_t * ctx, const char *token)
 	}
 }
 
-void assignment(context_t * ctx, const char *variable)
+void assignment(context_t *ctx, const char *variable)
 {
 	const char *token;
 	unsigned int var_pos;
@@ -74,7 +74,7 @@ void assignment(context_t * ctx, const char *variable)
 	}
 }
 
-void expression(context_t * ctx, const char *token)
+void expression(context_t *ctx, const char *token)
 {
 	char previous_token[TOKEN_MAX];
 
@@ -107,7 +107,7 @@ void expression(context_t * ctx, const char *token)
 	}
 }
 
-void factor(context_t * ctx, const char *token)
+void factor(context_t *ctx, const char *token)
 {
 	int number;
 	unsigned int negate;
@@ -135,7 +135,7 @@ void factor(context_t * ctx, const char *token)
 	}
 }
 
-void term(context_t * ctx, const char *token)
+void term(context_t *ctx, const char *token)
 {
 	char previous_token[TOKEN_MAX];
 
@@ -162,7 +162,7 @@ void term(context_t * ctx, const char *token)
 	}
 }
 
-void done_declaring(context_t * ctx)
+void done_declaring(context_t *ctx)
 {
 	unsigned int frame_size;
 	unsigned int bytes;
@@ -207,14 +207,14 @@ int is_valid_name(const char *token)
 	return c == '_' || is_alpha(c);
 }
 
-void compile(context_t * ctx)
+void compile(context_t *ctx)
 {
 	ctx->read_file(ctx);
 	compile_inner(ctx);
 	ctx->write_file(ctx);
 }
 
-void compile_inner(context_t * ctx)
+void compile_inner(context_t *ctx)
 {
 	const char *token;
 

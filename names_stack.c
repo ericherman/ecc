@@ -8,7 +8,7 @@ names_stack_t *stack_new(void)
 	names_stack_t *stack;
 
 	size = sizeof(names_stack_t);
-	stack = (names_stack_t *) heap_malloc(size);
+	stack = (names_stack_t *)heap_malloc(size);
 	if (!stack) {
 		err_msg("malloc names_stack_t\n");
 		die();
@@ -19,7 +19,7 @@ names_stack_t *stack_new(void)
 	return stack;
 }
 
-void stack_enter_or_leave(names_stack_t * stack, unsigned int enter)
+void stack_enter_or_leave(names_stack_t *stack, unsigned int enter)
 {
 	names_list_t **names_lists;
 	names_list_t **old_names_lists;
@@ -85,7 +85,7 @@ void stack_enter_or_leave(names_stack_t * stack, unsigned int enter)
 	}
 }
 
-void stack_name_add(names_stack_t * stack, const char *name)
+void stack_name_add(names_stack_t *stack, const char *name)
 {
 	names_list_t *names_lists;
 	const char **old_names;
@@ -125,7 +125,7 @@ void stack_name_add(names_stack_t * stack, const char *name)
 	names_lists->names_c++;
 }
 
-unsigned int stack_name_pos(names_stack_t * stack, const char *name)
+unsigned int stack_name_pos(names_stack_t *stack, const char *name)
 {
 	unsigned int i;
 	names_list_t *list;
@@ -147,7 +147,7 @@ unsigned int stack_name_pos(names_stack_t * stack, const char *name)
 	return 0;
 }
 
-unsigned int stack_frame_size(names_stack_t * stack)
+unsigned int stack_frame_size(names_stack_t *stack)
 {
 	names_list_t *list;
 
@@ -163,17 +163,17 @@ unsigned int stack_frame_size(names_stack_t * stack)
 	return list->names_c;
 }
 
-void stack_enter(names_stack_t * stack)
+void stack_enter(names_stack_t *stack)
 {
 	stack_enter_or_leave(stack, 1);
 }
 
-void stack_leave(names_stack_t * stack)
+void stack_leave(names_stack_t *stack)
 {
 	stack_enter_or_leave(stack, 0);
 }
 
-void stack_destroy(names_stack_t * stack)
+void stack_destroy(names_stack_t *stack)
 {
 	while (stack->names_lists_c) {
 		stack_leave(stack);

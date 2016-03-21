@@ -6,11 +6,11 @@
 #include "compiler_inner.h"
 #include "mock_context.h"
 
-void check_expected_calls(context_t * ctx, const char *test_name,
+void check_expected_calls(context_t *ctx, const char *test_name,
 			  const char **expected_calls, unsigned int count)
 {
 
-	mock_data *data = (mock_data *) ctx->data;
+	mock_data *data = (mock_data *)ctx->data;
 	unsigned int i, len;
 	char buf[10000];
 
@@ -30,11 +30,11 @@ void check_expected_calls(context_t * ctx, const char *test_name,
 	}
 }
 
-void check_expected_terms(context_t * ctx, const char *test_name,
+void check_expected_terms(context_t *ctx, const char *test_name,
 			  int *expected_terms, unsigned int count)
 {
 
-	mock_data *data = (mock_data *) ctx->data;
+	mock_data *data = (mock_data *)ctx->data;
 	unsigned int i, len;
 	char buf[10000];
 
@@ -98,7 +98,7 @@ void test_declaration()
 	ctx = init_fake_context(tokensv, tokensc);
 
 	/* mock out the stack frame size response */
-	data = (mock_data *) ctx->data;
+	data = (mock_data *)ctx->data;
 	data->mock_return_uint_vals[0] = 1;
 
 	declaration(ctx, tokensv[0]);
@@ -127,7 +127,7 @@ void test_assignment()
 	ctx = init_fake_context(tokensv, tokensc);
 
 	/* mock out the stack name pos response */
-	data = (mock_data *) ctx->data;
+	data = (mock_data *)ctx->data;
 	data->mock_return_uint_vals[0] = 7;
 
 	assignment(ctx, tokensv[0]);

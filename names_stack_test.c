@@ -6,7 +6,7 @@
 
 #define MAX_TO_STRING 10000
 
-void stack_to_string(names_stack_t * stack, char *buf, unsigned int buf_size)
+void stack_to_string(names_stack_t *stack, char *buf, unsigned int buf_size)
 {
 	unsigned int i;
 	unsigned int j;
@@ -45,7 +45,7 @@ void stack_to_string(names_stack_t * stack, char *buf, unsigned int buf_size)
 	strncpy(buf + strlen(buf), "-----", buf_size - strlen(buf));
 }
 
-void check_depth(unsigned int check_num, names_stack_t * stack,
+void check_depth(unsigned int check_num, names_stack_t *stack,
 		 const char *name, unsigned int depth)
 {
 	unsigned int actual_depth;

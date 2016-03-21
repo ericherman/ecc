@@ -8,12 +8,12 @@
 #include "names_stack.h"
 
 /* convenience function to hide casting clutter */
-inline std_context_t *_std_context(context_t * ctx)
+inline std_context_t *_std_context(context_t *ctx)
 {
 	return (std_context_t *) ctx->data;
 }
 
-void std_to_string(context_t * ctx, char *buf, unsigned int buf_size)
+void std_to_string(context_t *ctx, char *buf, unsigned int buf_size)
 {
 	std_context_t *this;
 	unsigned int buf_pos;
@@ -32,7 +32,7 @@ void std_to_string(context_t * ctx, char *buf, unsigned int buf_size)
 	str_cpy_offset("}\n", buf, buf_size, &buf_pos);
 }
 
-const char *std_lex_look_ahead(context_t * ctx)
+const char *std_lex_look_ahead(context_t *ctx)
 {
 	std_context_t *this;
 	unsigned int *pos;
@@ -44,7 +44,7 @@ const char *std_lex_look_ahead(context_t * ctx)
 	return this->next_token;
 }
 
-void std_lex_advance(context_t * ctx, unsigned int chars)
+void std_lex_advance(context_t *ctx, unsigned int chars)
 {
 	std_context_t *this;
 
@@ -60,7 +60,7 @@ void std_stack_enter(struct context_t_ *ctx)
 	stack_enter(this->names_stack);
 }
 
-void std_stack_assign_name(context_t * ctx, const char *name)
+void std_stack_assign_name(context_t *ctx, const char *name)
 {
 	std_context_t *this;
 
@@ -92,7 +92,7 @@ void std_stack_leave(struct context_t_ *ctx)
 	stack_leave(this->names_stack);
 }
 
-void std_output_term(context_t * ctx, int number)
+void std_output_term(context_t *ctx, int number)
 {
 	std_context_t *this;
 
@@ -100,7 +100,7 @@ void std_output_term(context_t * ctx, int number)
 	output_term(number, this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_add(context_t * ctx)
+void std_output_add(context_t *ctx)
 {
 	std_context_t *this;
 
@@ -108,19 +108,19 @@ void std_output_add(context_t * ctx)
 	output_add(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_subtract(context_t * ctx)
+void std_output_subtract(context_t *ctx)
 {
 	std_context_t *this = _std_context(ctx);
 	output_subtract(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_multiply(context_t * ctx)
+void std_output_multiply(context_t *ctx)
 {
 	std_context_t *this = _std_context(ctx);
 	output_multiply(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_divide(context_t * ctx)
+void std_output_divide(context_t *ctx)
 {
 	std_context_t *this;
 
@@ -128,7 +128,7 @@ void std_output_divide(context_t * ctx)
 	output_divide(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_stack_enter(context_t * ctx)
+void std_output_stack_enter(context_t *ctx)
 {
 	std_context_t *this;
 
@@ -136,7 +136,7 @@ void std_output_stack_enter(context_t * ctx)
 	output_stack_enter(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_stack_allocate(context_t * ctx, unsigned int bytes)
+void std_output_stack_allocate(context_t *ctx, unsigned int bytes)
 {
 	std_context_t *this;
 
@@ -145,7 +145,7 @@ void std_output_stack_allocate(context_t * ctx, unsigned int bytes)
 			      &(this->bytes_written));
 }
 
-void std_output_stack_assign_int(context_t * ctx, unsigned int depth, int num)
+void std_output_stack_assign_int(context_t *ctx, unsigned int depth, int num)
 {
 	std_context_t *this;
 
@@ -154,7 +154,7 @@ void std_output_stack_assign_int(context_t * ctx, unsigned int depth, int num)
 				&(this->bytes_written));
 }
 
-void std_output_stack_leave(context_t * ctx)
+void std_output_stack_leave(context_t *ctx)
 {
 	std_context_t *this;
 
@@ -162,7 +162,7 @@ void std_output_stack_leave(context_t * ctx)
 	output_stack_leave(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_statements_complete(context_t * ctx)
+void std_output_statements_complete(context_t *ctx)
 {
 	std_context_t *this;
 
@@ -171,7 +171,7 @@ void std_output_statements_complete(context_t * ctx)
 				   &(this->bytes_written));
 }
 
-void std_read_file(context_t * ctx)
+void std_read_file(context_t *ctx)
 {
 	std_context_t *this;
 
@@ -180,7 +180,7 @@ void std_read_file(context_t * ctx)
 	this->buf_size += 1;
 }
 
-void std_write_file(context_t * ctx)
+void std_write_file(context_t *ctx)
 {
 	std_context_t *this;
 
@@ -188,7 +188,7 @@ void std_write_file(context_t * ctx)
 	write_file(this->out_file, this->byte_buf, this->bytes_written);
 }
 
-void std_output_header(context_t * ctx)
+void std_output_header(context_t *ctx)
 {
 	std_context_t *this;
 
@@ -196,7 +196,7 @@ void std_output_header(context_t * ctx)
 	output_header(this->byte_buf, BBUF_MAX, &(this->bytes_written));
 }
 
-void std_output_os_return(context_t * ctx)
+void std_output_os_return(context_t *ctx)
 {
 	std_context_t *this = _std_context(ctx);
 	output_os_return(this->byte_buf, BBUF_MAX, &(this->bytes_written));
@@ -268,7 +268,7 @@ context_t *alloc_std_context(const char *source_file, const char *out_file)
 	return ctx;
 }
 
-void free_std_context(context_t * ctx)
+void free_std_context(context_t *ctx)
 {
 	std_context_t *this;
 

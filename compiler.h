@@ -4,6 +4,6 @@
 
 #include "context.h"
 
-void compile(context_t * ctx);
+void compile(context_t *ctx);
 
 #endif /* COMPILER_H */

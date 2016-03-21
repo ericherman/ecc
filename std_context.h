@@ -6,6 +6,6 @@
 
 context_t *alloc_std_context(const char *source_file, const char *out_file);
 
-void free_std_context(context_t * ptr);
+void free_std_context(context_t *ptr);
 
 #endif /* STD_CONTEXT_H */
