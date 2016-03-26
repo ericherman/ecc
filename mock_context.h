@@ -2,9 +2,9 @@
 #ifndef MOCK_CONTEXT_H
 #define MOCK_CONTEXT_H
 
-#include "context.h"
+#include "ecc_context.h"
 
-typedef struct mock_data_t {
+typedef struct mock_data_s {
 	const char *call[100];
 	unsigned int calls;
 	int track_lookahead;
@@ -23,7 +23,7 @@ typedef struct mock_data_t {
 
 } mock_data;
 
-context_t *init_fake_context(const char **token, unsigned int tokens);
-void free_fake_context(context_t *ctx);
+ecc_context *init_fake_context(const char **token, unsigned int tokens);
+void free_fake_context(ecc_context *ctx);
 
 #endif /* MOCK_CONTEXT_H */

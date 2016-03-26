@@ -5,7 +5,7 @@ CFLAGS=-c -Werror -Wall -Wextra -pedantic -Wno-long-long \
 LDFLAGS=
 
 SOURCES=elf_header.c c_lib.c misc.c x86_machine_code_bytes.c \
-	names_stack.c x86_machine_code.c lex.c std_context.c compiler.c
+	names_stack.c x86_machine_code.c lex.c ecc_std_context.c compiler.c
 EXEC_SOURCES=$(SOURCES) ecc.c
 TEST_SOURCES=$(SOURCES) test_util.c
 TEST_LEX_SOURCES=$(TEST_SOURCES) lex_test.c
@@ -77,9 +77,10 @@ tidy:
 	$(LINDENT) \
 		-T FILE \
 		-T size_t \
-		-T context_t \
+		-T ecc_context \
+		-T ecc_context_s \
 		-T mock_data \
-		-T names_stack_t \
+		-T names_stack \
 		*.h *.c
 
 clean:

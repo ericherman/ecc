@@ -2,18 +2,18 @@
 #ifndef COMPILER_INNER_H
 #define COMPILER_INNER_H
 
-#include "context.h"
+#include "ecc_context.h"
 
-void compile_inner(context_t *ctx);
+void compile_inner(ecc_context *ctx);
 
-void factor(context_t *ctx, const char *token);
+void factor(ecc_context *ctx, const char *token);
 
-void term(context_t *ctx, const char *token);
+void term(ecc_context *ctx, const char *token);
 
-void expression(context_t *ctx, const char *token);
+void expression(ecc_context *ctx, const char *token);
 
-void declaration(context_t *ctx, const char *token);
+void declaration(ecc_context *ctx, const char *token);
 
-void assignment(context_t *ctx, const char *token);
+void assignment(ecc_context *ctx, const char *token);
 
 #endif /* COMPILER_INNER_H */

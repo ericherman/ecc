@@ -1,10 +1,10 @@
 #include "c_lib.h"
-#include "std_context.h"
+#include "ecc_std_context.h"
 #include "compiler.h"
 
 int main(int argc, char *argv[])
 {
-	context_t *ctx;
+	ecc_context *ctx;
 
 	if (argc < 3) {
 		err_msg("usage: ");

@@ -6,7 +6,7 @@
 #include "compiler_inner.h"
 #include "mock_context.h"
 
-void check_expected_calls(context_t *ctx, const char *test_name,
+void check_expected_calls(ecc_context *ctx, const char *test_name,
 			  const char **expected_calls, unsigned int count)
 {
 
@@ -30,7 +30,7 @@ void check_expected_calls(context_t *ctx, const char *test_name,
 	}
 }
 
-void check_expected_terms(context_t *ctx, const char *test_name,
+void check_expected_terms(ecc_context *ctx, const char *test_name,
 			  int *expected_terms, unsigned int count)
 {
 
@@ -66,7 +66,7 @@ void test_term_simple()
 		"lex_look_ahead",
 	};
 	unsigned int count = 3;
-	context_t *ctx;
+	ecc_context *ctx;
 
 	ctx = init_fake_context(tokensv, tokensc);
 
@@ -92,7 +92,7 @@ void test_declaration()
 		"output_stack_allocate",
 	};
 	unsigned int count = 6;
-	context_t *ctx;
+	ecc_context *ctx;
 	mock_data *data;
 
 	ctx = init_fake_context(tokensv, tokensc);
@@ -121,7 +121,7 @@ void test_assignment()
 		"output_stack_assign_int",
 	};
 	unsigned int count = 7;
-	context_t *ctx;
+	ecc_context *ctx;
 	mock_data *data;
 
 	ctx = init_fake_context(tokensv, tokensc);
@@ -164,7 +164,7 @@ void check_expression_add_subtract(const char *test_name,
 		/* no, so finish */
 	};
 	unsigned int count = 11;
-	context_t *ctx = init_fake_context(tokensv, tokensc);
+	ecc_context *ctx = init_fake_context(tokensv, tokensc);
 
 	expected_calls[9] = op;
 
@@ -227,7 +227,7 @@ void test_three_add_op_expr()
 		/* no, done. */
 	};
 	unsigned int count = 19;
-	context_t *ctx = init_fake_context(tokensv, tokensc);
+	ecc_context *ctx = init_fake_context(tokensv, tokensc);
 
 	expression(ctx, ctx->lex_look_ahead(ctx));
 
@@ -249,7 +249,7 @@ void test_factor()
 	};
 	unsigned int count = 2;
 
-	context_t *ctx = init_fake_context(tokensv, tokensc);
+	ecc_context *ctx = init_fake_context(tokensv, tokensc);
 
 	factor(ctx, tokensv[0]);
 
@@ -282,7 +282,7 @@ void check_two_factor_term(const char *test_name,
 		/* no, so finish */
 	};
 	unsigned int count = 9;
-	context_t *ctx = init_fake_context(tokensv, tokensc);
+	ecc_context *ctx = init_fake_context(tokensv, tokensc);
 
 	expected_calls[7] = op;
 
@@ -333,7 +333,7 @@ void test_paren_factor()
 		/* exit factor */
 	};
 	unsigned int count = 6;
-	context_t *ctx = init_fake_context(tokensv, tokensc);
+	ecc_context *ctx = init_fake_context(tokensv, tokensc);
 
 	factor(ctx, tokensv[0]);
 
@@ -386,7 +386,7 @@ void test_negative_expr()
 	int expect_termsv[] = { 0, 23 };
 	unsigned int termsc = 2;
 
-	context_t *ctx = init_fake_context(tokensv, tokensc);
+	ecc_context *ctx = init_fake_context(tokensv, tokensc);
 
 	expression(ctx, ctx->lex_look_ahead(ctx));
 
@@ -418,7 +418,7 @@ void test_compile_inner()
 	int expect_termsv[] = { 4 };
 	unsigned int termsc = 1;
 
-	context_t *ctx = init_fake_context(tokensv, tokensc);
+	ecc_context *ctx = init_fake_context(tokensv, tokensc);
 
 	compile_inner(ctx);
 
@@ -452,7 +452,7 @@ void test_compile()
 	int expect_termsv[] = { 7 };
 	unsigned int termsc = 1;
 
-	context_t *ctx = init_fake_context(tokensv, tokensc);
+	ecc_context *ctx = init_fake_context(tokensv, tokensc);
 
 	compile(ctx);
 

@@ -4,8 +4,9 @@
 #include "test_util.h"
 #include "compiler.h"
 #include "compiler_inner.h"
-#include "std_context.h"
-#include "std_context_t.h"
+#include "ecc_context.h"
+#include "ecc_std_context.h"
+#include "ecc_std_context_type.h"
 
 void test_compile_inner()
 {
@@ -54,8 +55,8 @@ void test_compile_inner()
 		0xcd,		/* int */
 		0x80		/* Linux Kernel */
 	};
-	context_t *ctx = alloc_std_context("foo", "bar");
-	std_context_t *data = (std_context_t *) ctx->data;
+	ecc_context *ctx = alloc_std_context("foo", "bar");
+	ecc_std_context *data = (ecc_std_context *) ctx->data;
 	data->buf[0] = '2';
 	data->buf[1] = '3';
 	data->buf[2] = '\0';
