@@ -34,9 +34,7 @@ TEST_SUBSYSTEM=sub_system_test
 # extracted from https://github.com/torvalds/linux/blob/master/scripts/Lindent
 LINDENT=indent -npro -kr -i8 -ts8 -sob -l80 -ss -ncs -cp1 -il0
 
-all: $(EXEC_SOURCES) $(EXECUTABLE) $(TEST_SOURCES) \
-	$(TEST_MISC) $(TEST_LEX) $(TEST_NAMES_STACK) $(TEST_MACHINE_CODE) \
-	$(TEST_COMPILER) $(TEST_NAMES_STACK) $(TEST_SUBSYSTEM)
+all: $(EXEC_SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(EXEC_OBJECTS)
 	$(CC) $(LDFLAGS) $(EXEC_OBJECTS) -o $@
@@ -62,7 +60,9 @@ $(TEST_SUBSYSTEM): $(TEST_SUBSYSTEM_OBJECTS)
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
 
-check:
+check: $(TEST_SOURCES) $(TEST_MISC) $(TEST_LEX) $(TEST_NAMES_STACK) \
+	$(TEST_MACHINE_CODE) $(TEST_COMPILER) $(TEST_NAMES_STACK) \
+	$(TEST_SUBSYSTEM)
 	./$(TEST_MISC)
 	./$(TEST_LEX)
 	./$(TEST_NAMES_STACK)
