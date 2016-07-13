@@ -1,0 +1,35 @@
+###################
+# backup files
+###################
+*.bak
+*.bck
+*cache.lib
+$*
+*.swp
+*.000
+*~
+
+################
+# Output files
+################
+*.o
+*.so
+*.so.*
+*.a
+*.bin
+*.d
+*.la
+*.lo
+*.log
+*.trs
+*.tar.*
+
+################
+# test files
+################
+isc_test
+lex_test
+names_stack_test
+x86_machine_code_test
+compiler_test
+sub_system_test
