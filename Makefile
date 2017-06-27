@@ -1,7 +1,8 @@
 #
 CC=gcc
-CFLAGS=-c -Werror -Wall -Wextra -pedantic -Wno-long-long \
- -ggdb -O0 -finstrument-functions
+CFLAGS=-Werror -Wall -Wextra -pedantic \
+ -ggdb -O0 -finstrument-functions \
+ -fomit-frame-pointer -pipe
 LDFLAGS=
 
 SOURCES=elf_header.c c_lib.c misc.c x86_machine_code_bytes.c \
@@ -58,7 +59,7 @@ $(TEST_SUBSYSTEM): $(TEST_SUBSYSTEM_OBJECTS)
 	$(CC) $(LDFLAGS) $(TEST_SUBSYSTEM_OBJECTS) -o $@
 
 .c.o:
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 check: $(TEST_SOURCES) $(TEST_MISC) $(TEST_LEX) $(TEST_NAMES_STACK) \
 	$(TEST_MACHINE_CODE) $(TEST_COMPILER) $(TEST_NAMES_STACK) \
