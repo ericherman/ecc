@@ -8,7 +8,7 @@
 #include "names_stack.h"
 
 /* convenience function to hide casting clutter */
-inline ecc_std_context *_std_context(ecc_context *ctx)
+inline static ecc_std_context *_std_context(ecc_context *ctx)
 {
 	return (ecc_std_context *) ctx->data;
 }
