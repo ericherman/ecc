@@ -34,7 +34,7 @@ void err_msg(const char *msg)
 	fprintf(stderr, "%s", msg);
 }
 
-void die()
+void die(void)
 {
 	int status;
 

@@ -71,22 +71,22 @@ unsigned char sys_exit[] = {
 	0x80			/* Linux Kernel */
 };
 
-unsigned char *raw_elf_header()
+unsigned char *raw_elf_header(void)
 {
 	return elf_header;
 }
 
-unsigned int raw_elf_header_size()
+unsigned int raw_elf_header_size(void)
 {
 	return sizeof(elf_header);
 }
 
-unsigned char *raw_linux_return()
+unsigned char *raw_linux_return(void)
 {
 	return sys_exit;
 }
 
-unsigned int raw_linux_return_size()
+unsigned int raw_linux_return_size(void)
 {
 	return sizeof(sys_exit);
 }

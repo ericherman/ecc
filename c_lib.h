@@ -30,7 +30,7 @@ void *heap_malloc(unsigned int size);
 void heap_free(void *ptr);
 
 void err_msg(const char *msg);
-void die();
+void die(void);
 
 void read_file(const char *in_file,
 	       char *file_buf, unsigned int buf_size, unsigned int *chars_read);

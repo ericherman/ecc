@@ -23,10 +23,10 @@ void output_header(unsigned char *buf, unsigned int buf_size,
 void output_os_return(unsigned char *buf, unsigned int buf_size,
 		      unsigned int *bytes_written);
 
-unsigned char *raw_elf_header();
-unsigned int raw_elf_header_size();
+unsigned char *raw_elf_header(void);
+unsigned int raw_elf_header_size(void);
 
-unsigned char *raw_linux_return();
-unsigned int raw_linux_return_size();
+unsigned char *raw_linux_return(void);
+unsigned int raw_linux_return_size(void);
 
 #endif /* ELF_HEADER_H */

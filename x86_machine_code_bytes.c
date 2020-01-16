@@ -73,82 +73,82 @@ unsigned int stack_leave_ops_len = sizeof(stack_leave_ops);
 
 unsigned char movl_ebp = 0xbd;	/* B8+ rd MOV r32,imm32 Move imm32 to r32 */
 
-unsigned char *get_addl_ops()
+unsigned char *get_addl_ops(void)
 {
 	return addl_ops;
 }
 
-unsigned int get_addl_ops_len()
+unsigned int get_addl_ops_len(void)
 {
 	return addl_ops_len;
 }
 
-unsigned char *get_subl_ops()
+unsigned char *get_subl_ops(void)
 {
 	return subl_ops;
 }
 
-unsigned int get_subl_ops_len()
+unsigned int get_subl_ops_len(void)
 {
 	return subl_ops_len;
 }
 
-unsigned char *get_imull_ops()
+unsigned char *get_imull_ops(void)
 {
 	return imull_ops;
 }
 
-unsigned int get_imull_ops_len()
+unsigned int get_imull_ops_len(void)
 {
 	return imull_ops_len;
 }
 
-unsigned char *get_idiv_ops()
+unsigned char *get_idiv_ops(void)
 {
 	return idiv_ops;
 }
 
-unsigned int get_idiv_ops_len()
+unsigned int get_idiv_ops_len(void)
 {
 	return idiv_ops_len;
 }
 
-unsigned char *get_return_ops()
+unsigned char *get_return_ops(void)
 {
 	return return_ops;
 }
 
-unsigned int get_return_ops_len()
+unsigned int get_return_ops_len(void)
 {
 	return return_ops_len;
 }
 
-unsigned char get_pushl_op()
+unsigned char get_pushl_op(void)
 {
 	return pushl_op;
 }
 
-unsigned char *get_stack_enter_ops()
+unsigned char *get_stack_enter_ops(void)
 {
 	return stack_enter_ops;
 }
 
-unsigned int get_stack_enter_ops_len()
+unsigned int get_stack_enter_ops_len(void)
 {
 	return stack_enter_ops_len;
 }
 
-unsigned char *get_stack_leave_ops()
+unsigned char *get_stack_leave_ops(void)
 {
 	return stack_leave_ops;
 }
 
-unsigned int get_stack_leave_ops_len()
+unsigned int get_stack_leave_ops_len(void)
 {
 	return stack_leave_ops_len;
 }
 
-unsigned char get_movl_ebp_op()
+unsigned char get_movl_ebp_op(void)
 {
 	return movl_ebp;
 }
